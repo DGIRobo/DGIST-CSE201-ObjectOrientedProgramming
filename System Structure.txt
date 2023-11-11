@@ -1,0 +1,76 @@
+변수, 함수 Name 통일, 띄어쓰기에 _
+Bank {
+	attribute
+		bank_name
+		accounts
+		cash_storage
+	behavior
+		deposit2ATM
+		open_account
+		
+}
+
+Account {
+	attribute
+		avaliable_funds
+		account_number
+		password
+		bank_name
+		user_name
+		available
+		transaction_histories # chiocable
+}
+
+ATM {
+	attribute
+		admin_card
+		ATM_type # single-bank ATM or multi-bank ATM
+		language_type # default: english, bilingual: english and korean
+		serial_number # 6-digit numbers
+		card_insert_slot
+		cash_check_insert_and_dispenser_slot
+		primary_bank
+		non_primary_bank
+		cash_storage = [#1000, #5000, #10000, #50000]
+		transaction_histories
+	behavior
+		deposit
+			primary_bank_fee
+			non_primary_bank_fee
+		withdraw
+			primary_bank_fee
+			non_primary_bank_fee
+		account_transfer
+			primary_bank_fee
+			non_primary_bank_fee
+		cash_transfer
+		transaction
+			# each transaction has a unique identifier
+		session
+			# step1: user insert a card
+			# can ends whenever a user choosing a cancel button
+			# can ends whenever exceptional conditions detected by ATM(no cash available)
+			# when session ends the summary of all transactions performed in a session must be displayed (ex, account info, card info, transaction type, their amount)
+		see_tansaction_history
+		valid_checks_check # valid when over 100000
+		user_authorization
+}
+
+User Interface {
+	attribute
+	behavior
+}
+
+User {
+	attribute
+		card
+		cash
+		check
+	behavior
+}
+
+main file functions {
+	display_all
+	display_all_account
+	display_all_ATM
+}
