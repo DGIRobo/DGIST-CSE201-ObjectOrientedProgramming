@@ -31,7 +31,7 @@ public:
 	void session();
 	void transaction();
 	void languageChange();
-	void deposit();
+	void deposit(Account a);
 	void withdraw();
 	void account_transfer();
 	void see_transaction_history();
