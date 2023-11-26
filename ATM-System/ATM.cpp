@@ -11,7 +11,7 @@ void ATM::languageChange() {
 	if (input_language_setting == 1) {
 		this->language_setting = "Korean";
 	}
-	else if (input_language_setting == 2) {
+	if (input_language_setting == 2) {
 		this->language_setting = "English";
 	}
 }
@@ -52,4 +52,10 @@ void ATM::session() {
 
 }
 
+void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
+	this->cash_storage[0] += cash1000;
+	this->cash_storage[1] += cash5000;
+	this->cash_storage[2] += cash10000;
+	this->cash_storage[3] += cash50000;
+}
 

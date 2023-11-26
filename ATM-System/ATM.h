@@ -37,4 +37,5 @@ public:
 	void see_transaction_history();
 	void valid_checks_check();
 	void user_authorization();
+	void add_cash(int cash1000, int cash5000, int cash10000, int cash50000);
 };
