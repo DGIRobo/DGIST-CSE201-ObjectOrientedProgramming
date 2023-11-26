@@ -23,3 +23,74 @@ string Bank::getBankName() {
 void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000) {
 	target_ATM->add_cash(numOf1000, numOf5000, numOf10000, numOf50000);
 }
+
+
+Bank::Bank(string name) {
+	this->bank_name = name;
+	static_bank_counter += 1;
+	this->bank_id = static_bank_counter;
+
+	cout << this->getBankName() << "은행이 생성되었습니다." << endl;
+}
+
+Bank::~Bank() {
+
+	cout << this->bank_name << "은행이 제거되었습니다." << endl;
+
+}
+
+void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000) {
+
+	target_ATM->add_cash(numOf1000, numOf5000, numOf10000, numOf50000);
+
+}
+
+Account* Bank::open_account(Account a) {
+
+	cout << "계좌가 조회되었습니다." << endl;
+
+	string input_password;
+	cout << "비밀번호를 입력해주세요." << endl;
+	cin >> input_password;
+
+	if (a.getPassword() == input_password) {
+		cout << "은행 : " << a.getBankName() << endl;
+		cout << "예금주 : " << a.getUserName() << endl;
+		cout << "계좌번호 : " << a.getAccountNumber() << endl;
+		cout << "비밀번호 : " << a.getPassword() << endl;
+	}
+	else {
+		cout << "비밀번호가 틀렸습니다." << endl;
+	}
+}
+	
+
+Account* Bank::create_account() {
+
+	cout << "==================== < Account Create Session > ====================" << endl;
+
+	string input_user_name;
+	string account_number;
+	string input_password;
+	int initial_fund;
+	cout << this->getBankName() << "은행입니다. 계좌를 생성하기 위해 원하는 성함, 비밀번호를 입력해주세요." << endl;
+
+	cout << "성함 : ";		cin >> input_user_name;
+	cout << "비밀번호 : ";	cin >> input_password;
+
+	cout << "초기예금을 입력해주세요." << endl;
+	cin >> initial_fund;
+
+	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
+	accounts.push_back(new_account);
+
+	cout << "계좌가 생성되었습니다." << endl;
+	cout << "은행 : " << new_account->getBankName() << endl;
+	cout << "예금주 : " << new_account->getUserName() << endl;
+	cout << "계좌번호 : " << new_account->getAccountNumber() << endl;
+	cout << "비밀번호 : " << new_account->getPassword() << endl;
+
+	cout << "==================== < Account Create Session End! > ====================" << endl;
+
+	return new_account;
+}
