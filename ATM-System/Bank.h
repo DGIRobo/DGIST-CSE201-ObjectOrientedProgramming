@@ -6,6 +6,9 @@
 
 using namespace std;
 
+class Account;
+class ATM;
+
 class Bank {
 private:
 	string bank_name;
@@ -14,7 +17,6 @@ protected:
 public:
 	//Bank(string name);
 	//~Bank();
-
 	void deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000);
 	Account* open_account();
 };

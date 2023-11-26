@@ -3,8 +3,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "ATM.h"
+#include "Bank.h"
 
 using namespace std;
+
+class Bank;
+class ATM;
 
 class Account {
 private:

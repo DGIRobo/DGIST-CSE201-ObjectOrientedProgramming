@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Bank.h"
 #include "Account.h"
-#include "ATM.h"
 
 using namespace std;
+
+class Account;
+class Bank;
 
 class ATM {
 private:
