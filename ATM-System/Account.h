@@ -16,18 +16,22 @@ private:
 	string bank_name;
 	string user_name;
 	static int static_account_counter;
-	int account_number;
+	static int static_card_counter;
+	string account_number;
+	vector<string>access_cards;
 	string password;
 	int avaliable_funds;
 	string transaction_histories; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 protected:
 public:
-	Account(string input_bank_name, string input_user_name, string input_password);
+	Account(Bank* input_bank, string input_user_name, string input_password);
 	~Account();
 	string getBankName();
 	string getUserName();
 	string getPassword();
 	void setPassword(string new_password);
+	string getAccountNumber();
+	string makeCard();
 	int checkFunds();
 	void deposit(int input_money);
 	void withdraw(int output_money);

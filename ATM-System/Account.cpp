@@ -1,13 +1,24 @@
 #include "Account.h"
 
+int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
-Account::Account(string input_bank_name, string input_user_name, string input_password) {
-	this->bank_name = input_bank_name;
+Account::Account(Bank* input_bank, string input_user_name, string input_password) {
+	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
+	string temp_bank_code;
+	for (int i = 0; i < 3 - to_string(input_bank->getBankId()).size(); i++) {
+		temp_bank_code += "0";
+	}
+	temp_bank_code += to_string(input_bank->getBankId());
 	this->static_account_counter += 1;
-	this->account_number = this->static_account_counter;
+	string temp_account_code;
+	for (int i = 0; i < 6 - to_string(static_account_counter).size(); i++) {
+		temp_bank_code += "0";
+	}
+	temp_bank_code += to_string(static_account_counter);
+	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
 	this->avaliable_funds = 0;
 	this->transaction_histories = input_user_name + ".txt";
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Generate New Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
@@ -35,6 +46,21 @@ string Account::getPassword() {
 
 void Account::setPassword(string new_password) {
 	this->password = new_password;
+}
+
+string Account::getAccountNumber() {
+	return this->account_number;
+}
+
+string Account::makeCard() {
+	static_card_counter += 1;
+	string temp_card_num = "0000-0000-0000-";
+	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
+		temp_card_num += "0";
+	}
+	temp_card_num += to_string(static_card_counter);
+	this->access_cards.push_back(temp_card_num);
+	return temp_card_num;
 }
 
 int Account::checkFunds() {
