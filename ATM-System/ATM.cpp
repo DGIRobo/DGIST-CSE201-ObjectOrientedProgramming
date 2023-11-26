@@ -44,12 +44,19 @@ ATM::~ATM() {
 void ATM::session() {
 
 	if (this->language_setting == "Korean") {
-
+		
 	}
 	if (this->language_setting == "English") {
-
+		
 	}
 
 }
 
 
+void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
+	this->cash_storage[0] += cash1000;
+	this->cash_storage[1] += cash5000;
+	this->cash_storage[2] += cash10000;
+	this->cash_storage[3] += cash50000;
+	return;
+}
