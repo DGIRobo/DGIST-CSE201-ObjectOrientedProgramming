@@ -23,4 +23,5 @@ public:
 	string getBankName();
 	void deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000);
 	Account* open_account();
+	void create_account();
 };

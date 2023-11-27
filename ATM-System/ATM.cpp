@@ -93,6 +93,7 @@ void ATM::deposit(Account a) {
 				cin >> checks[i];
 				if (checks[i] < 100000) {
 					checks[i] = 0;
+					cout << "투입이 중단되었습니다. 입금을 시작합니다." << endl;
 					break;
 				}
 			}
@@ -140,6 +141,7 @@ void ATM::deposit(Account a) {
 				cin >> checks[i];
 				if (checks[i] < 100000) {
 					checks[i] = 0;
+					cout << "Insertion ended. deposit is starting." << endl;
 					break;
 				}
 			}
@@ -158,4 +160,14 @@ void ATM::deposit(Account a) {
 			return;
 		}
 	}
+}
+
+void ATM::withdraw(Account a) {
+	//아직 미구현
+	return;
+}
+
+void ATM::account_transfer(Account a, Account b) {
+	//아직 미구현
+	return;
 }
