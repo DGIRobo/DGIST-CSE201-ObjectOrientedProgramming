@@ -104,3 +104,8 @@ void Account::printHistory() {
 		cout << "파일을 찾을 수 없습니다." << endl;
 	}
 }
+
+
+vector<string > Account::getCardNumber() {
+	return access_cards;
+}

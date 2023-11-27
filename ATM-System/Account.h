@@ -37,4 +37,6 @@ public:
 	void withdraw(int output_money);
 	void updateHistory(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string TransactionSpecificInformation);
 	void printHistory();
+
+	vector<string> getCardNumber();
 };

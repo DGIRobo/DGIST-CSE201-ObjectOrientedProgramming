@@ -106,10 +106,18 @@ Account* Bank::search_account_card() {
 	string input_card_number;
 	cin >> input_card_number;
 
+	for (int i = 0; i < accounts_list.size(); i++) {
+		vector<string> card_list = accounts_list[i]->getCardNumber();
 
-
-
+		for (int j = 0; j < card_list.size(); j++) {
+			if (card_list[j] == input_card_number) {
+				open_account(accounts_list[i]);
+			}
+		}
+	}
 }
+
+
 
 
 
