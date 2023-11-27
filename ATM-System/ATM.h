@@ -32,8 +32,9 @@ public:
 	void transaction();
 	void languageChange();
 	void deposit(Account a);
-	void withdraw();
-	void account_transfer();
+	void withdraw(Account a);
+	void account_transfer(Account a, Account b);
+	void cash_transfer(Account b);
 	void see_transaction_history();
 	void valid_checks_check();
 	void user_authorization();

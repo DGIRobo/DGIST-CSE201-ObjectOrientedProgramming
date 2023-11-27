@@ -7,12 +7,12 @@ Bank::Bank(string name) {
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
 
-	cout << this->getBankName() << "ÀºÇàÀÌ »ý¼ºµÇ¾ú½À´Ï´Ù." << endl;
+	cout << this->getBankName() << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
 }
 
 Bank::~Bank() {
 
-	cout << this->bank_name << "ÀºÇàÀÌ Á¦°ÅµÇ¾ú½À´Ï´Ù." << endl;
+	cout << this->bank_name << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÅµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
 
 }
 
@@ -33,20 +33,20 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 //Account* Bank::open_account(Account* a) {
 //
-//	cout << "°èÁÂ°¡ Á¶È¸µÇ¾ú½À´Ï´Ù." << endl;
+//	cout << "ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½È¸ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
 //
 //	string input_password;
-//	cout << "ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+//	cout << "ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << endl;
 //	cin >> input_password;
 //
 //	if (a->getPassword() == input_password) {
-//		cout << "ÀºÇà : " << a->getBankName() << endl;
-//		cout << "¿¹±ÝÁÖ : " << a->getUserName() << endl;
-//		cout << "°èÁÂ¹øÈ£ : " << a->getAccountNumber() << endl;
-//		cout << "ºñ¹Ð¹øÈ£ : " << a->getPassword() << endl;
+//		cout << "ï¿½ï¿½ï¿½ï¿½ : " << a->getBankName() << endl;
+//		cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " << a->getUserName() << endl;
+//		cout << "ï¿½ï¿½ï¿½Â¹ï¿½È£ : " << a->getAccountNumber() << endl;
+//		cout << "ï¿½ï¿½Ð¹ï¿½È£ : " << a->getPassword() << endl;
 //	}
 //	else {
-//		cout << "ºñ¹Ð¹øÈ£°¡ Æ²·È½À´Ï´Ù." << endl;
+//		cout << "ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ Æ²ï¿½È½ï¿½ï¿½Ï´ï¿½." << endl;
 //	}
 //}
 	
@@ -58,22 +58,22 @@ Account* Bank::create_account() {
 	string account_number;
 	string input_password;
 	int initial_fund;
-	cout << this->getBankName() << "ÀºÇàÀÔ´Ï´Ù. °èÁÂ¸¦ »ý¼ºÇÏ±â À§ÇØ ¿øÇÏ´Â ¼ºÇÔ, ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+	cout << this->getBankName() << "ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << endl;
 
-	cout << "¼ºÇÔ : ";		cin >> input_user_name;
-	cout << "ºñ¹Ð¹øÈ£ : ";	cin >> input_password;
+	cout << "ï¿½ï¿½ï¿½ï¿½ : ";		cin >> input_user_name;
+	cout << "ï¿½ï¿½Ð¹ï¿½È£ : ";	cin >> input_password;
 
-	cout << "ÃÊ±â¿¹±ÝÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+	cout << "ï¿½Ê±â¿¹ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << endl;
 	cin >> initial_fund;
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
 
-	cout << "°èÁÂ°¡ »ý¼ºµÇ¾ú½À´Ï´Ù." << endl;
-	cout << "ÀºÇà : " << new_account->getBankName() << endl;
-	cout << "¿¹±ÝÁÖ : " << new_account->getUserName() << endl;
-	cout << "°èÁÂ¹øÈ£ : " << new_account->getAccountNumber() << endl;
-	cout << "ºñ¹Ð¹øÈ£ : " << new_account->getPassword() << endl;
+	cout << "ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
+	cout << "ï¿½ï¿½ï¿½ï¿½ : " << new_account->getBankName() << endl;
+	cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : " << new_account->getUserName() << endl;
+	cout << "ï¿½ï¿½ï¿½Â¹ï¿½È£ : " << new_account->getAccountNumber() << endl;
+	cout << "ï¿½ï¿½Ð¹ï¿½È£ : " << new_account->getPassword() << endl;
 
 	cout << "==================== < Account Create Session End! > ====================" << endl;
 
@@ -83,7 +83,7 @@ Account* Bank::create_account() {
 Account* Bank::search_account_number() {
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "ÀºÇàÀÔ´Ï´Ù. °èÁÂ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+	cout << this->getBankName() << "ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½Â¹ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << endl;
 
 	string input_account_number;
 	cin >> input_account_number;
@@ -101,7 +101,7 @@ Account* Bank::search_account_number() {
 Account* Bank::search_account_card() {
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "ÀºÇàÀÔ´Ï´Ù. Ä«µå¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+	cout << this->getBankName() << "ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. Ä«ï¿½å¸¦ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." << endl;
 
 	string input_card_number;
 	cin >> input_card_number;

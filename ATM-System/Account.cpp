@@ -3,7 +3,7 @@
 int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
-Account::Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund) {
+Account::Account(Bank* input_bank, string input_user_name, string input_password) {
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
@@ -101,7 +101,7 @@ void Account::printHistory() {
 		}
 	}
 	else {
-		cout << "ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù." << endl;
+		cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
 	}
 }
 

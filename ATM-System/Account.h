@@ -24,7 +24,7 @@ private:
 	string transaction_histories; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 protected:
 public:
-	Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund);
+	Account(Bank* input_bank, string input_user_name, string input_password);
 	~Account();
 	string getBankName();
 	string getUserName();
@@ -37,6 +37,6 @@ public:
 	void withdraw(int output_money);
 	void updateHistory(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string TransactionSpecificInformation);
 	void printHistory();
-
+	
 	vector<string> getCardNumber();
 };
