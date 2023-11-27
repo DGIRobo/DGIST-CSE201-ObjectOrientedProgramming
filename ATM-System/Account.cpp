@@ -3,10 +3,11 @@
 int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
-Account::Account(Bank* input_bank, string input_user_name, string input_password) {
+Account::Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund) {
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
+	this->avaliable_funds = initial_fund;
 	string temp_bank_code;
 	for (int i = 0; i < 3 - to_string(input_bank->getBankId()).size(); i++) {
 		temp_bank_code += "0";
