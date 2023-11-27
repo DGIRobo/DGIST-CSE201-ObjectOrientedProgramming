@@ -1,5 +1,6 @@
 #pragma once
 #include "ATM.h"
+#include "Fee.h"
 
 using namespace std;
 
@@ -11,7 +12,8 @@ public:
 	Single();
 	~Single();
 
-	void Single_deposit(Account a);
-	void Single_withdraw(Account a);
-	void Single_account_transfer(Account a, Account b);
+	void primary_deposit(Account a);
+	void primary_withdraw(Account a);
+	void primary_transfer(Account a, Account b);
+	void cash_transfer(Account a);
 };

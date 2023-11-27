@@ -4,6 +4,7 @@
 #include "Account.h"
 #include "Bank.h"
 #include "ATM.h"
+#include "Fee.h"
 
 using namespace std;
 
@@ -32,6 +33,27 @@ void initialize_account(Bank** list) {
 }
 
 ATM initialize_ATM();
+
+Fee initialize_Fee() {
+	int fee_list[8];
+	cout << "Primary bank로부터의 deposit fee를 입력해 주십시오." << endl << "추천 Fee : 0" << endl;
+	cin >> fee_list[0];
+	cout << "Primary bank로부터의 withdrawal fee를 입력해 주십시오." << endl << "추천 Fee : 1000" << endl;
+	cin >> fee_list[1];
+	cout << "Primary bank끼리의 transfer fee를 입력해 주십시오." << endl << "추천 Fee : 2000" << endl;
+	cin >> fee_list[2];
+	cout << "Primary bank로부터의 deposit fee를 입력해 주십시오." << endl << "추천 Fee : 1000" << endl;
+	cin >> fee_list[3];
+	cout << "Primary bank로부터의 withdrawal fee를 입력해 주십시오." << endl << "추천 Fee : 2000" << endl;
+	cin >> fee_list[4];
+	cout << "Primary bank와 non-primary bank 사이의 transfer fee를 입력해 주십시오." << endl << "추천 Fee : 3000" << endl;
+	cin >> fee_list[5];
+	cout << "Non-primary bank끼리의 transfer fee를 입력해 주십시오." << endl << "추천 Fee : 4000" << endl;
+	cin >> fee_list[6];
+	cout << "Cash transfer fee를 입력해 주십시오." << endl << "추천 Fee : 5000" << endl;
+	cin >> fee_list[7];
+	return Fee(fee_list[0], fee_list[1], fee_list[2], fee_list[3], fee_list[4], fee_list[5], fee_list[6], fee_list[7]);
+}
 
 int main() {
 	// Account Test Code
