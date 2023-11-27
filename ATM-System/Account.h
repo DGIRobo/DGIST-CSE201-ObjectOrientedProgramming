@@ -24,7 +24,7 @@ private:
 	string transaction_histories; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 protected:
 public:
-	Account(Bank* input_bank, string input_user_name, string input_password);
+	Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund);
 	~Account();
 	string getBankName();
 	string getUserName();

@@ -3,7 +3,7 @@
 int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
-Account::Account(Bank* input_bank, string input_user_name, string input_password) {
+Account::Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund) {
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
@@ -101,7 +101,7 @@ void Account::printHistory() {
 		}
 	}
 	else {
-		cout << "������ ã�� �� �����ϴ�." << endl;
+		cout << "해당하는 파일이 없습니다." << endl;
 	}
 }
 

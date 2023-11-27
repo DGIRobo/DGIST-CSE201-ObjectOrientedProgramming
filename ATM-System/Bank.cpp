@@ -7,12 +7,12 @@ Bank::Bank(string name) {
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
 
-	cout << this->getBankName() << "������ �����Ǿ����ϴ�." << endl;
+	cout << this->getBankName() << "은행이 생성되었습니다." << endl;
 }
 
 Bank::~Bank() {
 
-	cout << this->bank_name << "������ ���ŵǾ����ϴ�." << endl;
+	cout << this->bank_name << "은행이 제거되었습니다." << endl;
 
 }
 
@@ -33,20 +33,20 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 //Account* Bank::open_account(Account* a) {
 //
-//	cout << "���°� ��ȸ�Ǿ����ϴ�." << endl;
+//	cout << "계좌가 조회되었습니다." << endl;
 //
 //	string input_password;
-//	cout << "��й�ȣ�� �Է����ּ���." << endl;
+//	cout << "비밀번호를 입력해주세요." << endl;
 //	cin >> input_password;
 //
 //	if (a->getPassword() == input_password) {
-//		cout << "���� : " << a->getBankName() << endl;
-//		cout << "������ : " << a->getUserName() << endl;
-//		cout << "���¹�ȣ : " << a->getAccountNumber() << endl;
-//		cout << "��й�ȣ : " << a->getPassword() << endl;
+//		cout << "은행 : " << a->getBankName() << endl;
+//		cout << "예금주 : " << a->getUserName() << endl;
+//		cout << "계좌번호 : " << a->getAccountNumber() << endl;
+//		cout << "비밀번호 : " << a->getPassword() << endl;
 //	}
 //	else {
-//		cout << "��й�ȣ�� Ʋ�Ƚ��ϴ�." << endl;
+//		cout << "비밀번호가 틀렸습니다." << endl;
 //	}
 //}
 	
@@ -58,22 +58,23 @@ Account* Bank::create_account() {
 	string account_number;
 	string input_password;
 	int initial_fund;
-	cout << this->getBankName() << "�����Դϴ�. ���¸� �����ϱ� ���� ���ϴ� ����, ��й�ȣ�� �Է����ּ���." << endl;
+	
+	cout << this->getBankName() << "은행입니다. 계좌 개설을 위해 이름과 비밀번호, 초기자금을 입력해주세요." << endl;
 
-	cout << "���� : ";		cin >> input_user_name;
-	cout << "��й�ȣ : ";	cin >> input_password;
+	cout << "이름 : ";		cin >> input_user_name;
+	cout << "비밀번호 : ";	cin >> input_password;
 
-	cout << "�ʱ⿹���� �Է����ּ���." << endl;
+	cout << "초기자금을 입력해주세요." << endl;
 	cin >> initial_fund;
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
 
-	cout << "���°� �����Ǿ����ϴ�." << endl;
-	cout << "���� : " << new_account->getBankName() << endl;
-	cout << "������ : " << new_account->getUserName() << endl;
-	cout << "���¹�ȣ : " << new_account->getAccountNumber() << endl;
-	cout << "��й�ȣ : " << new_account->getPassword() << endl;
+	cout << "계좌 개설되었습니다." << endl;
+	cout << "은행 : " << new_account->getBankName() << endl;
+	cout << "예금주 : " << new_account->getUserName() << endl;
+	cout << "계좌번호 : " << new_account->getAccountNumber() << endl;
+	cout << "비밀번호 : " << new_account->getPassword() << endl;
 
 	cout << "==================== < Account Create Session End! > ====================" << endl;
 
@@ -83,7 +84,7 @@ Account* Bank::create_account() {
 Account* Bank::search_account_number() {
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "�����Դϴ�. ���¹�ȣ�� �Է����ּ���." << endl;
+	cout << this->getBankName() << "은행입니다. 계좌번호를 입력해주세요." << endl;
 
 	string input_account_number;
 	cin >> input_account_number;
@@ -101,7 +102,7 @@ Account* Bank::search_account_number() {
 Account* Bank::search_account_card() {
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "�����Դϴ�. ī�带 �Է����ּ���." << endl;
+	cout << this->getBankName() << "은행입니다. 카드번호를 입력해주세요." << endl;
 
 	string input_card_number;
 	cin >> input_card_number;
@@ -116,9 +117,6 @@ Account* Bank::search_account_card() {
 		}
 	}
 }
-
-
-
 
 
 vector<Account*> Bank::get_account() {
