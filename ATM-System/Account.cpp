@@ -7,6 +7,7 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
+	this->avaliable_funds = initial_fund;
 	string temp_bank_code;
 	for (int i = 0; i < 3 - to_string(input_bank->getBankId()).size(); i++) {
 		temp_bank_code += "0";
@@ -100,6 +101,11 @@ void Account::printHistory() {
 		}
 	}
 	else {
-		cout << "ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù." << endl;
+		cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." << endl;
 	}
+}
+
+
+vector<string > Account::getCardNumber() {
+	return access_cards;
 }
