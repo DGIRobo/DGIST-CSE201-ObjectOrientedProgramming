@@ -31,24 +31,24 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 }
 
-Account* Bank::open_account(Account* a) {
-
-	cout << "계좌가 조회되었습니다." << endl;
-
-	string input_password;
-	cout << "비밀번호를 입력해주세요." << endl;
-	cin >> input_password;
-
-	if (a->getPassword() == input_password) {
-		cout << "은행 : " << a->getBankName() << endl;
-		cout << "예금주 : " << a->getUserName() << endl;
-		cout << "계좌번호 : " << a->getAccountNumber() << endl;
-		cout << "비밀번호 : " << a->getPassword() << endl;
-	}
-	else {
-		cout << "비밀번호가 틀렸습니다." << endl;
-	}
-}
+//Account* Bank::open_account(Account* a) {
+//
+//	cout << "계좌가 조회되었습니다." << endl;
+//
+//	string input_password;
+//	cout << "비밀번호를 입력해주세요." << endl;
+//	cin >> input_password;
+//
+//	if (a->getPassword() == input_password) {
+//		cout << "은행 : " << a->getBankName() << endl;
+//		cout << "예금주 : " << a->getUserName() << endl;
+//		cout << "계좌번호 : " << a->getAccountNumber() << endl;
+//		cout << "비밀번호 : " << a->getPassword() << endl;
+//	}
+//	else {
+//		cout << "비밀번호가 틀렸습니다." << endl;
+//	}
+//}
 	
 Account* Bank::create_account() {
 
@@ -91,8 +91,8 @@ Account* Bank::search_account_number() {
 	for (int i = 0; i < accounts_list.size();i++){
 		
 		if (accounts_list[i]->getAccountNumber() == input_account_number) {
-
-			open_account(accounts_list[i]);
+	
+			return accounts_list[i];
 			
 		}
 	}
@@ -111,7 +111,7 @@ Account* Bank::search_account_card() {
 
 		for (int j = 0; j < card_list.size(); j++) {
 			if (card_list[j] == input_card_number) {
-				open_account(accounts_list[i]);
+				return accounts_list[i];
 			}
 		}
 	}
