@@ -150,4 +150,6 @@ int main() {
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "Bank name : " << bank_list.at(i).getBankName() << endl;
 	}
+
+	
 }

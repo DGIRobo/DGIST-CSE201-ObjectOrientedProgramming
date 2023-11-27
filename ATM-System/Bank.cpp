@@ -7,12 +7,12 @@ Bank::Bank(string name) {
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
 
-	cout << this->getBankName() << "은행이 생성되었습니다." << endl;
+	cout << this->getBankName() << "Bank is created." << endl;
 }
 
 Bank::~Bank() {
 
-	cout << this->bank_name << "은행이 제거되었습니다." << endl;
+	cout << this->bank_name << "Bank is eliminated." << endl;
 
 }
 
@@ -49,8 +49,33 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 //		cout << "비밀번호가 틀렸습니다." << endl;
 //	}
 //}
+
+
+// account 주소를 없을때 만들 수있는 bank용 makeCard;
+
+void Bank::makeCard_session() {
+
+	cout << "==================== < Card Create Session > ====================" << endl;
+
+	Account* account = search_account_number();
 	
-Account* Bank::create_account() {
+	string now_created_card_number;
+	now_created_card_number = account->makeCard();
+
+	cout << "Card is created." << endl;
+	cout << "Card Number : " << now_created_card_number << endl;
+
+	cout << "This is card number list that connected to your account." << endl;
+	vector <string > card_list = account->getCardNumber();
+	for (int i = 0; i < card_list.size(); i++) {
+		cout << card_list[i] << endl;
+	}
+	cout << "==================== < Card Create Session End! > ====================" << endl;
+
+}
+
+// Account*
+void Bank::create_account() {
 
 	cout << "==================== < Account Create Session > ====================" << endl;
 
@@ -59,63 +84,102 @@ Account* Bank::create_account() {
 	string input_password;
 	int initial_fund;
 	
-	cout << this->getBankName() << "은행입니다. 계좌 개설을 위해 이름과 비밀번호, 초기자금을 입력해주세요." << endl;
+	cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
 
-	cout << "이름 : ";		cin >> input_user_name;
-	cout << "비밀번호 : ";	cin >> input_password;
-
-	cout << "초기자금을 입력해주세요." << endl;
-	cin >> initial_fund;
+	cout << "Name : ";			cin >> input_user_name;
+	cout << "Password : ";		cin >> input_password;
+	cout << "Initial fund : ";	cin >> initial_fund;
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
 
-	cout << "계좌 개설되었습니다." << endl;
-	cout << "은행 : " << new_account->getBankName() << endl;
-	cout << "예금주 : " << new_account->getUserName() << endl;
-	cout << "계좌번호 : " << new_account->getAccountNumber() << endl;
-	cout << "비밀번호 : " << new_account->getPassword() << endl;
+	cout << "Account is created." << endl;
+	cout << "Bank : " << new_account->getBankName() << endl;
+	cout << "Owner : " << new_account->getUserName() << endl;
+	cout << "Account number : " << new_account->getAccountNumber() << endl;
+	cout << "Password : " << new_account->getPassword() << endl;
 
+	
+	string agreement;
+	cout << "Do you want to make card? [Agree Y / Disagree N] : "; 	cin >> agreement;
+
+	if (agreement == "Y") {
+		cout << "==================== < Card Create Session > ====================" << endl;
+		string now_created_card_number;
+		now_created_card_number = new_account->makeCard();
+		cout << "Card is created." << endl;
+		cout << "Card number : " << now_created_card_number << endl;
+
+		cout << "This is card number list that connected to your account." << endl;
+
+		vector <string> card_list = new_account->getCardNumber();
+		for (int i = 0; i < card_list.size(); i++) {
+			cout << card_list[i] << endl;
+		}
+
+		cout << "==================== < Card Create Session End! > ====================" << endl;
+	}
 	cout << "==================== < Account Create Session End! > ====================" << endl;
-
-	return new_account;
+	//return new_account;
 }
 
+// Account*
 Account* Bank::search_account_number() {
+
+	cout << "==================== < Account Number Search Session > ====================" << endl;
+
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "은행입니다. 계좌번호를 입력해주세요." << endl;
-
+	cout << this->getBankName() << "Bank. Please write account number." << endl;
+	
 	string input_account_number;
-	cin >> input_account_number;
+	cout << "Account number : ";	cin >> input_account_number;
 
 	for (int i = 0; i < accounts_list.size();i++){
 		
 		if (accounts_list[i]->getAccountNumber() == input_account_number) {
-	
+			cout << this->getBankName() << "Bank find your account." << endl;
+
+			cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+			cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+			cout << "==================== < Account Number Search Session End! > ====================" << endl;
 			return accounts_list[i];
-			
 		}
 	}
+	cout << this->getBankName() << "Bank cannot find your account." << endl;
+	cout << "==================== < Account Number Search Session End! > ====================" << endl;
+	return NULL;
 }
 
-Account* Bank::search_account_card() {
+// Account*
+ Account* Bank::search_account_card() {
+
+	cout << "==================== < Account Card Search Session > ====================" << endl;
+
 	vector<Account*> accounts_list = get_account();
 
-	cout << this->getBankName() << "은행입니다. 카드번호를 입력해주세요." << endl;
-
+	cout << this->getBankName() << "Bank. Please write card number." << endl;
+	
 	string input_card_number;
-	cin >> input_card_number;
+	cout << "Card number : ";	cin >> input_card_number;
 
 	for (int i = 0; i < accounts_list.size(); i++) {
 		vector<string> card_list = accounts_list[i]->getCardNumber();
 
 		for (int j = 0; j < card_list.size(); j++) {
 			if (card_list[j] == input_card_number) {
+				cout << this->getBankName() << "Bank find your account." << endl;
+
+				cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+				cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+				cout << "==================== < Account Card Search Session End! > ====================" << endl;
 				return accounts_list[i];
 			}
 		}
 	}
+	cout << this->getBankName() << "Bank cannot find your account." << endl;
+	cout << "==================== < Account Card Search Session End! > ====================" << endl;
+	return NULL;
 }
 
 

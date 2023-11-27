@@ -4,6 +4,9 @@ int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
 Account::Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund) {
+
+	this->bank = input_bank;
+
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
@@ -16,9 +19,9 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	this->static_account_counter += 1;
 	string temp_account_code;
 	for (int i = 0; i < 6 - to_string(static_account_counter).size(); i++) {
-		temp_bank_code += "0";
+		temp_account_code += "0";
 	}
-	temp_bank_code += to_string(static_account_counter);
+	temp_account_code += to_string(static_account_counter);
 	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
 	this->avaliable_funds = 0;
 	this->transaction_histories = input_user_name + ".txt";
@@ -53,15 +56,42 @@ string Account::getAccountNumber() {
 	return this->account_number;
 }
 
+//string Account::makeCard() {
+//  // origin one // move account to bank
+//	static_card_counter += 1;
+//	string temp_card_num = "0000-0000-0000-";
+//	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
+//		temp_card_num += "0";
+//	}
+//	temp_card_num += to_string(static_card_counter);
+//	this->access_cards.push_back(temp_card_num);
+//
+//	return temp_card_num;
+
 string Account::makeCard() {
-	static_card_counter += 1;
-	string temp_card_num = "0000-0000-0000-";
-	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
-		temp_card_num += "0";
+
+	string temp_bank_code;
+	for (int i = 0; i < 4 - to_string(this->bank->getBankId()).size(); i++) {
+		temp_bank_code += "0";
 	}
-	temp_card_num += to_string(static_card_counter);
-	this->access_cards.push_back(temp_card_num);
-	return temp_card_num;
+	temp_bank_code += to_string(this->bank->getBankId());
+	// this->static_account_counter += 1;
+	string temp_account_code;
+	for (int i = 0; i < 4 - to_string(static_account_counter).size(); i++) {
+		temp_account_code += "0";
+	}
+	temp_account_code += to_string(static_account_counter);
+	this->static_card_counter += 1;
+	string temp_card_code;
+	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
+		temp_card_code += "0";
+	}
+	temp_card_code += to_string(static_card_counter);
+
+	string card_number = "0000-" + temp_bank_code + "-" + temp_account_code + "-" + temp_card_code;
+
+	this->access_cards.push_back(card_number);
+	return card_number;
 }
 
 int Account::checkFunds() {
@@ -105,7 +135,6 @@ void Account::printHistory() {
 	}
 }
 
-
-vector<string > Account::getCardNumber() {
+vector<string> Account::getCardNumber() {
 	return access_cards;
 }

@@ -13,6 +13,9 @@ class ATM;
 
 class Account {
 private:
+	
+	Bank* bank;
+
 	string bank_name;
 	string user_name;
 	static int static_account_counter;
