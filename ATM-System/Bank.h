@@ -27,7 +27,10 @@ public:
 	
 	void create_account();
 	Account* search_account_number();
+	Account* search_account_number_BankSearch(string input_account);
+
 	Account* search_account_card();
+	Account* search_account_card_BankSearch(string input_card);
 
 	vector<Account*> get_account();
 
