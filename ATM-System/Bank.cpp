@@ -7,12 +7,12 @@ Bank::Bank(string name) {
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
 
-	cout << this->getBankName() << "Bank is created." << endl;
+	cout << this->getBankName() << " Bank is created." << endl;
 }
 
 Bank::~Bank() {
 
-	cout << this->bank_name << "Bank is eliminated." << endl;
+	cout << this->bank_name << " Bank is eliminated." << endl;
 
 }
 

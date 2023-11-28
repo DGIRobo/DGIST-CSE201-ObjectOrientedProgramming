@@ -122,7 +122,7 @@ Bank initialize_bank() {
 	return Bank(name);
 }
 
-void make_bank_duplicate_check(vector<Bank>& bank_list) {
+void BankMake(vector<Bank>& bank_list) {
 	
 	cout << "==================== < Bank Duplicate Session > ====================" << endl;
 	string bank_name; string bank_name_save;
@@ -157,18 +157,29 @@ void make_bank_duplicate_check(vector<Bank>& bank_list) {
 	}
 }
 
-void make_account(vector<Bank>& bank_list) {
+void BankService(vector<Bank>& bank_list) {
 
-	cout << "==================== < Make Account Session > ====================" << endl;
+	cout << "==================== < Bank Service Session > ====================" << endl;
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "Bank " << i << " : " << bank_list[i].getBankName() << endl;
 	}
 	int bank_choose;
-	cout << "choose Bank number that you want to make account for : "; cin >> bank_choose;
+	cout << "Please choose Bank number that you want to make account for." << endl;
+	cout << "Bank number : "; cin >> bank_choose;
+	cout << bank_list[bank_choose].getBankName() << " bank is selected." << endl;
 
-	bank_list[bank_choose].create_account();
+	int service_choose;
+	cout << "Please choose number that you want to get service." << endl;
+	cout << "Create account [1] / make Card [2]" << endl;
+	cout << "Serive number : "; cin >> service_choose;
 
-	cout << "==================== < Make Account Session End! > ====================" << endl;
+	if (service_choose == 1) {
+		bank_list[bank_choose].create_account();
+	}
+	if (service_choose == 2) {
+		bank_list[bank_choose].makeCard_session();
+	}
+	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
 
@@ -177,21 +188,23 @@ int main() {
 	
 	vector<Bank> bank_list;
 
-	make_bank_duplicate_check(bank_list);
-	make_bank_duplicate_check(bank_list);
-	make_bank_duplicate_check(bank_list);
+	BankMake(bank_list);
+	BankMake(bank_list);
+	BankMake(bank_list);
+	BankService(bank_list);
+	BankService(bank_list);
+	BankService(bank_list);
 
-	make_account(bank_list);
-	make_account(bank_list);
-	make_account(bank_list);
 
 
 	vector<ATM> ATM_list;
 	vector<Account> account_list;
+
+	/*
 	Bank Kakao("Kakao");
 	Kakao.create_account();
 	Kakao.makeCard_session();
-
+	*/
 
 	/*
 	for (int i = 0; i != 0 ;) {
