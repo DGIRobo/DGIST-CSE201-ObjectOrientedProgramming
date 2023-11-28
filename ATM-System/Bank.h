@@ -25,15 +25,15 @@ public:
 
 	// Account* open_account(Account* a);
 
-	void create_account();
-	Account* search_account_number();
-	Account* search_account_number_BankSearch(string input_account);
+	void create_account(int language_setting);
+	Account* search_account_number(int language_setting);
+	Account* search_account_number_BankSearch(string input_account, int language_setting);
 
-	Account* search_account_card();
-	Account* search_account_card_BankSearch(string input_card);
+	Account* search_account_card(int language_setting);
+	Account* search_account_card_BankSearch(string input_card, int language_setting);
 
 	vector<Account*> get_account();
 
-	void makeCard_session();
+	void makeCard_session(int language_setting);
 
 };
