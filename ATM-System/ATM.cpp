@@ -1,7 +1,11 @@
 #include "ATM.h"
 
 void ATM::languageChange() {
-	cout << "Please chioce the language setting." << endl;
+	if (language_available == 1) {
+		cout << "unilingual ATM cannot change language!" << endl;
+		return;
+	}
+	cout << "Please choose the language setting." << endl;
 	cout << "1. English" << endl;
 	cout << "2. Korean" << endl;
 
@@ -14,6 +18,7 @@ void ATM::languageChange() {
 	if (input_language_setting == 1) {
 		this->language_setting = "English";
 	}
+	return;
 }
 
 

@@ -15,7 +15,7 @@ private:
 protected:
 	int serial_number;
 	string admin_card;
-	string language_setting;
+	string language_setting = "English";
 	int* cash_storage[4]; // #1000, #5000, #10000, #50000 // initial fund
 	string transaction_histories;
 	int type;
