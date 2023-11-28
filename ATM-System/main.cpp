@@ -161,7 +161,7 @@ void BankService(vector<Bank>& bank_list) {
 
 	cout << "==================== < Bank Service Session > ====================" << endl;
 	for (int i = 0; i < bank_list.size(); i++) {
-		cout << "Bank " << i << " : " << bank_list[i].getBankName() << endl;
+		cout << bank_list[i].getBankName() << " Bank : " << "[" << i << "]" << endl;
 	}
 	int bank_choose;
 	cout << "Please choose Bank number that you want to make account for." << endl;
@@ -182,6 +182,44 @@ void BankService(vector<Bank>& bank_list) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
+Account* BankSearch(vector<Bank>& bank_list) {
+	cout << "==================== < Bank Search Session > ====================" << endl;
+
+	cout << "Please choose serach service number that you want." << endl;
+	cout << "Account Number [1] / Card Number [2]" << endl;
+
+	int search_choose;
+	cout << "Search service number : "; cin >> search_choose;
+
+	while (true) {
+		if (search_choose == 1) {
+			string account_number;
+			cout << "Please write your account number : "; cin >> account_number;
+
+			for (int i = 0; i < bank_list.size(); i++) {
+				if (bank_list[i].search_account_number_BankSearch(account_number) != NULL) {
+					cout << "==================== < Bank Search Session End! > ====================" << endl;
+					return bank_list[i].search_account_number_BankSearch(account_number);
+				}
+			}
+			cout << "Account is not found." << endl;
+		}
+		if (search_choose == 2) {
+			string card_number;
+			cout << "Please write your card number : "; cin >> card_number;
+
+			for (int i = 0; i < bank_list.size(); i++) {
+				if (bank_list[i].search_account_card_BankSearch(card_number) != NULL) {
+					cout << "==================== < Bank Search Session End! > ====================" << endl;
+					return bank_list[i].search_account_card_BankSearch(card_number);
+				}
+			}
+			cout << "Account is not found." << endl;
+		}
+	}
+	cout << "==================== < Bank Search Session End! > ====================" << endl;
+}
+
 
 int main() {
 	// initialize_bank();
@@ -189,11 +227,9 @@ int main() {
 	vector<Bank> bank_list;
 
 	BankMake(bank_list);
-	BankMake(bank_list);
-	BankMake(bank_list);
 	BankService(bank_list);
-	BankService(bank_list);
-	BankService(bank_list);
+	BankSearch(bank_list);
+	BankSearch(bank_list);
 
 
 
