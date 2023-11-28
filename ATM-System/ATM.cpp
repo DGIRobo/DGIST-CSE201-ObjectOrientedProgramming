@@ -58,3 +58,29 @@ void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
 	this->cash_storage[2] += cash10000;
 	this->cash_storage[3] += cash50000;
 }
+
+void ATM::user_authorization() {
+	//카드 입력
+	
+	//카드 유효성 검사
+
+	//비밀번호 입력
+
+	//비밀번호 검사
+
+	//3번 연속 틀리면 세션 중단되게
+
+	return;
+}
+
+void ATM::valid_checks_check() {
+	return;
+}
+
+void ATM::see_transaction_history() {
+	return;
+}
+
+void ATM::transaction() {
+	return;
+}
