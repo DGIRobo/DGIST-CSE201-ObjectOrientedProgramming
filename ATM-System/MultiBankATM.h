@@ -12,7 +12,7 @@ private:
 protected:
 public:
 	Multi();
-	Multi(string input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* mfees[4]);
+	Multi(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* mfees[4]);
 	~Multi();
 
 	void deposit(Account a);

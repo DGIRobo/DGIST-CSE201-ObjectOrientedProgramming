@@ -30,7 +30,7 @@ void ATM::languageChange() {
 }
 
 
-ATM::ATM(string input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]) {
+ATM::ATM(Bank* input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]) {
 	this->primary_bank = input_primary_bank;
 	this->serial_number = input_serial_number;
 	this->type = input_type;
@@ -42,7 +42,7 @@ ATM::ATM(string input_primary_bank, int input_serial_number, int input_type, int
 }
 
 ATM::~ATM() {
-	this->primary_bank = "";
+	this->primary_bank = nullptr;
 	this->serial_number = 0;
 	this->type = 0;
 	this->language_available = 0;
@@ -57,12 +57,33 @@ ATM::~ATM() {
 void ATM::session() {
 
 	if (this->language_setting == "Korean") {
+		cout << "카드를 삽입해 주세요." << endl;
+		string cardinsert;
+		cin >> cardinsert;
 
+		cout << getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
+		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;
+		int selection = 1;
+		switch (selection) {
+		case 1:
+			cout << "입금을 선택하셨습니다. 해 주세요 : " << endl;
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		}
 	}
 	if (this->language_setting == "English") {
 
 	}
-
+	return;
 }
 
 void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {

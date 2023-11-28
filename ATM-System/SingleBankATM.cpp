@@ -1,6 +1,6 @@
 #include "SingleBankATM.h"
 
-Single::Single(string input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
+Single::Single(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}
@@ -8,7 +8,7 @@ Single::Single(string input_primary_bank, int input_serial_number, int input_lan
 
 void Single::deposit(Account a){
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금할 수 없습니다." << endl;
 			return;
 		}
@@ -23,7 +23,7 @@ void Single::deposit(Account a){
 		cout << "입금을 개시합니다." << endl;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Deposits cannot be made to accounts at other banks." << endl;
 			return;
 		}
@@ -142,7 +142,7 @@ void Single::deposit(Account a){
 
 void Single::withdraw(Account a) {
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 출금할 수 없습니다." << endl;
 			return;
 		}
@@ -204,7 +204,7 @@ void Single::withdraw(Account a) {
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Withdrawals cannot be made from accounts at other banks." << endl;
 			return;
 		}
@@ -269,11 +269,11 @@ void Single::withdraw(Account a) {
 
 void Single::account_transfer(Account a, Account b) {
 	if (this->language_setting == "English") {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "You cannot transfer money from an account at another bank." << endl;
 			return;
 		}
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Money cannot be transferred to another bank's account." << endl;
 			return;
 		}
@@ -302,11 +302,11 @@ void Single::account_transfer(Account a, Account b) {
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 송금할 수 없습니다." << endl;
 			return;
 		}
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 송금할 수 없습니다." << endl;
 			return;
 		}
@@ -338,7 +338,7 @@ void Single::account_transfer(Account a, Account b) {
 
 void Single::cash_transfer(Account b) {
 	if (this->language_setting == "English") {
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Money cannot be transferred to another bank's account." << endl;
 			return;
 		}
@@ -370,7 +370,7 @@ void Single::cash_transfer(Account b) {
 		return;
 	}
 	else {
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 송금할 수 없습니다." << endl;
 			return;
 		}

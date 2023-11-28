@@ -1,6 +1,6 @@
 #include "MultiBankATM.h"
 
-Multi::Multi(string input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
+Multi::Multi(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}
@@ -12,7 +12,7 @@ Multi::Multi(string input_primary_bank, int input_serial_number, int input_lanua
 void Multi::deposit(Account a) {
 	int account_count = 0;
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() == this->primary_bank) {
+		if (a.getBankName() == this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금합니다." << endl;
 			account_count = 1;
 		}
@@ -43,7 +43,7 @@ void Multi::deposit(Account a) {
 		}
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Deposits will be made to accounts at other banks." << endl;
 			account_count = 1;
 			return;
@@ -177,7 +177,7 @@ void Multi::deposit(Account a) {
 void Multi::withdraw(Account a) {
 	int coconut = 0;
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 출금합니다." << endl;
 			coconut = 1;
 		}
@@ -277,7 +277,7 @@ void Multi::withdraw(Account a) {
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Withdrawals will be made from accounts at other banks." << endl;
 			coconut = 1;
 		}
@@ -383,14 +383,14 @@ void Multi::account_transfer(Account a, Account b) {
 	int coconut = 0;
 	int cococonut = 0;
 	if (this->language_setting == "English") {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Transfer money from an account at another bank." << endl;
 			coconut = 1;
 		}
 		else {
 			cout << "Transfer money from an account at this bank." << endl;
 		}
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "Transferred to another bank's account." << endl;
 			cococonut = 1;
 		}
@@ -459,14 +459,14 @@ void Multi::account_transfer(Account a, Account b) {
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank) {
+		if (a.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 송금합니다." << endl;
 			coconut = 1;
 		}
 		else {
 			cout << "본 은행의 계좌에서 송금합니다." << endl;
 		}
-		if (b.getBankName() != this->primary_bank) {
+		if (b.getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 송금합니다." << endl;
 			cococonut = 1;
 		}

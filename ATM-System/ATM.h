@@ -20,13 +20,13 @@ protected:
 	string transaction_histories;
 	int type;
 
-	string primary_bank;
+	Bank* primary_bank;
 	int language_available;
 	
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
-	ATM(string input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]);
+	ATM(Bank* input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]);
 	~ATM();
 
 	void session();
