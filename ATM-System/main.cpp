@@ -10,14 +10,10 @@
 
 using namespace std;
 
-/*
-Bank initialize_bank() {
-	cout << "Bank를 설립합니다." << endl << "Bank 이름을 입력해 주세요." << endl;
-	string name;
-	cin >> name;
-	return Bank(name);
-}
 
+
+
+/*
 void initialize_account(vector<Bank> list) {
 	cout << "초기 Account를 개설합니다." << endl;
 	cout << "계좌를 개설할 은행을 선택해 주세요." << endl;
@@ -119,14 +115,84 @@ ATM* initialize_ATM(vector<Bank> list) {
 }
 */
 
+Bank initialize_bank() {
+	cout << "Bank를 설립합니다." << endl << "Bank 이름을 입력해 주세요." << endl;
+	string name;
+	cin >> name;
+	return Bank(name);
+}
+
+void make_bank_duplicate_check(vector<Bank>& bank_list) {
+	
+	cout << "==================== < Bank Duplicate Session > ====================" << endl;
+	string bank_name; string bank_name_save;
+
+	while (true) {
+		int dup = 0;
+		cout << "Please write bank name : ";	 cin >> bank_name;
+
+		bank_name_save = bank_name;
+
+		for (int i = 0; i < bank_name.size(); i++) {
+			bank_name[i] = tolower(bank_name[i]);
+		}
+
+		for (int j = 0; j < bank_list.size(); j++) {
+
+			string reference = bank_list[j].getBankName();
+
+			for (int k = 0; k < reference.size(); k++) {
+				reference[k] = tolower(reference[k]);
+			}
+			if (reference == bank_name) {
+				cout << bank_name << " is already exiested!" << endl;
+				dup = 1;
+			}
+		}
+		if (dup == 0) {
+			bank_list.push_back(Bank(bank_name_save));
+			cout << "==================== < Bank Duplicate Session End! > ====================" << endl;
+			break;
+		}
+	}
+}
+
+void make_account(vector<Bank>& bank_list) {
+
+	cout << "==================== < Make Account Session > ====================" << endl;
+	for (int i = 0; i < bank_list.size(); i++) {
+		cout << "Bank " << i << " : " << bank_list[i].getBankName() << endl;
+	}
+	int bank_choose;
+	cout << "choose Bank number that you want to make account for : "; cin >> bank_choose;
+
+	bank_list[bank_choose].create_account();
+
+	cout << "==================== < Make Account Session End! > ====================" << endl;
+}
+
+
 int main() {
-	//initialization test
+	// initialize_bank();
+	
 	vector<Bank> bank_list;
+
+	make_bank_duplicate_check(bank_list);
+	make_bank_duplicate_check(bank_list);
+	make_bank_duplicate_check(bank_list);
+
+	make_account(bank_list);
+	make_account(bank_list);
+	make_account(bank_list);
+
+
 	vector<ATM> ATM_list;
 	vector<Account> account_list;
 	Bank Kakao("Kakao");
 	Kakao.create_account();
 	Kakao.makeCard_session();
+
+
 	/*
 	for (int i = 0; i != 0 ;) {
 		cout << "===bank initialization [" << i+1 << "]===" << endl;

@@ -74,6 +74,7 @@ void Bank::makeCard_session() {
 
 }
 
+
 // Account*
 void Bank::create_account() {
 
@@ -103,7 +104,11 @@ void Bank::create_account() {
 	string agreement;
 	cout << "Do you want to make card? [Agree Y / Disagree N] : "; 	cin >> agreement;
 
-	if (agreement == "Y") {
+	for (int i = 0; i < agreement.size(); i++) {
+		agreement[i] = tolower(agreement[i]);
+	}
+
+	if (agreement == "y") {
 		cout << "==================== < Card Create Session > ====================" << endl;
 		string now_created_card_number;
 		now_created_card_number = new_account->makeCard();
