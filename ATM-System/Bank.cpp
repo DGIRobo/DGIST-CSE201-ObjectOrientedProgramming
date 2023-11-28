@@ -11,9 +11,7 @@ Bank::Bank(string name) {
 }
 
 Bank::~Bank() {
-
 	cout << this->bank_name << " Bank is eliminated." << endl;
-
 }
 
 int Bank::getBankId() {
@@ -24,11 +22,8 @@ string Bank::getBankName() {
 	return this->bank_name;
 }
 
-
 void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000) {
-
 	target_ATM->add_cash(numOf1000, numOf5000, numOf10000, numOf50000);
-
 }
 
 //Account* Bank::open_account(Account* a) {
@@ -49,12 +44,9 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 //		cout << "비밀번호가 틀렸습니다." << endl;
 //	}
 //}
-
-
 // account 주소를 없을때 만들 수있는 bank용 makeCard;
 
 void Bank::makeCard_session() {
-
 	cout << "==================== < Card Create Session > ====================" << endl;
 
 	Account* account = search_account_number();
@@ -71,15 +63,11 @@ void Bank::makeCard_session() {
 		cout << card_list[i] << endl;
 	}
 	cout << "==================== < Card Create Session End! > ====================" << endl;
-
 }
-
 
 // Account*
 void Bank::create_account() {
-
 	cout << "==================== < Account Create Session > ====================" << endl;
-
 	string input_user_name;
 	string account_number;
 	string input_password;
@@ -100,7 +88,6 @@ void Bank::create_account() {
 	cout << "Account number : " << new_account->getAccountNumber() << endl;
 	cout << "Password : " << new_account->getPassword() << endl;
 
-	
 	string agreement;
 	cout << "Do you want to make card? [Agree Y / Disagree N] : "; 	cin >> agreement;
 
@@ -158,8 +145,6 @@ Account* Bank::search_account_number() {
 }
 
 Account* Bank::search_account_number_BankSearch(string input_account) {
-
-
 	vector<Account*> accounts_list = get_account();
 	string input_account_number = input_account;
 
@@ -231,7 +216,6 @@ Account* Bank::search_account_number_BankSearch(string input_account) {
 	 // cout << this->getBankName() << "Bank cannot find your account." << endl;
 	 return NULL;
  }
-
 
 vector<Account*> Bank::get_account() {
 	return accounts;
