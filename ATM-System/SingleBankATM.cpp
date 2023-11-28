@@ -6,9 +6,9 @@ Single::Single(Bank* input_primary_bank, int input_serial_number, int input_lanu
 	}
 }
 
-void Single::deposit(Account a){
+void Single::deposit(Account* a){
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금할 수 없습니다." << endl;
 			return;
 		}
@@ -23,7 +23,7 @@ void Single::deposit(Account a){
 		cout << "입금을 개시합니다." << endl;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Deposits cannot be made to accounts at other banks." << endl;
 			return;
 		}
@@ -60,7 +60,7 @@ void Single::deposit(Account a){
 				return;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
-			a.deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 			return;
 		}
 		else if (deposit_method == 2) {
@@ -81,7 +81,7 @@ void Single::deposit(Account a){
 				}
 				else break;
 			}
-			a.deposit(check_sum);
+			a->deposit(check_sum);
 			return;
 		}
 		else {
@@ -108,7 +108,7 @@ void Single::deposit(Account a){
 				return;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
-			a.deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 			return;
 		}
 		else if (deposit_method == 2) {
@@ -129,7 +129,7 @@ void Single::deposit(Account a){
 				}
 				else break;
 			}
-			a.deposit(check_sum);
+			a->deposit(check_sum);
 			return;
 		}
 		else {
@@ -140,9 +140,9 @@ void Single::deposit(Account a){
 	return;
 }
 
-void Single::withdraw(Account a) {
+void Single::withdraw(Account* a) {
 	if (this->language_setting == "Korean") {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 출금할 수 없습니다." << endl;
 			return;
 		}
@@ -150,11 +150,11 @@ void Single::withdraw(Account a) {
 		if (*(this->fee_list[1]) == 0) {
 			cout << "지불할 요금이 없습니다." << endl;
 		}
-		else if (*(this->fee_list[1]) > a.checkFunds()) {
+		else if (*(this->fee_list[1]) > a->checkFunds()) {
 			cout << "잔액이 부족합니다." << endl;
 		}
 		else {
-			a.withdraw(*(this->fee_list[1]));
+			a->withdraw(*(this->fee_list[1]));
 		}
 		//this->withdraw(a);
 		int amount;
@@ -162,17 +162,17 @@ void Single::withdraw(Account a) {
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "50만원을 초과한 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		if (amount % 1000 != 0) {
 			cout << "1000의 배수가 아닌 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
-		if (amount > a.checkFunds()) {
+		if (amount > a->checkFunds()) {
 			cout << "계좌에 잔액이 부족합니다. 출금을 취소합니다." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		int temp4 = amount / 50000;
@@ -190,7 +190,7 @@ void Single::withdraw(Account a) {
 		}
 		if (temp1 > *(this->cash_storage[0])) {
 			cout << "ATM에 현금이 부족합니다. 출금을 취소합니다." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		else {
@@ -199,12 +199,12 @@ void Single::withdraw(Account a) {
 			*(this->cash_storage[1]) -= temp2;
 			*(this->cash_storage[0]) -= temp1;
 		}
-		a.withdraw(amount);
-		cout << "출금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a.checkFunds() << "입니다.";
+		a->withdraw(amount);
+		cout << "출금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Withdrawals cannot be made from accounts at other banks." << endl;
 			return;
 		}
@@ -212,11 +212,11 @@ void Single::withdraw(Account a) {
 		if (*(this->fee_list[1]) == 0) {
 			cout << "There are no fees to pay." << endl;
 		}
-		else if (*(this->fee_list[1]) > a.checkFunds()) {
+		else if (*(this->fee_list[1]) > a->checkFunds()) {
 			cout << "Your balance is insufficient." << endl;
 		}
 		else {
-			a.withdraw(*(this->fee_list[1]));
+			a->withdraw(*(this->fee_list[1]));
 		}
 		//this->withdraw(a);
 		int amount;
@@ -224,17 +224,17 @@ void Single::withdraw(Account a) {
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "You entered an amount exceeding 500,000 won. Cancel withdrawal." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		if (amount % 1000 != 0) {
 			cout << "You entered an amount that is not a multiple of 1000. Cancel withdrawal." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
-		if (amount > a.checkFunds()) {
+		if (amount > a->checkFunds()) {
 			cout << "There are insufficient funds in your account. Cancel withdrawal." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		int temp4 = amount / 50000;
@@ -252,7 +252,7 @@ void Single::withdraw(Account a) {
 		}
 		if (temp1 > *(this->cash_storage[0])) {
 			cout << "The ATM is out of cash. Cancel withdrawal." << endl;
-			a.deposit(*(this->fee_list[1]));
+			a->deposit(*(this->fee_list[1]));
 			return;
 		}
 		else {
@@ -261,19 +261,19 @@ void Single::withdraw(Account a) {
 			*(this->cash_storage[1]) -= temp2;
 			*(this->cash_storage[0]) -= temp1;
 		}
-		a.withdraw(amount);
-		cout << "Withdrawal has been completed." << endl << "The balance of the withdrawal account is " << a.checkFunds() << ".";
+		a->withdraw(amount);
+		cout << "Withdrawal has been completed." << endl << "The balance of the withdrawal account is " << a->checkFunds() << ".";
 		return;
 	}
 }
 
-void Single::account_transfer(Account a, Account b) {
+void Single::account_transfer(Account* a, Account* b) {
 	if (this->language_setting == "English") {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "You cannot transfer money from an account at another bank." << endl;
 			return;
 		}
-		if (b.getBankName() != this->primary_bank->getBankName()) {
+		if (b->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Money cannot be transferred to another bank's account." << endl;
 			return;
 		}
@@ -281,32 +281,32 @@ void Single::account_transfer(Account a, Account b) {
 		if (*(this->fee_list[2]) == 0) {
 			cout << "There are no fees to pay." << endl;
 		}
-		else if (*(this->fee_list[2]) > a.checkFunds()) {
+		else if (*(this->fee_list[2]) > a->checkFunds()) {
 			cout << "Your balance is insufficient." << endl;
 		}
 		else {
-			a.withdraw(*(this->fee_list[2]));
+			a->withdraw(*(this->fee_list[2]));
 		}
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "Please enter the amount you wish to transfer." << endl;
 		cin >> amount;
-		if (amount > a.checkFunds()) {
+		if (amount > a->checkFunds()) {
 			cout << "Your balance is insufficient. Cancel the transfer." << endl;
-			a.deposit(*(this->fee_list[2]));
+			a->deposit(*(this->fee_list[2]));
 			return;
 		}
-		a.withdraw(amount);
-		b.deposit(amount);
-		cout << "The transfer has been completed." << endl << "The balance of the source account is" << a.checkFunds() << ".";
+		a->withdraw(amount);
+		b->deposit(amount);
+		cout << "The transfer has been completed." << endl << "The balance of the source account is" << a->checkFunds() << ".";
 		return;
 	}
 	else {
-		if (a.getBankName() != this->primary_bank->getBankName()) {
+		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 송금할 수 없습니다." << endl;
 			return;
 		}
-		if (b.getBankName() != this->primary_bank->getBankName()) {
+		if (b->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 송금할 수 없습니다." << endl;
 			return;
 		}
@@ -314,31 +314,31 @@ void Single::account_transfer(Account a, Account b) {
 		if (*(this->fee_list[2]) == 0) {
 			cout << "지불할 요금이 없습니다." << endl;
 		}
-		else if (*(this->fee_list[2]) > a.checkFunds()) {
+		else if (*(this->fee_list[2]) > a->checkFunds()) {
 			cout << "잔액이 부족합니다." << endl;
 		}
 		else {
-			a.withdraw(*(this->fee_list[2]));
+			a->withdraw(*(this->fee_list[2]));
 		}
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "송금할 액수를 입력해 주세요." << endl;
 		cin >> amount;
-		if (amount > a.checkFunds()) {
+		if (amount > a->checkFunds()) {
 			cout << "잔액이 부족합니다. 송금을 취소합니다." << endl;
-			a.deposit(*(this->fee_list[2]));
+			a->deposit(*(this->fee_list[2]));
 			return;
 		}
-		a.withdraw(amount);
-		b.deposit(amount);
-		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a.checkFunds() << "입니다.";
+		a->withdraw(amount);
+		b->deposit(amount);
+		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
 		return;
 	}
 }
 
-void Single::cash_transfer(Account b) {
+void Single::cash_transfer(Account* b) {
 	if (this->language_setting == "English") {
-		if (b.getBankName() != this->primary_bank->getBankName()) {
+		if (b->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Money cannot be transferred to another bank's account." << endl;
 			return;
 		}
@@ -365,12 +365,12 @@ void Single::cash_transfer(Account b) {
 		cout << "Please insert a 50,000 won bill." << endl;
 		cin >> cash50000;
 		add_cash(cash1000, cash5000, cash10000, cash50000);
-		b.deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "The transfer has been completed." << endl;
 		return;
 	}
 	else {
-		if (b.getBankName() != this->primary_bank->getBankName()) {
+		if (b->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 송금할 수 없습니다." << endl;
 			return;
 		}
@@ -397,8 +397,58 @@ void Single::cash_transfer(Account b) {
 		cout << "50000원권을 투입해 주세요." << endl;
 		cin >> cash50000;
 		add_cash(cash1000, cash5000, cash10000, cash50000);
-		b.deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "송금이 완료되었습니다." << endl;
 		return;
 	}
+}
+
+void Single::session(vector<Bank*> bank_list) {
+
+	if (this->language_setting == "Korean") {
+		cout << "카드를 삽입해 주세요." << endl;
+		string cardinsert;
+		cin >> cardinsert;
+		int isPrimary = 0;
+		Account* acc;
+		for (int i = 0; i < primary_bank->get_account().size(); i++) {
+			vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
+			for (int j = 0; j < card_list.size(); j++) {
+				if (card_list[j] == cardinsert) {
+					isPrimary = 1;
+					acc = primary_bank->get_account()[i];
+					break;
+				}
+			}
+		}
+		if (isPrimary == 0) {
+			cout << "본 기기에서 지원하지 않는 카드입니다." << endl;
+			return;
+		}
+		cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
+		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;
+		int selection = 1;
+		switch (selection) {
+		case 1:
+			int pass;
+			cout << "입금을 선택하셨습니다. 거래를 위해서는 비밀번호를 입력해 주세요 : ";
+			cin >> pass;
+			cout << "비밀번호가 확인되었습니다. 거래를 진행합니다." << endl;
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		}
+	}
+	if (this->language_setting == "English") {
+
+	}
+	return;
 }

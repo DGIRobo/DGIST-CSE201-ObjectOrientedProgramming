@@ -29,13 +29,13 @@ public:
 	ATM(Bank* input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]);
 	~ATM();
 
-	void session();
+	virtual void session(vector<Bank*> bank_list) = 0;
 	void transaction();
 	void languageChange();
-	virtual void deposit(Account a) = 0;
-	virtual void withdraw(Account a) = 0;
-	virtual void account_transfer(Account a, Account b) = 0;
-	virtual void cash_transfer(Account b) = 0;
+	virtual void deposit(Account* a) = 0;
+	virtual void withdraw(Account* a) = 0;
+	virtual void account_transfer(Account* a, Account* b) = 0;
+	virtual void cash_transfer(Account* b) = 0;
 	void see_transaction_history();
 	void valid_checks_check();
 	void user_authorization();

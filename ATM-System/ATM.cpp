@@ -52,37 +52,7 @@ ATM::~ATM() {
 	}
 }
 
-
-
-void ATM::session() {
-
-	if (this->language_setting == "Korean") {
-		cout << "카드를 삽입해 주세요." << endl;
-		string cardinsert;
-		cin >> cardinsert;
-
-		cout << getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
-		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;
-		int selection = 1;
-		switch (selection) {
-		case 1:
-			cout << "입금을 선택하셨습니다. 해 주세요 : " << endl;
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		}
-	}
-	if (this->language_setting == "English") {
-
-	}
+void ATM::transaction() {
 	return;
 }
 
@@ -120,10 +90,6 @@ void ATM::see_transaction_history() {
 	//account transfer:enemy account number
 	//cash transfer:enemy account number
 
-	return;
-}
-
-void ATM::transaction() {
 	return;
 }
 
