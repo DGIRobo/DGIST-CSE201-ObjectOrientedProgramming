@@ -10,7 +10,6 @@
 
 using namespace std;
 
-/*
 void initialize_Fee(int* fees) {
 	int fee_list[8];
 	cout << "Primary bank로부터의 deposit fee를 입력해 주십시오." << endl << "추천 Fee : 0" << endl;
@@ -93,7 +92,6 @@ ATM* initialize_ATM(vector<Bank> list) {
 	}
 	return;
 }
-*/
 
 void BankMake(vector<Bank>& bank_list) {
 
