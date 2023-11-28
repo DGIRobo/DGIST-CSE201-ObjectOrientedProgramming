@@ -85,9 +85,10 @@ ATM* initialize_ATM(vector<Bank> list) {
 			cin >> *store[2];
 			cout << "ATM에 저장된 50000원권의 수를 입력해 주세요." << endl;
 			cin >> *store[3];
-			Single* pSingle = new Single(list.at(bankselection).getBankName(), "Single", serial, lang, store);
-			ATM* pATM = pSingle;
-			return pATM;
+			//Single* pSingle = new Single(list.at(bankselection).getBankName(), "Single", serial, lang, store);
+			//ATM* pATM = pSingle;
+			//return pATM;
+			return nullptr;
 		}
 		else {
 			int serial;
@@ -105,16 +106,16 @@ ATM* initialize_ATM(vector<Bank> list) {
 			cin >> *store[2];
 			cout << "ATM에 저장된 50000원권의 수를 입력해 주세요." << endl;
 			cin >> *store[3];
-			Multi* pMulti = new Multi(list.at(bankselection).getBankName(), "Multi", serial, lang, store);
-			ATM* pATM = pMulti;
-			return pATM;
+			//Multi* pMulti = new Multi(list.at(bankselection).getBankName(), "Multi", serial, lang, store);
+			//ATM* pATM = pMulti;
+			//return pATM;
+			return nullptr;
 		}
 	}
 	else {
 		cout << "해당하는 은행을 찾을 수 없어 설치를 취소합니다." << endl;
 		return nullptr;
 	}
-	return;
 }
 
 
