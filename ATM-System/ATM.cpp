@@ -6,11 +6,19 @@ void ATM::languageChange() {
 		return;
 	}
 	cout << "Please choose the language setting." << endl;
-	cout << "1. English" << endl;
-	cout << "2. Korean" << endl;
+	cout << "[1] English" << endl;
+	cout << "[2] Korean" << endl;
 
 	int input_language_setting;
-	cin >> input_language_setting;
+	while (true) {
+		cin >> input_language_setting;
+		if (input_language_setting == 1 or input_language_setting == 2) {
+			break;
+		}
+		else {
+			cout << "Wrong choice! Please choose appropriate choice."  << endl;
+		}
+	}
 
 	if (input_language_setting == 2) {
 		this->language_setting = "Korean";
