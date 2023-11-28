@@ -118,11 +118,39 @@ int LanguageService(int language_setting) {
 	return language_setting;
 }
 
+void feeConfig(int* fee_list1[4], int* fee_list2[4]) {
+	cout << "Please Enter the deposit fee for primary bank." << endl;
+	cin >> *(fee_list1[0]);
+	cout << "Please Enter the withdrawal fee for primary bank." << endl;
+	cin >> *(fee_list1[1]);
+	cout << "Please Enter the account transfer fee between primary banks." << endl;
+	cin >> *(fee_list1[2]);
+	cout << "Please Enter the cash transfer fee." << endl;
+	cin >> *(fee_list1[3]);
+	cout << "Please Enter the deposit fee for primary bank." << endl;
+	cin >> *(fee_list2[0]);
+	cout << "Please Enter the withdrawal fee for primary bank." << endl;
+	cin >> *(fee_list2[1]);
+	cout << "Please Enter the account transfer fee between primary bank and non-primary banks." << endl;
+	cin >> *(fee_list2[2]);
+	cout << "Please Enter the account transfer fee between non-primary banks." << endl;
+	cin >> *(fee_list2[3]);
+	return;
+}
+
 int main() {
 	//initialization test
 	vector<Bank> bank_list;
 	vector<ATM> ATM_list;
 	vector<Account> account_list;
+	int* fee1[4] = {0,};
+	int* fee2[4] = {0,};
+	for (int i = 0; i < 4; i++) {
+		fee1[i] = new int(0);
+	}
+	for (int i = 0; i < 4; i++) {
+		fee2[i] = new int(0);
+	}
 
 	bool onSession = true;
 	int language_setting = 1; // 1: English, 2: Korean
@@ -137,6 +165,7 @@ int main() {
 			cout << "4. ATM Service (Deposit, Withdraw, etc...)" << endl;
 			cout << "5. Change Language Setting" << endl;
 			cout << "6. Shut Down the Bank System Service" << endl;
+			cout << "7. Fee Configuration" << endl;
 
 			cout << "Please Enter the Number: ";
 		}
@@ -148,6 +177,7 @@ int main() {
 			cout << "4. ATM 서비스 (입금, 출금 등...)" << endl;
 			cout << "5. 언어 설정 변경" << endl;
 			cout << "6. Bank System Service 종료" << endl;
+			cout << "7. 수수료 설정" << endl;
 
 			cout << "숫자를 입력해주세요: ";
 		}
@@ -173,6 +203,19 @@ int main() {
 			break;
 		case 6:
 			onSession = false;
+			break;
+		case 7:
+			feeConfig(fee1, fee2);
+			break;
+		case 8:
+			//feeConfig test
+			cout << "============<feeConfig test>===========" << endl;
+			for (int i = 0; i < 4; i++) {
+				cout << *(fee1[i]) << endl;
+			}
+			for (int i = 0; i < 4; i++) {
+				cout << *(fee2[i]) << endl;
+			}
 			break;
 		}
 		cout << "===========================<End System Session>===========================" << endl;

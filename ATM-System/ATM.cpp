@@ -78,6 +78,14 @@ void ATM::valid_checks_check() {
 }
 
 void ATM::see_transaction_history() {
+	//Transaction ID
+	//Card Number
+	//Transaction Types : deposit, withdraw, account transfer, cash_transfer
+	//Amount
+	//other transaction-specific information
+	//account transfer:enemy account number
+	//cash transfer:enemy account number
+
 	return;
 }
 
