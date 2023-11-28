@@ -587,6 +587,10 @@ void Multi::session(vector<Bank*> bank_list) {
 		cout << "카드를 삽입해 주세요." << endl;
 		string cardinsert;
 		cin >> cardinsert;
+		if (cardinsert == this->admin_card) {
+			see_transaction_history();
+			return;
+		}
 		int banknum = -1;
 		for (int k = 0; k < bank_list.size(); k++) {
 			for (int i = 0; i < primary_bank->get_account().size(); i++) {
@@ -605,7 +609,7 @@ void Multi::session(vector<Bank*> bank_list) {
 			cout << "잘못된 카드입니다." << endl;
 			return;
 		}
-		Account* acc;
+		Account* acc = 0;
 		for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
 			vector<string> card_list = bank_list[banknum]->get_account()[i]->getCardNumber();
 			for (int j = 0; j < card_list.size(); j++) {
@@ -614,6 +618,10 @@ void Multi::session(vector<Bank*> bank_list) {
 					break;
 				}
 			}
+		}
+		if (this->user_authorization(acc) == false) {
+			cout << "비밀번호 입력에 3회 실패하셨습니다. 거래를 종료합니다." << endl;
+			return;
 		}
 		cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
 		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;

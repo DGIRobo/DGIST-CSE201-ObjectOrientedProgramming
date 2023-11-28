@@ -409,8 +409,12 @@ void Single::session(vector<Bank*> bank_list) {
 		cout << "카드를 삽입해 주세요." << endl;
 		string cardinsert;
 		cin >> cardinsert;
+		if (cardinsert == this->admin_card) {
+			see_transaction_history();
+			return;
+		}
 		int isPrimary = 0;
-		Account* acc;
+		Account* acc = 0;
 		for (int i = 0; i < primary_bank->get_account().size(); i++) {
 			vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
 			for (int j = 0; j < card_list.size(); j++) {
@@ -421,30 +425,21 @@ void Single::session(vector<Bank*> bank_list) {
 				}
 			}
 		}
+
 		if (isPrimary == 0) {
 			cout << "본 기기에서 지원하지 않는 카드입니다." << endl;
 			return;
 		}
-		cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
-		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;
-		int selection = 1;
-		switch (selection) {
-		case 1:
-			int pass;
-			cout << "입금을 선택하셨습니다. 거래를 위해서는 비밀번호를 입력해 주세요 : ";
-			cin >> pass;
-			cout << "비밀번호가 확인되었습니다. 거래를 진행합니다." << endl;
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
+		if (this->user_authorization(acc) == false) {
+			cout << "비밀번호 입력에 3회 실패하셨습니다. 거래를 종료합니다." << endl;
+			return;
+		}
+		int rec;
+		while (true) {
+			rec = transaction(acc);
+			if (rec == -1){
+				break;
+			}
 		}
 	}
 	if (this->language_setting == "English") {

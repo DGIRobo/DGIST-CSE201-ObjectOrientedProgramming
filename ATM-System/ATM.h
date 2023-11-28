@@ -17,6 +17,7 @@ protected:
 	string admin_card;
 	string language_setting = "English";
 	int* cash_storage[4]; // #1000, #5000, #10000, #50000 // initial fund
+	static int static_transaction_counter;
 	string transaction_histories;
 	int type;
 
@@ -30,7 +31,7 @@ public:
 	~ATM();
 
 	virtual void session(vector<Bank*> bank_list) = 0;
-	void transaction();
+	int transaction(Account* a);
 	void languageChange();
 	virtual void deposit(Account* a) = 0;
 	virtual void withdraw(Account* a) = 0;
@@ -38,7 +39,9 @@ public:
 	virtual void cash_transfer(Account* b) = 0;
 	void see_transaction_history();
 	void valid_checks_check();
-	void user_authorization();
+	bool user_authorization(Account* a);
 	void add_cash(int cash1000, int cash5000, int cash10000, int cash50000);
 	int getSerial();
+	void make_history(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific);
+	void display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific);
 };

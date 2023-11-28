@@ -125,7 +125,7 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 			}
 		}
 		if (dup == 0) {
-			serial == serial_temp;
+			serial = serial_temp;
 			break;
 		}
 	}
