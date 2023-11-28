@@ -29,54 +29,60 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 void Bank::makeCard_session(int language_setting) {
 	cout << "==================== < Card Create Session > ====================" << endl;
+	
+	int c = 0;
 	Account* account = search_account_number(language_setting);
 
-	string input_password;
-	if (language_setting == 1) { cout << "To make card, please write password." << endl; }
-	if (language_setting == 2) { cout << "카드를 만들기 위해 비밀번호를 입력해주세요." << endl; }
-	
-	int a = 3;
-	while (true) {
+	if (account == NULL) { c = 1; }
 
-		if (a == 0) {
-			if (language_setting == 1) { cout << "You write wrong password 3 times. " << endl; }
-			if (language_setting == 2) { cout << "비밀번호 3회 틀렸습니다." << endl; }
-			cout << "==================== < Card Create Session End! > ====================" << endl;
-			break;
-		}
-		if (language_setting == 1) {
-			cout << a << " attempts left." << endl;
-			cout << "Password : ";
-		}
-		if (language_setting == 2) {
-			cout << a << " 회 남음." << endl;
-			cout << "비밀번호 : ";
-		}
+	if (c == 0) {
+		string input_password;
+		if (language_setting == 1) { cout << "To make card, please write password." << endl; }
+		if (language_setting == 2) { cout << "카드를 만들기 위해 비밀번호를 입력해주세요." << endl; }
 
-		cin >> input_password;
-		a--;
-		if (account->getPassword() == input_password) {
-			if (language_setting == 1) { cout << "Correct password." << endl; }
-			if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
+		int a = 3;
+		while (true) {
 
-			string now_created_card_number;
-			now_created_card_number = account->makeCard();
+			if (a == 0) {
+				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
+				if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+				cout << "==================== < Card Create Session End! > ====================" << endl;
+				break;
+			}
 			if (language_setting == 1) {
-				cout << "Card is created." << endl;
-				cout << "Card Number : " << now_created_card_number << endl;
-				cout << "This is card number list that connected to your account." << endl;
+				cout << a << " attempts left." << endl;
+				cout << "Password : ";
 			}
 			if (language_setting == 2) {
-				cout << "카드가 생성되었습니다." << endl;
-				cout << "카드 번호 : " << now_created_card_number << endl;
-				cout << "계좌에 연결된 카드 번호 목록입니다." << endl;
+				cout << a << " 회 남음." << endl;
+				cout << "비밀번호 : ";
 			}
 
-			vector <string > card_list = account->getCardNumber();
-			for (int i = 0; i < card_list.size(); i++) {
-				cout << card_list[i] << endl;
+			cin >> input_password;
+			a--;
+			if (account->getPassword() == input_password) {
+				if (language_setting == 1) { cout << "Correct password." << endl; }
+				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
+
+				string now_created_card_number;
+				now_created_card_number = account->makeCard();
+				if (language_setting == 1) {
+					cout << "Card is created." << endl;
+					cout << "Card Number : " << now_created_card_number << endl;
+					cout << "This is card number list that connected to your account." << endl;
+				}
+				if (language_setting == 2) {
+					cout << "카드가 생성되었습니다." << endl;
+					cout << "카드 번호 : " << now_created_card_number << endl;
+					cout << "계좌에 연결된 카드 번호 목록입니다." << endl;
+				}
+
+				vector <string > card_list = account->getCardNumber();
+				for (int i = 0; i < card_list.size(); i++) {
+					cout << card_list[i] << endl;
+				}
+				break;
 			}
-			break;
 		}
 	}
 	cout << "==================== < Card Create Session End! > ====================" << endl;
@@ -160,38 +166,57 @@ void Bank::create_account(int language_setting) {
 Account* Bank::search_account_number(int language_setting) {
 	cout << "==================== < Account Number Search Session > ====================" << endl;
 	vector<Account*> accounts_list = get_account();
-	if (language_setting == 1) {
-		cout << this->getBankName() << " Bank. Please write account number." << endl;
-		cout << "Account number : ";
-	}
-	if (language_setting == 2) {
-		cout << this->getBankName() << " 은행. 계좌번호를 입력해주세요." << endl;
-		cout << "계좌번호 : ";
-	}
 
-	string input_account_number;
-	cin >> input_account_number;
-	for (int i = 0; i < accounts_list.size(); i++) {
-		if (accounts_list[i]->getAccountNumber() == input_account_number) {
-			if (language_setting == 1) {
-				cout << this->getBankName() << " Bank find your account." << endl;
-				cout << "Bank : " << accounts_list[i]->getBankName() << endl;
-				cout << "Owner : " << accounts_list[i]->getUserName() << endl;
-				cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
-			}
-			if (language_setting == 2) {
-				cout << this->getBankName() << " 은행이 계좌를 찾았습니다." << endl;
-				cout << "은행 : " << accounts_list[i]->getBankName() << endl;
-				cout << "예금주 : " << accounts_list[i]->getUserName() << endl;
-				cout << "계좌번호 : " << accounts_list[i]->getAccountNumber() << endl;
-			}
+	int a = 3;
 
-			cout << "==================== < Account Number Search Session End! > ====================" << endl;
-			return accounts_list[i];
+	while (a > -1){
+		if (language_setting == 1) {
+			cout << this->getBankName() << " Bank. Please write account number." << endl;
+			cout << "Account number : ";
 		}
+		if (language_setting == 2) {
+			cout << this->getBankName() << " 은행. 계좌번호를 입력해주세요." << endl;
+			cout << "계좌번호 : ";
+		}
+
+		string input_account_number;
+		cin >> input_account_number;
+		for (int i = 0; i < accounts_list.size(); i++) {
+			if (accounts_list[i]->getAccountNumber() == input_account_number) {
+				if (language_setting == 1) {
+					cout << this->getBankName() << " Bank find your account." << endl;
+					cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+					cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+					cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+				if (language_setting == 2) {
+					cout << this->getBankName() << " 은행이 계좌를 찾았습니다." << endl;
+					cout << "은행 : " << accounts_list[i]->getBankName() << endl;
+					cout << "예금주 : " << accounts_list[i]->getUserName() << endl;
+					cout << "계좌번호 : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+
+				cout << "==================== < Account Number Search Session End! > ====================" << endl;
+				return accounts_list[i];
+			}
+		}
+		if (a == 0) {
+			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
+			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
+			break;
+		}
+		if (language_setting == 1) {
+			cout << this->getBankName() << " Bank cannot find your account." << endl;
+			cout << a << " attempt left." << endl;
+		}
+		if (language_setting == 2) {
+			cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl;
+			cout << a << " 회 남았습니다." << endl;
+		}
+		a--;
 	}
-	if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
-	if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
+	if (language_setting == 1) { cout << "You write wrong account number 4 times." << endl; }
+	if (language_setting == 2) { cout << "잘못된 계좌 번호를 4회 입력했습니다." << endl; }
 	cout << "==================== < Account Number Search Session End! > ====================" << endl;
 	return NULL;
 }
