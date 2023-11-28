@@ -70,6 +70,90 @@ void BankService(vector<Bank>& bank_list) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
+void ATMMake(vector<ATM*>& ATM_list, vector<Bank>& bank_list, int* fee_list1[4], int* fee_list2[4]) {
+	cout << "==================== < ATM Duplicate Session > ====================" << endl;
+	//input : primary bank name, serial number, type, language, initial fund
+	//constant : 
+	for (int i = 0; i < bank_list.size(); i++) {
+		cout << bank_list[i].getBankName() << " Bank : " << "[" << i << "]" << endl;
+	}
+	int bank_choose;
+	cout << "Please choose Bank number that you want to make ATM for." << endl;
+	cout << "Bank number : ";
+	cin >> bank_choose;
+	cout << bank_list[bank_choose].getBankName() << " bank is selected." << endl;
+	int serial = 0;
+	while (true) {
+		int dup = 0;
+
+		int serial_temp;
+		cout << "Please input ATM serial number." << endl;
+		cout << "ATM number : ";
+		cin >> serial_temp;
+		for (int i = 0; i < ATM_list.size(); i++) {
+			if (serial_temp == ATM_list[i]->getSerial()) {
+				cout << "ATM " << serial_temp << " is already exiested!" << endl;
+				dup = 1;
+			}
+		}
+		if (dup == 0) {
+			serial == serial_temp;
+			break;
+		}
+	}
+
+	int type;
+	while (true) {
+		cout << "Please input ATM type." << endl << "[1] Single Bank ATM" << endl << "[2] Multi Bank ATM" << endl;
+		cin >> type;
+		if (type == 1 || type == 2) {
+			break;
+		}
+		else {
+			cout << "Wrong type. Please try one more time." << endl;
+		}
+	}
+
+	int language;
+	while (true) {
+		cout << "Please input ATM language type." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl;
+		cin >> type;
+		if (type == 1 || type == 2) {
+			break;
+		}
+		else {
+			cout << "Wrong language type. Please try one more time." << endl;
+		}
+	}
+
+	int* fund[4] = { 0, };
+	for (int i = 0; i < 4; i++) {
+		fund[i] = new int(0);
+	}
+	cout << "Please Enter the Amount of 1000 won bills." << endl;
+	cin >> *(fund[0]);
+	cout << "Please Enter the Amount of 5000 won bills." << endl;
+	cin >> *(fund[1]);
+	cout << "Please Enter the Amount of 10000 won bills." << endl;
+	cin >> *(fund[2]);
+	cout << "Please Enter the Amount of 50000 won bills." << endl;
+	cin >> *(fund[3]);
+
+	switch (type) {
+	case 1:
+		//Single(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1);
+		break;
+	case 2:
+		//Multi(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1, fee_list2);
+		break;
+	default:
+		break;
+	}
+	
+	
+	return;
+}
+
 Account* BankSearch(vector<Bank>& bank_list) {
 	cout << "==================== < Bank Search Session > ====================" << endl;
 
@@ -141,7 +225,7 @@ void feeConfig(int* fee_list1[4], int* fee_list2[4]) {
 int main() {
 	//initialization test
 	vector<Bank> bank_list;
-	vector<ATM> ATM_list;
+	vector<ATM*> ATM_list;
 	vector<Account> account_list;
 	int* fee1[4] = {0,};
 	int* fee2[4] = {0,};
@@ -193,7 +277,7 @@ int main() {
 			BankService(bank_list);
 			break;
 		case 3:
-			//ATMMake(ATM_list);
+			//ATMMake(ATM_list, bank_list, fee1, fee2);
 			break;
 		case 4:
 			//ATMService(ATM_list);

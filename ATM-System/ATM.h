@@ -18,15 +18,15 @@ protected:
 	string language_setting;
 	int* cash_storage[4]; // #1000, #5000, #10000, #50000 // initial fund
 	string transaction_histories;
+	int type;
 
 	string primary_bank;
-	string type;
-	string language_available;
+	int language_available;
 	
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
-	ATM(string input_primary_bank, int input_serial_number, string input_type, string input_lanuage_available, int* initial_fund[]);
+	ATM(string input_primary_bank, int input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]);
 	~ATM();
 
 	void session();
@@ -40,4 +40,5 @@ public:
 	void valid_checks_check();
 	void user_authorization();
 	void add_cash(int cash1000, int cash5000, int cash10000, int cash50000);
+	int getSerial();
 };
