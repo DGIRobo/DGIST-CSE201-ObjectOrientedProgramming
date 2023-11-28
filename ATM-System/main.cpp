@@ -95,21 +95,81 @@ ATM* initialize_ATM(vector<Bank> list) {
 }
 */
 
+void BankMake(vector<Bank>& bank_list) {
+
+	cout << "==================== < Bank Duplicate Session > ====================" << endl;
+	string bank_name; string bank_name_save;
+
+	while (true) {
+		int dup = 0;
+		cout << "Please write bank name : ";	 cin >> bank_name;
+
+		bank_name_save = bank_name;
+
+		for (int i = 0; i < bank_name.size(); i++) {
+			bank_name[i] = tolower(bank_name[i]);
+		}
+
+		for (int j = 0; j < bank_list.size(); j++) {
+
+			string reference = bank_list[j].getBankName();
+
+			for (int k = 0; k < reference.size(); k++) {
+				reference[k] = tolower(reference[k]);
+			}
+			if (reference == bank_name) {
+				cout << bank_name << " is already exiested!" << endl;
+				dup = 1;
+			}
+		}
+		if (dup == 0) {
+			bank_list.push_back(Bank(bank_name_save));
+			cout << "==================== < Bank Duplicate Session End! > ====================" << endl;
+			break;
+		}
+	}
+}
+
+void BankService(vector<Bank>& bank_list) {
+
+	cout << "==================== < Bank Service Session > ====================" << endl;
+	for (int i = 0; i < bank_list.size(); i++) {
+		cout << "Bank " << i << " : " << bank_list[i].getBankName() << endl;
+	}
+	int bank_choose;
+	cout << "Please choose Bank number that you want to make account for." << endl;
+	cout << "Bank number : "; cin >> bank_choose;
+	cout << bank_list[bank_choose].getBankName() << " bank is selected." << endl;
+
+	int service_choose;
+	cout << "Please choose number that you want to get service." << endl;
+	cout << "Create account [1] / make Card [2]" << endl;
+	cout << "Serive number : "; cin >> service_choose;
+
+	if (service_choose == 1) {
+		bank_list[bank_choose].create_account();
+	}
+	if (service_choose == 2) {
+		bank_list[bank_choose].makeCard_session();
+	}
+	cout << "==================== < Bank Service Session End! > ====================" << endl;
+}
+
 int LanguageService(int language_setting) {
 	cout << "===========================<Language Change Session>===========================" << endl;
 	cout << "Select language" << endl;
 	cout << "1. English" << endl;
 	cout << "2. Korean" << endl;
-	cout << "Please Enter the Number: " << endl;
+	cout << "Please Enter the Number: ";
 	cin >> language_setting;
 	return language_setting;
 }
 
 int main() {
 	//initialization test
-	vector<Bank*> bank_list;
-	vector<ATM*> ATM_list;
-	vector<Account*> account_list;
+	vector<Bank> bank_list;
+	vector<ATM> ATM_list;
+	vector<Account> account_list;
 
 	bool onSession = true;
 	int language_setting = 1; // 1: English, 2: Korean
