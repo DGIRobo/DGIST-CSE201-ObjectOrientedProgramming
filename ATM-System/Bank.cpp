@@ -58,7 +58,7 @@ void Bank::makeCard_session() {
 	cout << "==================== < Card Create Session > ====================" << endl;
 
 	Account* account = search_account_number();
-	
+
 	string now_created_card_number;
 	now_created_card_number = account->makeCard();
 
@@ -84,7 +84,7 @@ void Bank::create_account() {
 	string account_number;
 	string input_password;
 	int initial_fund;
-	
+
 	cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
 
 	cout << "Name : ";			cin >> input_user_name;
@@ -100,7 +100,7 @@ void Bank::create_account() {
 	cout << "Account number : " << new_account->getAccountNumber() << endl;
 	cout << "Password : " << new_account->getPassword() << endl;
 
-	
+
 	string agreement;
 	cout << "Do you want to make card? [Agree Y / Disagree N] : "; 	cin >> agreement;
 
@@ -136,12 +136,12 @@ Account* Bank::search_account_number() {
 	vector<Account*> accounts_list = get_account();
 
 	cout << this->getBankName() << "Bank. Please write account number." << endl;
-	
+
 	string input_account_number;
 	cout << "Account number : ";	cin >> input_account_number;
 
-	for (int i = 0; i < accounts_list.size();i++){
-		
+	for (int i = 0; i < accounts_list.size(); i++) {
+
 		if (accounts_list[i]->getAccountNumber() == input_account_number) {
 			cout << this->getBankName() << "Bank find your account." << endl;
 
@@ -157,14 +157,14 @@ Account* Bank::search_account_number() {
 }
 
 // Account*
- Account* Bank::search_account_card() {
+Account* Bank::search_account_card() {
 
 	cout << "==================== < Account Card Search Session > ====================" << endl;
 
 	vector<Account*> accounts_list = get_account();
 
 	cout << this->getBankName() << "Bank. Please write card number." << endl;
-	
+
 	string input_card_number;
 	cout << "Card number : ";	cin >> input_card_number;
 
