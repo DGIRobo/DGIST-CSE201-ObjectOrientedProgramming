@@ -11,6 +11,8 @@ class Bank;
 
 class ATM {
 private:
+
+protected:
 	int serial_number;
 	string admin_card;
 	string language_setting;
@@ -20,8 +22,7 @@ private:
 	string primary_bank;
 	string type;
 	string language_available;
-
-protected:
+	
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
@@ -31,10 +32,10 @@ public:
 	void session();
 	void transaction();
 	void languageChange();
-	void deposit(Account a);
-	void withdraw(Account a);
-	void account_transfer(Account a, Account b);
-	void cash_transfer(Account b);
+	virtual void deposit(Account a) = 0;
+	virtual void withdraw(Account a) = 0;
+	virtual void account_transfer(Account a, Account b) = 0;
+	virtual void cash_transfer(Account b) = 0;
 	void see_transaction_history();
 	void valid_checks_check();
 	void user_authorization();
