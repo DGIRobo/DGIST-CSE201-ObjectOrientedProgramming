@@ -10,14 +10,16 @@
 
 using namespace std;
 
-void BankMake(vector<Bank*>& bank_list) {
+void BankMake(vector<Bank*>& bank_list, int language_setting) {
 
 	cout << "==================== < Bank Duplicate Session > ====================" << endl;
 	string bank_name; string bank_name_save;
 
 	while (true) {
 		int dup = 0;
-		cout << "Please write bank name : ";	 cin >> bank_name;
+
+		if (language_setting == 1) { cout << "Please write bank name : ";	 cin >> bank_name; }
+		if (language_setting == 2) { cout << "은행명을 입력해주세요. : ";	 cin >> bank_name; }
 
 		bank_name_save = bank_name;
 
@@ -34,7 +36,10 @@ void BankMake(vector<Bank*>& bank_list) {
 				reference[k] = tolower(reference[k]);
 			}
 			if (reference == bank_name) {
-				cout << bank_name << " is already exiested!" << endl;
+				if (language_setting == 1) { cout << bank_name << " is already exiested!" << endl; }
+				if (language_setting == 2) {
+					cout << bank_name << " 은행은 이미 존재합니다!" << endl;
+				}
 				dup = 1;
 			}
 		}
@@ -47,26 +52,39 @@ void BankMake(vector<Bank*>& bank_list) {
 	}
 }
 
-void BankService(vector<Bank*> bank_list) {
+void BankService(vector<Bank*> bank_list, int language_setting) {
 
 	cout << "==================== < Bank Service Session > ====================" << endl;
-	cout << "Please choose Bank number that you want to make account for." << endl;
+	if (language_setting == 1) { cout << "Please choose Bank number that you want to make account for." << endl; }
+	if (language_setting == 2) { cout << "계좌를 만들고 싶은 은행을 선택해주세요." << endl; }
 
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "[" << i << "] " << bank_list[i]->getBankName() << " Bank" << endl;
 	}
 	cout << endl;
 	int bank_choose;
-	cout << "Bank number : ";
+	if (language_setting == 1) { cout << "Bank number : "; }
+	if (language_setting == 2) { cout << "은행 번호 : "; }
 	cin >> bank_choose;
-	cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl;
+	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
+	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다." << endl; }
 
 	int service_choose;
-	cout << "Please choose number that you want to get service." << endl;
-	cout << "[1] Create Account" << endl;
-	cout << "[2] Make Card" << endl;
-	cout << endl;
-	cout << "Serive number : ";
+	if (language_setting == 1) {
+		cout << "Please choose number that you want to get service." << endl;
+		cout << "[1] Create Account" << endl;
+		cout << "[2] Make Card" << endl;
+		cout << endl;
+		cout << "Serive number : ";
+	}
+	if (language_setting == 2) {
+		cout << "이용하고자 하는 서비스를 선택해주세요." << endl;
+		cout << "[1] 계좌 개설" << endl;
+		cout << "[2] 카드 생성" << endl;
+		cout << endl;
+		cout << "서비스 번호 : ";
+	}
+
 	cin >> service_choose;
 
 	if (service_choose == 1) {
@@ -78,22 +96,28 @@ void BankService(vector<Bank*> bank_list) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
-Account* BankSearch(vector<Bank*> bank_list) {
+Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Search Session > ====================" << endl;
+	if (language_setting == 1) {
 
+	}
+	if (language_setting == 2) {
+
+	}
 	cout << "Please choose serach service number that you want." << endl;
 	cout << "[1] Account Number" << endl;
 	cout << "[2] Card Number" << endl;
 	cout << endl;
+	cout << "Search service number : ";
 
 	int search_choose;
-	cout << "Search service number : ";
 	cin >> search_choose;
 
 	while (true) {
 		if (search_choose == 1) {
 			string account_number;
-			cout << "Please write your account number : ";
+			if (language_setting == 1) { cout << "Please write your account number : ";	}
+			if (language_setting == 2) { cout << "계좌번호를 입력해주세요. : "; }
 			cin >> account_number;
 
 			for (int i = 0; i < bank_list.size(); i++) {
@@ -102,11 +126,13 @@ Account* BankSearch(vector<Bank*> bank_list) {
 					return bank_list[i]->search_account_number_BankSearch(account_number);
 				}
 			}
-			cout << "Account is not found." << endl;
+			if (language_setting == 1) { cout << "Account is not found." << endl; }
+			if (language_setting == 2) { cout << "계좌를 찾을 수 없습니다." << endl; }
 		}
 		if (search_choose == 2) {
 			string card_number;
-			cout << "Please write your card number : ";
+			if (language_setting == 1) { cout << "Please write your card number : "; }
+			if (language_setting == 2) { cout << "카드 번호를 입력해주세요. : "; }
 			cin >> card_number;
 
 			for (int i = 0; i < bank_list.size(); i++) {
@@ -115,7 +141,8 @@ Account* BankSearch(vector<Bank*> bank_list) {
 					return bank_list[i]->search_account_card_BankSearch(card_number);
 				}
 			}
-			cout << "Account is not found." << endl;
+			if (language_setting == 1) { cout << "Account is not found." << endl; }
+			if (language_setting == 2) { cout << "계좌를 찾을 수 없습니다." << endl; }
 		}
 	}
 	cout << "==================== < Bank Search Session End! > ====================" << endl;
@@ -123,11 +150,21 @@ Account* BankSearch(vector<Bank*> bank_list) {
 
 int LanguageService(int language_setting) {
 	cout << "===========================<Language Change Session>===========================" << endl;
-	cout << "Select language" << endl;
-	cout << "[1] English" << endl;
-	cout << "[2] Korean" << endl;
-	cout << endl;
-	cout << "Please Enter the Number: ";
+	if (language_setting == 1) {
+		cout << "Select language" << endl;
+		cout << "[1] English" << endl;
+		cout << "[2] Korean" << endl;
+		cout << endl;
+		cout << "Please Enter the Number: ";
+	}
+	if (language_setting == 2) {
+		cout << "언어선택" << endl;
+		cout << "[1] 영어" << endl;
+		cout << "[2] 한국어" << endl;
+		cout << endl;
+		cout << "번호 입력 : ";
+	}
+
 	cin >> language_setting;
 	return language_setting;
 }
@@ -172,10 +209,10 @@ int main() {
 
 		switch (session_chice) {
 		case 1:
-			BankMake(bank_list);
+			BankMake(bank_list, language_setting);
 			break;
 		case 2:
-			BankService(bank_list);
+			BankService(bank_list, language_setting);
 			break;
 		case 3:
 			//ATMMake(ATM_list);
