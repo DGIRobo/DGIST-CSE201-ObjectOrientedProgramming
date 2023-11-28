@@ -12,32 +12,30 @@ void Single::deposit(Account a){
 			cout << "타 은행의 계좌로 입금할 수 없습니다." << endl;
 			return;
 		}
-		cout << "요금을 지불합니다." << endl;
-		if (this->fee_list[0] == 0) {
-			cout << "지불할 요금이 없습니다." << endl;
-		}
-		else if (this->fee_list[0] > a.checkFunds()) {
-			cout << "잔액이 부족합니다." << endl;
+		cout << "요금을 지불합니다." << endl << "수수료를 입금해 주세요." << endl;
+		if (fee_list[0] == 0) {
+			cout << "지불할 수수료가 없습니다." << endl;
 		}
 		else {
-			a.withdraw(this->fee_list[0]);
+			*(this->cash_storage[0]) += (fee_list[0]) / 1000;
+			cout << "수수료가 입금되었습니다." << endl;
 		}
+		cout << "입금을 개시합니다." << endl;
 	}
 	else {
 		if (a.getBankName() != this->primary_bank) {
 			cout << "Deposits cannot be made to accounts at other banks." << endl;
 			return;
 		}
-		cout << "Pay the fee." << endl;
-		if (this->fee_list[0] == 0) {
+		cout << "Pay the fee." << endl << "Please deposit the fee." << endl;
+		if (fee_list[0] == 0) {
 			cout << "There are no fees to pay." << endl;
 		}
-		else if (this->fee_list[0] > a.checkFunds()) {
-			cout << "Balance is insufficient." << endl;
-		}
 		else {
-			a.withdraw(this->fee_list[0]);
+			*(this->cash_storage[0]) += (fee_list[0]) / 1000;
+			cout << "The fee has been deposited." << endl;
 		}
+		cout << "Initiate deposit." << endl;
 	}
 	int deposit_method;
 	int cash1000;
@@ -59,7 +57,6 @@ void Single::deposit(Account a){
 			cin >> cash50000;
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "기기의 처리 한계를 초과하였습니다." << endl;
-				a.deposit(this->fee_list[0]);
 				return;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
@@ -89,7 +86,6 @@ void Single::deposit(Account a){
 		}
 		else {
 			cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
-			a.deposit(this->fee_list[0]);
 			return;
 		}
 	}
@@ -109,7 +105,6 @@ void Single::deposit(Account a){
 			cin >> cash50000;
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "The device's processing limit has been exceeded." << endl;
-				a.deposit(this->fee_list[0]);
 				return;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
@@ -139,7 +134,6 @@ void Single::deposit(Account a){
 		}
 		else {
 			cout << "Error detected. Deposit will be stopped." << endl;
-			a.deposit(this->fee_list[0]);
 			return;
 		}
 	}
@@ -349,8 +343,14 @@ void Single::cash_transfer(Account b) {
 			return;
 		}
 		cout << "Pay the fee." << endl << "Please deposit the fee." << endl;
-		*(this->cash_storage[0]) += (fee_list[3]) / 1000;
-		cout << "The fee has been deposited. Initiate cash transfer." << endl;
+		if (fee_list[3] == 0) {
+			cout << "There are no fees to pay." << endl;
+		}
+		else {
+			*(this->cash_storage[0]) += (fee_list[3]) / 1000;
+			cout << "The fee has been deposited." << endl;
+		}
+		cout << "Initiate cash transfer." << endl;
 		//this->cash_transfer(b);
 		int cash1000;
 		int cash5000;
@@ -375,8 +375,14 @@ void Single::cash_transfer(Account b) {
 			return;
 		}
 		cout << "요금을 지불합니다." << endl << "수수료를 입금해 주세요." << endl;
-		*(this->cash_storage[0]) += (fee_list[3]) / 1000;
-		cout << "수수료가 입금되었습니다. 현금 송금을 개시합니다." << endl;
+		if (fee_list[3] == 0) {
+			cout << "지불할 수수료가 없습니다." << endl;
+		}
+		else {
+			*(this->cash_storage[0]) += (fee_list[3]) / 1000;
+			cout << "수수료가 입금되었습니다." << endl;
+		}
+		cout << "현금 송금을 개시합니다." << endl;
 		//this->cash_transfer(b);
 		int cash1000;
 		int cash5000;
