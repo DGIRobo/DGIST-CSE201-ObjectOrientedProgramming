@@ -10,6 +10,7 @@
 
 using namespace std;
 
+/*
 Bank initialize_bank() {
 	cout << "Bank를 설립합니다." << endl << "Bank 이름을 입력해 주세요." << endl;
 	string name;
@@ -117,21 +118,22 @@ ATM* initialize_ATM(vector<Bank> list) {
 		return nullptr;
 	}
 }
+*/
 
-
-
+/*
 int main() {
 	// Account Test Code
-	/*
-	Bank Kakao("kakao");
-	Account a1(&Kakao, "lee", "abc");
-	cout << a1.getBankName() << endl;
-	cout << a1.getUserName() << endl;
-	cout << a1.getPassword() << endl;
-	a1.printHistory();
-	*/
+	
+	//Bank Kakao("kakao");
+	//Account a1(&Kakao, "lee", "abc");
+	//cout << a1.getBankName() << endl;
+	//cout << a1.getUserName() << endl;
+	//cout << a1.getPassword() << endl;
+	//a1.printHistory();
+	
 
 	//initialization test
+
 	vector<Bank> bank_list;
 	vector<ATM> ATM_list;
 	vector<int> fee_list;
@@ -150,7 +152,16 @@ int main() {
 	cout << "======test======" << endl;
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "Bank name : " << bank_list.at(i).getBankName() << endl;
-	}
+	}	
+}
+*/
 
-	
+int main() {
+
+	Bank Kakao("Kakao");
+
+	Kakao.create_account();
+
+	Kakao.makeCard_session();
+
 }
