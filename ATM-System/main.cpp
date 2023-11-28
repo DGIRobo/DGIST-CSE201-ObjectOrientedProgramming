@@ -209,14 +209,12 @@ int main() {
 		case 2:
 			BankService(bank_list);
 			break;
-			/*
-			case 3:
-				ATMMake(ATM_list);
-				break;
-			case 4:
-				ATMService(ATM_list);
-				break;
-			*/
+		case 3:
+			//ATMMake(ATM_list);
+			break;
+		case 4:
+			//ATMService(ATM_list);
+			break;
 		case 5:
 			language_setting = LanguageService(language_setting);
 			break;
