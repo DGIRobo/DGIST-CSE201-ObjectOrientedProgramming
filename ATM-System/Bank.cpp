@@ -45,14 +45,35 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 void Bank::makeCard_session() {
 	cout << "==================== < Card Create Session > ====================" << endl;
 	Account* account = search_account_number();
-	string now_created_card_number;
-	now_created_card_number = account->makeCard();
-	cout << "Card is created." << endl;
-	cout << "Card Number : " << now_created_card_number << endl;
-	cout << "This is card number list that connected to your account." << endl;
-	vector <string > card_list = account->getCardNumber();
-	for (int i = 0; i < card_list.size(); i++) {
-		cout << card_list[i] << endl;
+
+	string input_password;
+	cout << "To make card, please write password." << endl;
+	
+	int a = 3;
+	while (true) {
+
+		if (a == 0) {
+			cout << "You write wrong password 3 times. " << endl;
+			cout << "==================== < Card Create Session End! > ====================" << endl;
+			break;
+		}
+		cout << a << " attempts left." << endl;
+		cout << "Password : ";
+		cin >> input_password;
+		a--;
+		if (account->getPassword() == input_password) {
+			cout << "Correct password." << endl;
+			string now_created_card_number;
+			now_created_card_number = account->makeCard();
+			cout << "Card is created." << endl;
+			cout << "Card Number : " << now_created_card_number << endl;
+			cout << "This is card number list that connected to your account." << endl;
+			vector <string > card_list = account->getCardNumber();
+			for (int i = 0; i < card_list.size(); i++) {
+				cout << card_list[i] << endl;
+			}
+			break;
+		}
 	}
 	cout << "==================== < Card Create Session End! > ====================" << endl;
 }

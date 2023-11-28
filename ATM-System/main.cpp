@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void BankMake(vector<Bank>& bank_list) {
+void BankMake(vector<Bank*>& bank_list) {
 
 	cout << "==================== < Bank Duplicate Session > ====================" << endl;
 	string bank_name; string bank_name_save;
@@ -27,7 +27,8 @@ void BankMake(vector<Bank>& bank_list) {
 
 		for (int j = 0; j < bank_list.size(); j++) {
 
-			string reference = bank_list[j].getBankName();
+			// string reference = bank_list[j].getBankName();
+			string reference = bank_list[j]->getBankName();
 
 			for (int k = 0; k < reference.size(); k++) {
 				reference[k] = tolower(reference[k]);
@@ -38,68 +39,80 @@ void BankMake(vector<Bank>& bank_list) {
 			}
 		}
 		if (dup == 0) {
-			bank_list.push_back(Bank(bank_name_save));
+			// bank_list.push_back(Bank(bank_name_save));
+			bank_list.push_back(new Bank(bank_name_save));
 			cout << "==================== < Bank Duplicate Session End! > ====================" << endl;
 			break;
 		}
 	}
 }
 
-void BankService(vector<Bank>& bank_list) {
+void BankService(vector<Bank*> bank_list) {
 
 	cout << "==================== < Bank Service Session > ====================" << endl;
-	for (int i = 0; i < bank_list.size(); i++) {
-		cout << bank_list[i].getBankName() << " Bank : " << "[" << i << "]" << endl;
-	}
-	int bank_choose;
 	cout << "Please choose Bank number that you want to make account for." << endl;
-	cout << "Bank number : "; cin >> bank_choose;
-	cout << bank_list[bank_choose].getBankName() << " bank is selected." << endl;
+
+	for (int i = 0; i < bank_list.size(); i++) {
+		cout << "[" << i << "] " << bank_list[i]->getBankName() << " Bank" << endl;
+	}
+	cout << endl;
+	int bank_choose;
+	cout << "Bank number : ";
+	cin >> bank_choose;
+	cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl;
 
 	int service_choose;
 	cout << "Please choose number that you want to get service." << endl;
-	cout << "Create account [1] / make Card [2]" << endl;
-	cout << "Serive number : "; cin >> service_choose;
+	cout << "[1] Create Account" << endl;
+	cout << "[2] Make Card" << endl;
+	cout << endl;
+	cout << "Serive number : ";
+	cin >> service_choose;
 
 	if (service_choose == 1) {
-		bank_list[bank_choose].create_account();
+		bank_list[bank_choose]->create_account();
 	}
 	if (service_choose == 2) {
-		bank_list[bank_choose].makeCard_session();
+		bank_list[bank_choose]->makeCard_session();
 	}
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
-Account* BankSearch(vector<Bank>& bank_list) {
+Account* BankSearch(vector<Bank*> bank_list) {
 	cout << "==================== < Bank Search Session > ====================" << endl;
 
 	cout << "Please choose serach service number that you want." << endl;
-	cout << "Account Number [1] / Card Number [2]" << endl;
+	cout << "[1] Account Number" << endl;
+	cout << "[2] Card Number" << endl;
+	cout << endl;
 
 	int search_choose;
-	cout << "Search service number : "; cin >> search_choose;
+	cout << "Search service number : ";
+	cin >> search_choose;
 
 	while (true) {
 		if (search_choose == 1) {
 			string account_number;
-			cout << "Please write your account number : "; cin >> account_number;
+			cout << "Please write your account number : ";
+			cin >> account_number;
 
 			for (int i = 0; i < bank_list.size(); i++) {
-				if (bank_list[i].search_account_number_BankSearch(account_number) != NULL) {
+				if (bank_list[i]->search_account_number_BankSearch(account_number) != NULL) {
 					cout << "==================== < Bank Search Session End! > ====================" << endl;
-					return bank_list[i].search_account_number_BankSearch(account_number);
+					return bank_list[i]->search_account_number_BankSearch(account_number);
 				}
 			}
 			cout << "Account is not found." << endl;
 		}
 		if (search_choose == 2) {
 			string card_number;
-			cout << "Please write your card number : "; cin >> card_number;
+			cout << "Please write your card number : ";
+			cin >> card_number;
 
 			for (int i = 0; i < bank_list.size(); i++) {
-				if (bank_list[i].search_account_card_BankSearch(card_number) != NULL) {
+				if (bank_list[i]->search_account_card_BankSearch(card_number) != NULL) {
 					cout << "==================== < Bank Search Session End! > ====================" << endl;
-					return bank_list[i].search_account_card_BankSearch(card_number);
+					return bank_list[i]->search_account_card_BankSearch(card_number);
 				}
 			}
 			cout << "Account is not found." << endl;
@@ -111,8 +124,9 @@ Account* BankSearch(vector<Bank>& bank_list) {
 int LanguageService(int language_setting) {
 	cout << "===========================<Language Change Session>===========================" << endl;
 	cout << "Select language" << endl;
-	cout << "1. English" << endl;
-	cout << "2. Korean" << endl;
+	cout << "[1] English" << endl;
+	cout << "[2] Korean" << endl;
+	cout << endl;
 	cout << "Please Enter the Number: ";
 	cin >> language_setting;
 	return language_setting;
@@ -120,7 +134,7 @@ int LanguageService(int language_setting) {
 
 int main() {
 	//initialization test
-	vector<Bank> bank_list;
+	vector<Bank*> bank_list;
 	vector<ATM> ATM_list;
 	vector<Account> account_list;
 
@@ -131,25 +145,26 @@ int main() {
 		cout << "===========================<Welcome to Bank System Service>===========================" << endl;
 		if (language_setting == 1) {
 			cout << "Please Select the task you want to do." << endl;
-			cout << "1. Make Bank" << endl;
-			cout << "2. Banking Service (Make Account of Make Card)" << endl;
-			cout << "3. Make ATM" << endl;
-			cout << "4. ATM Service (Deposit, Withdraw, etc...)" << endl;
-			cout << "5. Change Language Setting" << endl;
-			cout << "6. Shut Down the Bank System Service" << endl;
+			cout << "[1] Make Bank" << endl;
+			cout << "[2] Banking Service (Make Account of Make Card)" << endl;
+			cout << "[3] Make ATM" << endl;
+			cout << "[4] ATM Service (Deposit, Withdraw, etc...)" << endl;
+			cout << "[5] Change Language Setting" << endl;
+			cout << "[6] Shut Down the Bank System Service" << endl;
+			cout << endl;
 
-			cout << "Please Enter the Number: ";
+			cout << "Please Enter the Number : ";
 		}
 		if (language_setting == 2) {
 			cout << "진행하고자 하는 업무를 선택하세요." << endl;
-			cout << "1. 은행 만들기" << endl;
-			cout << "2. 은행 서비스 (계좌 및 카드 생성)" << endl;
-			cout << "3. ATM 만들기" << endl;
-			cout << "4. ATM 서비스 (입금, 출금 등...)" << endl;
-			cout << "5. 언어 설정 변경" << endl;
-			cout << "6. Bank System Service 종료" << endl;
-
-			cout << "숫자를 입력해주세요: ";
+			cout << "[1] 은행 만들기" << endl;
+			cout << "[2] 은행 서비스 (계좌 및 카드 생성)" << endl;
+			cout << "[3] ATM 만들기" << endl;
+			cout << "[4] ATM 서비스 (입금, 출금 등...)" << endl;
+			cout << "[5] 언어 설정 변경" << endl;
+			cout << "[6] Bank System Service 종료" << endl;
+			cout << endl;
+			cout << "숫자를 입력해주세요 : ";
 		}
 
 		int session_chice;
