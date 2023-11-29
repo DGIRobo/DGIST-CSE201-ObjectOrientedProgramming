@@ -211,6 +211,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "출금할 액수를 1000의 배수 단위로 입력하세요. 최대 금액은 50만원입니다." << endl;
+		cout << "당신의 잔고는 " << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "50만원을 초과한 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
@@ -312,6 +313,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "Enter the amount you wish to withdraw in multiples of 1000. The maximum amount is 500,000 won." << endl;
+		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "You entered an amount exceeding 500,000 won. Cancel withdrawal." << endl;
@@ -409,7 +411,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 				a->withdraw(*(this->fee_list[2]));
 			}
 		}
-		if (coconut == 1 && cococonut == 1) {
+		else if (coconut == 1 && cococonut == 1) {
 			cout << "Pay the fee." << endl;
 			if (*(this->multi_fee_list[3]) == 0) {
 				cout << "There are no fees to pay." << endl;
@@ -438,8 +440,9 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "Please enter the amount you wish to transfer." << endl;
+		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
 		cin >> amount;
-		if (amount > a->checkFunds()) {
+		if (a->checkFunds() < amount) {
 			cout << "Your balance is insufficient. Cancel the transfer." << endl;
 			if (coconut == 0 && cococonut == 0) {
 				a->deposit(*(this->fee_list[2]));
@@ -512,6 +515,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "송금할 액수를 입력해 주세요." << endl;
+		cout << "보유하신 잔고는 " << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > a->checkFunds()) {
 			cout << "잔액이 부족합니다. 송금을 취소합니다." << endl;
@@ -615,29 +619,18 @@ Account* Multi::card2account(string card, vector<Bank*> bank_list) {
 
 Account* Multi::num2account(string num, vector<Bank*> bank_list) {
 	int banknum = -1;
+	Account* ac = nullptr;
 	for (int k = 0; k < bank_list.size(); k++) {
-		for (int i = 0; i < primary_bank->get_account().size(); i++) {
-			string acc_num = primary_bank->get_account()[i]->getAccountNumber();
+		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
+			string acc_num = bank_list[k]->get_account()[i]->getAccountNumber();
 			if (acc_num == num) {
 				banknum = i;
+				ac = bank_list[banknum]->get_account()[i];
 				break;
 			}
 			if (banknum == i) { break; }
 		}
 		if (banknum != -1) { break; }
-	}
-	if (banknum == -1) {
-		if (this->lang_setting == true) { cout << "지원되지 않는 계좌입니다." << endl; }
-		else { cout << "Unsupported account." << endl; }
-		return nullptr;
-	}
-	Account* ac = 0;
-	for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
-		string acc_num = bank_list[banknum]->get_account()[i]->getAccountNumber();
-		if (acc_num == num) {
-			ac = bank_list[banknum]->get_account()[i];
-			break;
-		}
 	}
 	return ac;
 }
