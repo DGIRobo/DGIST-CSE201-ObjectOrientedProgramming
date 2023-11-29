@@ -163,6 +163,7 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 	else { rec.push_back("Success"); }
 	rec.push_back(to_string(amount));
 	if (note != "") { rec.push_back(note); }
+	make_history(rec);
 	return rec;
 }
 
@@ -224,7 +225,7 @@ void ATM::see_transaction_history() {
 	return;
 }
 
-void ATM::make_history(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific) {
+void ATM::make_history(vector<string> rec) {
 	//Transaction ID
 	//Card Number
 	//Transaction Types : deposit, withdraw, account transfer, cash_transfer
@@ -232,12 +233,12 @@ void ATM::make_history(string TransactionID, string CardNumber, string Transacti
 	//other transaction-specific information
 	//account transfer:enemy account number
 	//cash transfer:enemy account number
-	vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
-	int len = static_cast<int>(new_history.size());
+	//vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
+	int len = static_cast<int>(rec.size());
 
 	ofstream writeFromFile(this->transaction_histories, ios::app);
 	for (int i = 0; i < len; ++i) {
-		string tmp = new_history[i];
+		string tmp = rec[i];
 		if (i != len - 1) {
 			tmp += ", ";
 		}
@@ -247,14 +248,16 @@ void ATM::make_history(string TransactionID, string CardNumber, string Transacti
 	return;
 }
 
-void ATM::display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific) {
+void ATM::display_transaction(vector<string> rec) {
 	//string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific
-	cout << "Transaction ID : " << TransactionID << endl;
-	cout << "CardNumber : " << CardNumber << endl;
-	cout << "TransactionTypes : " << TransactionTypes << endl;
-	cout << "Success or Failure : " << sorf << endl;
-	cout << "Amount : " << Amount << endl;
-	cout << "Note : " << Specific << endl;
+	cout << "Transaction ID : " << rec[0] << endl;
+	cout << "CardNumber : " << rec[1] << endl;
+	cout << "TransactionTypes : " << rec[2] << endl;
+	cout << "Success or Failure : " << rec[3] << endl;
+	cout << "Amount : " << rec[4] << endl;
+	if (rec.size() >= 6) {
+		cout << "Note : " << rec[5] << endl;
+	}
 	return;
 }
 
