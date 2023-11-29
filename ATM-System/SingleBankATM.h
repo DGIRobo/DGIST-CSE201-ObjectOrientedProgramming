@@ -11,11 +11,12 @@ private:
 protected:
 public:
 	Single();
-	Single(string input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]);
+	Single(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]);
 	~Single();
 
-	void deposit(Account a);
-	void withdraw(Account a);
-	void account_transfer(Account a, Account b);
-	void cash_transfer(Account b);
+	void deposit(Account* a);
+	void withdraw(Account* a);
+	void account_transfer(Account* a, Account* b);
+	void cash_transfer(Account* b);
+	void session(vector<Bank*> bank_list);
 };

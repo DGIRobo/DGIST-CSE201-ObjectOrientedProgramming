@@ -94,59 +94,65 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
-void ATMMake(vector<ATM*>& ATM_list, vector<Bank>& bank_list, int* fee_list1[4], int* fee_list2[4]) {
+void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting) {
 	cout << "==================== < ATM Duplicate Session > ====================" << endl;
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
 	for (int i = 0; i < bank_list.size(); i++) {
-		cout << bank_list[i].getBankName() << " Bank : " << "[" << i << "]" << endl;
+		cout << bank_list[i]->getBankName() << " Bank : " << "[" << i << "]" << endl;
 	}
 	int bank_choose;
-	cout << "Please choose Bank number that you want to make ATM for." << endl;
-	cout << "Bank number : ";
+	if (language_setting == 1) { cout << "Please choose Bank number that you want to make ATM for : " << endl; }
+	if (language_setting == 2) { cout << "ATM을 설치할 은행을 선택하세요 : " << endl; }
 	cin >> bank_choose;
-	cout << bank_list[bank_choose].getBankName() << " bank is selected." << endl;
+	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
+	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다.." << endl; }
 	int serial = 0;
 	while (true) {
 		int dup = 0;
 
 		int serial_temp;
-		cout << "Please input ATM serial number." << endl;
-		cout << "ATM number : ";
+		if (language_setting == 1) { cout << "Please input ATM serial number : " << endl; }
+		if (language_setting == 2) { cout << "ATM의 일련번호를 입력하세요 : " << endl; }
 		cin >> serial_temp;
 		for (int i = 0; i < ATM_list.size(); i++) {
 			if (serial_temp == ATM_list[i]->getSerial()) {
-				cout << "ATM " << serial_temp << " is already exiested!" << endl;
+				if (language_setting == 1) { cout << "ATM " << serial_temp << " is already exiested!" << endl; }
+				if (language_setting == 2) { cout << "ATM " << serial_temp << " 이 이미 존재합니다!" << endl; }
 				dup = 1;
 			}
 		}
 		if (dup == 0) {
-			serial == serial_temp;
+			serial = serial_temp;
 			break;
 		}
 	}
 
 	int type;
 	while (true) {
-		cout << "Please input ATM type." << endl << "[1] Single Bank ATM" << endl << "[2] Multi Bank ATM" << endl;
+		if (language_setting == 1) { cout << "Please input ATM type." << endl << "[1] Single Bank ATM" << endl << "[2] Multi Bank ATM" << endl; }
+		if (language_setting == 2) { cout << "ATM의 type을 입력하세요." << endl << "[1] Single Bank ATM" << endl << "[2] Multi Bank ATM" << endl; }
 		cin >> type;
 		if (type == 1 || type == 2) {
 			break;
 		}
 		else {
-			cout << "Wrong type. Please try one more time." << endl;
+			if (language_setting == 1) { cout << "Wrong type. Please try one more time." << endl; }
+			if (language_setting == 2) { cout << "잘못된 입력입니다. 다시 시도해 주세요." << endl; }
 		}
 	}
 
 	int language;
 	while (true) {
-		cout << "Please input ATM language type." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl;
-		cin >> type;
+		if (language_setting == 1) { cout << "Please input ATM language type." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
+		if (language_setting == 2) { cout << "ATM의 언어 type을 선택해 주세요." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
+		cin >> language;
 		if (type == 1 || type == 2) {
 			break;
 		}
 		else {
-			cout << "Wrong language type. Please try one more time." << endl;
+			if (language_setting == 1) { cout << "Wrong language type. Please try one more time." << endl; }
+			if (language_setting == 2) { cout << "잘못된 입력입니다. 다시 시도해 주세요." << endl; }
 		}
 	}
 
@@ -154,21 +160,29 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank>& bank_list, int* fee_list1[4],
 	for (int i = 0; i < 4; i++) {
 		fund[i] = new int(0);
 	}
-	cout << "Please Enter the Amount of 1000 won bills." << endl;
+	if (language_setting == 1) { cout << "Please Enter the Amount of 1000 won bills." << endl; }
+	if (language_setting == 2) { cout << "1000원권의 수를 입력해 주세요." << endl; }
 	cin >> *(fund[0]);
-	cout << "Please Enter the Amount of 5000 won bills." << endl;
+	if (language_setting == 1) { cout << "Please Enter the Amount of 5000 won bills." << endl; }
+	if (language_setting == 2) { cout << "5000원권의 수를 입력해 주세요." << endl; }
 	cin >> *(fund[1]);
-	cout << "Please Enter the Amount of 10000 won bills." << endl;
+	if (language_setting == 1) { cout << "Please Enter the Amount of 10000 won bills." << endl; }
+	if (language_setting == 2) { cout << "10000원권의 수를 입력해 주세요." << endl; }
 	cin >> *(fund[2]);
-	cout << "Please Enter the Amount of 50000 won bills." << endl;
+	if (language_setting == 1) { cout << "Please Enter the Amount of 50000 won bills." << endl; }
+	if (language_setting == 2) { cout << "50000원권의 수를 입력해 주세요." << endl; }
 	cin >> *(fund[3]);
 
 	switch (type) {
 	case 1:
 		//Single(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1);
+		ATM_list.push_back(new Single(bank_list[bank_choose], serial, language, fund, fee_list1));
+		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	case 2:
 		//Multi(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1, fee_list2);
+		ATM_list.push_back(new Multi(bank_list[bank_choose], serial, language, fund, fee_list1, fee_list2));
+		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	default:
 		break;
@@ -230,22 +244,30 @@ Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Search Session End! > ====================" << endl;
 }
 
-void feeConfig(int* fee_list1[4], int* fee_list2[4]) {
-	cout << "Please Enter the deposit fee for primary bank." << endl;
+void feeConfig(int* fee_list1[4], int* fee_list2[4], int language_setting) {
+	if (language_setting == 1) { cout << "Please Enter the deposit fee for primary bank." << endl; }
+	if (language_setting == 2) { cout << "Primary bank 계좌에서의 입금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list1[0]);
-	cout << "Please Enter the withdrawal fee for primary bank." << endl;
+	if (language_setting == 1) { cout << "Please Enter the withdrawal fee for primary bank." << endl; }
+	if (language_setting == 2) { cout << "Primary bank 계좌에서의 출금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list1[1]);
-	cout << "Please Enter the account transfer fee between primary banks." << endl;
+	if (language_setting == 1) { cout << "Please Enter the account transfer fee between primary banks." << endl; }
+	if (language_setting == 2) { cout << "Primary bank 계좌끼리의 송금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list1[2]);
-	cout << "Please Enter the cash transfer fee." << endl;
+	if (language_setting == 1) { cout << "Please Enter the cash transfer fee." << endl; }
+	if (language_setting == 2) { cout << "현금 송금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list1[3]);
-	cout << "Please Enter the deposit fee for primary bank." << endl;
+	if (language_setting == 1) { cout << "Please Enter the deposit fee for non-primary bank." << endl; }
+	if (language_setting == 2) { cout << "Non-Primary bank 계좌에서의 입금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list2[0]);
-	cout << "Please Enter the withdrawal fee for primary bank." << endl;
+	if (language_setting == 1) { cout << "Please Enter the withdrawal fee for non-primary bank." << endl; }
+	if (language_setting == 2) { cout << "Non-primary bank 계좌에서의 출금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list2[1]);
-	cout << "Please Enter the account transfer fee between primary bank and non-primary banks." << endl;
+	if (language_setting == 1) { cout << "Please Enter the account transfer fee between primary bank and non-primary banks." << endl; }
+	if (language_setting == 2) { cout << "Primary bank 계좌와 non-primary bank 계좌 사이의 송금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list2[2]);
-	cout << "Please Enter the account transfer fee between non-primary banks." << endl;
+	if (language_setting == 1) { cout << "Please Enter the account transfer fee between non-primary banks." << endl; }
+	if (language_setting == 2) { cout << "Non-primary bank 계좌끼리의 송금 수수료를 입력해 주세요." << endl; }
 	cin >> *(fee_list2[3]);
 	return;
 }
@@ -326,7 +348,7 @@ int main() {
 			BankService(bank_list, language_setting);
 			break;
 		case 3:
-			//ATMMake(ATM_list, bank_list, fee1, fee2);
+			ATMMake(ATM_list, bank_list, fee1, fee2, language_setting);
 			break;
 		case 4:
 			//ATMService(ATM_list);
@@ -338,7 +360,7 @@ int main() {
 			onSession = false;
 			break;
 		case 7:
-			feeConfig(fee1, fee2);
+			feeConfig(fee1, fee2, language_setting);
 			break;
 		}
 		cout << "===========================<End System Session>===========================" << endl;
