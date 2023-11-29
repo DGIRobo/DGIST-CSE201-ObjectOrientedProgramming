@@ -89,8 +89,8 @@ void ATM::session(vector<Bank*> bank_list) {
 int ATM::transaction(Account* a, vector<Bank*> bank_list) {
 	if (this->lang_setting == 1) { cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl; }
 	if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
-	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl; }
-	if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl; }
+	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 거래 종료" << endl; }
+	if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl; }
 	int selection = 0;
 	cin >> selection;
 	if (selection == 1) {
@@ -127,6 +127,9 @@ int ATM::transaction(Account* a, vector<Bank*> bank_list) {
 	}
 	else if (selection == 5) {
 		languageChange();
+	}
+	else if (selection == 6) {
+		return -1;
 	}
 	return 0;
 }
