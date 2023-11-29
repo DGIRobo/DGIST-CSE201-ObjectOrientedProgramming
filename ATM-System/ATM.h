@@ -51,4 +51,8 @@ public:
 	virtual Account* num2account(string num, vector<Bank*> bank_list) = 0;
 	virtual string getType() = 0;
 	string getLangType();
+	int get1000();
+	int get5000();
+	int get10000();
+	int get50000();
 };

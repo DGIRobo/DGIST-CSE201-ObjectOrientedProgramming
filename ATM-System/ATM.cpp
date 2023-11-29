@@ -12,6 +12,8 @@ void ATM::languageChange() {
 	else { cout << "언어를 선택해 주세요." << endl; }
 	cout << "[1] English" << endl;
 	cout << "[2] 한국어" << endl;
+	if (lang_setting == false) { cout << "Input : " << endl; }
+	else { cout << "입력 : " << endl; }
 
 	int input_language_setting;
 	while (true) {
@@ -289,4 +291,17 @@ string ATM::getLangType() {
 	else {
 		return "Bilingual";
 	}
+}
+
+int ATM::get1000() {
+	return *(cash_storage[0]);
+}
+int ATM::get5000() {
+	return *(cash_storage[1]);
+}
+int ATM::get10000() {
+	return *(cash_storage[2]);
+}
+int ATM::get50000() {
+	return *(cash_storage[3]);
 }
