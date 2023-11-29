@@ -8,9 +8,12 @@ void ATM::languageChange() {
 		cout << "unilingual ATM cannot change language!" << endl;
 		return;
 	}
-	cout << "Please choose the language setting." << endl;
+	if (lang_setting == false) { cout << "Please choose the language setting." << endl; }
+	else { cout << "언어를 선택해 주세요." << endl; }
 	cout << "[1] English" << endl;
-	cout << "[2] Korean" << endl;
+	cout << "[2] 한국어" << endl;
+	if (lang_setting == false) { cout << "Input : " << endl; }
+	else { cout << "입력 : " << endl; }
 
 	int input_language_setting;
 	while (true) {
@@ -19,7 +22,8 @@ void ATM::languageChange() {
 			break;
 		}
 		else {
-			cout << "Wrong choice! Please choose appropriate choice."  << endl;
+			if (lang_setting == false) { cout << "An unsupported language. Return to the previous screen." << endl; }
+			if (lang_setting == true) { cout << "지원하지 않는 언어입니다. 이전 화면으로 돌아갑니다." << endl; }
 		}
 	}
 
@@ -39,6 +43,8 @@ ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, i
 	this->serial_number = input_serial_number;
 	this->type = input_type;
 	this->language_available = input_lanuage_available;
+	this->transaction_histories = input_serial_number + ".txt";
+	this->admin_card = input_primary_bank->getBankName() + "admin";
 
 	for (int i = 0; i < 4; ++i) {
 		this->cash_storage[i] = initial_fund[i];
@@ -162,8 +168,9 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 	if (amount == -1) { rec.push_back("Failure"); }
 	else { rec.push_back("Success"); }
 	rec.push_back(to_string(amount));
-	if (note != "") { rec.push_back(note); }
+	rec.push_back(note);
 	make_history(rec);
+	a->updateHistory(rec[0], rec[1], rec[2], rec[4], rec[5]);
 	return rec;
 }
 
@@ -255,9 +262,7 @@ void ATM::display_transaction(vector<string> rec) {
 	cout << "TransactionTypes : " << rec[2] << endl;
 	cout << "Success or Failure : " << rec[3] << endl;
 	cout << "Amount : " << rec[4] << endl;
-	if (rec.size() >= 6) {
-		cout << "Note : " << rec[5] << endl;
-	}
+	cout << "Note : " << rec[5] << endl;
 	return;
 }
 
@@ -265,7 +270,7 @@ void ATM::display_transaction_short(vector<string> rec) {
 	//string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific
 	cout << "[/";
 	for (int i = 0; i < rec.size(); i++) {
-		cout << rec[i] << "/";
+		if (rec[i] != "") { cout << rec[i] << "/"; }
 	}
 	cout << "]" << endl;
 	return;
@@ -286,4 +291,17 @@ string ATM::getLangType() {
 	else {
 		return "Bilingual";
 	}
+}
+
+int ATM::get1000() {
+	return *(cash_storage[0]);
+}
+int ATM::get5000() {
+	return *(cash_storage[1]);
+}
+int ATM::get10000() {
+	return *(cash_storage[2]);
+}
+int ATM::get50000() {
+	return *(cash_storage[3]);
 }
