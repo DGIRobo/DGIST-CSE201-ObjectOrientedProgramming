@@ -211,6 +211,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "출금할 액수를 1000의 배수 단위로 입력하세요. 최대 금액은 50만원입니다." << endl;
+		cout << "당신의 잔고는 " << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "50만원을 초과한 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
@@ -312,6 +313,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "Enter the amount you wish to withdraw in multiples of 1000. The maximum amount is 500,000 won." << endl;
+		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "You entered an amount exceeding 500,000 won. Cancel withdrawal." << endl;
@@ -438,8 +440,9 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "Please enter the amount you wish to transfer." << endl;
+		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
 		cin >> amount;
-		if (amount > a->checkFunds()) {
+		if (a->checkFunds() < amount) {
 			cout << "Your balance is insufficient. Cancel the transfer." << endl;
 			if (coconut == 0 && cococonut == 0) {
 				a->deposit(*(this->fee_list[2]));
@@ -512,6 +515,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "송금할 액수를 입력해 주세요." << endl;
+		cout << "보유하신 잔고는 " << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > a->checkFunds()) {
 			cout << "잔액이 부족합니다. 송금을 취소합니다." << endl;
