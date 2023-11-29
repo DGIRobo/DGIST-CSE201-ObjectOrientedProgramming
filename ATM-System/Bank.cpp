@@ -29,6 +29,12 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 void Bank::makeCard_session(int language_setting) {
 	cout << "==================== < Card Create Session > ====================" << endl;
+
+	if (accounts.size() == 0) {
+		if (language_setting == 1) { cout << "There is no account. So making card is not available." << endl; }
+		if (language_setting == 2) { cout << "은행에 존재하는 계좌가 없어 카드 생성을 수행할 수 없습니다." << endl; }
+		return;
+	}
 	
 	int c = 0;
 	Account* account = search_account_number(language_setting);
