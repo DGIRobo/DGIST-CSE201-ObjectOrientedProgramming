@@ -590,8 +590,8 @@ int Multi::cash_transfer(Account* b) {
 Account* Multi::card2account(string card, vector<Bank*> bank_list) {
 	int banknum = -1;
 	for (int k = 0; k < bank_list.size(); k++) {
-		for (int i = 0; i < primary_bank->get_account().size(); i++) {
-			vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
+		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
+			vector<string> card_list = bank_list[i]->get_account()[i]->getCardNumber();
 			for (int j = 0; j < card_list.size(); j++) {
 				if (card_list[j] == card) {
 					banknum = i;
