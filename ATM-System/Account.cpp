@@ -17,11 +17,14 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	}
 	temp_bank_code += to_string(input_bank->getBankId());
 	this->static_account_counter += 1;
+	
+	this->account_id = this->static_account_counter;
+
 	string temp_account_code;
-	for (int i = 0; i < 6 - to_string(static_account_counter).size(); i++) {
+	for (int i = 0; i < 6 - to_string(this->account_id).size(); i++) {
 		temp_account_code += "0";
 	}
-	temp_account_code += to_string(static_account_counter);
+	temp_account_code += to_string(this->account_id);
 	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
 	this->transaction_histories = input_user_name + ".txt";
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Generate New Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
@@ -64,10 +67,10 @@ string Account::makeCard() {
 	temp_bank_code += to_string(this->bank->getBankId());
 	// this->static_account_counter += 1;
 	string temp_account_code;
-	for (int i = 0; i < 4 - to_string(static_account_counter).size(); i++) {
+	for (int i = 0; i < 4 - to_string(this->getAccountID()).size(); i++) {
 		temp_account_code += "0";
 	}
-	temp_account_code += to_string(static_account_counter);
+	temp_account_code += to_string(this->getAccountID());
 	this->static_card_counter += 1;
 	string temp_card_code;
 	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
@@ -128,4 +131,8 @@ vector<string> Account::getCardNumber() {
 
 int Account::getAvailableFund() {
 	return avaliable_funds;
+}
+
+int Account::getAccountID() {
+	return account_id;
 }
