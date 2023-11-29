@@ -1,4 +1,5 @@
 #include "ATM.h"
+#include <iomanip>
 
 int ATM::static_ATM_counter = 0;
 int ATM::static_transaction_counter = 0;
@@ -104,8 +105,8 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 
 	if (this->lang_setting == 1) { cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl; }
 	else if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
-	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 거래 종료" << endl << "원하는 작업 : "; }
-	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl << "What you want to do : "; }
+	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 계좌 조회" << endl << "[7] 거래 종료" << endl << "원하는 작업 : "; }
+	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] account inquiry" << endl << "[7] end transfer" << endl << "What you want to do : "; }
 	
 	int selection = 0;
 	cin >> selection;
@@ -157,6 +158,11 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 		amount = 0;
 	}
 	else if (selection == 6) {
+		rec.push_back("Account inquiry");
+		a->printHistory();
+		amount = 0;
+	}
+	else if (selection == 7) {
 		rec.push_back("Termination");
 		amount = 0;
 	}
@@ -212,24 +218,44 @@ bool ATM::user_authorization(Account* a) {
 }
 
 void ATM::see_transaction_history() {
-	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 거래 내역을 확인하시겠습니까?" << endl << "[0] 네" << "[1] 아니오" << endl; }
-	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "Do you want to see the transaction history with administrator privileges?" << endl << "[0] Yes" << "[1] No" << endl; }
-	bool no;
+	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인" << setw(10) << "[1] 현금 보충" << setw(10) << "[2] 돌아가기" << endl; }
+	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history" << setw(10) << "[1] cash replenishment" << setw(10) << "[2] return" << endl; }
+	int no;
 	cin >> no;
-	if (no == true) {
+	if (no == 2) {
 		return;
 	}
-	ifstream readFile(this->transaction_histories);
-	if (readFile.is_open()) {
-		string str;
-		while (readFile) {
-			getline(readFile, str);
-			cout << str << endl;
-		}
+	else if (no == 1) {
+		int replenish[4] = {0,0,0,0};
+		if (this->lang_setting == 1) { cout << "보충할 1000원권의 양을 입력해 주세요." << endl; }
+		if (this->lang_setting == 0) { cout << "Please enter the amount of 1,000 won bills to be replenished." << endl; }
+		cin >> replenish[0];
+		if (this->lang_setting == 1) { cout << "보충할 5000원권의 양을 입력해 주세요." << endl; }
+		if (this->lang_setting == 0) { cout << "Please enter the amount of 5,000 won bills to be replenished." << endl; }
+		cin >> replenish[1];
+		if (this->lang_setting == 1) { cout << "보충할 10000원권의 양을 입력해 주세요." << endl; }
+		if (this->lang_setting == 0) { cout << "Please enter the amount of 10,000 won bills to be replenished." << endl; }
+		cin >> replenish[2];
+		if (this->lang_setting == 1) { cout << "보충할 50000원권의 양을 입력해 주세요." << endl; }
+		if (this->lang_setting == 0) { cout << "Please enter the amount of 50,000 won bills to be replenished." << endl; }
+		cin >> replenish[3];
+		add_cash(replenish[0], replenish[1], replenish[2], replenish[3]);
 	}
 	else {
-		if (this->lang_setting == 1) { cout << "해당하는 파일이 없습니다." << endl; }
-		if (this->lang_setting == 0) { cout << "No corresponding files exist." << endl; }
+		if (this->lang_setting == 1) { cout << "거래 내역을 출력합니다." << endl << endl; }
+		else if (this->lang_setting == 0) { cout << "Printing transaction histories." << endl << endl; }
+		ifstream readFile(this->transaction_histories);
+		if (readFile.is_open()) {
+			string str;
+			while (readFile) {
+				getline(readFile, str);
+				cout << str << endl;
+			}
+		}
+		else {
+			if (this->lang_setting == 1) { cout << "해당하는 파일이 없습니다." << endl; }
+			if (this->lang_setting == 0) { cout << "No corresponding files exist." << endl; }
+		}
 	}
 	return;
 }
