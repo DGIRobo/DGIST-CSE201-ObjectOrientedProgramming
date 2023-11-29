@@ -105,12 +105,12 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	cout << "==================== < ATM Duplicate Session > ====================" << endl;
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
+	if (language_setting == 1) { cout << "Please choose Bank number that you want to make ATM for : " << endl; }
+	if (language_setting == 2) { cout << "ATM을 설치할 은행을 선택하세요 : " << endl; }
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "[" << i << "] " << bank_list[i]->getBankName() << " Bank" << endl;
 	}
 	int bank_choose;
-	if (language_setting == 1) { cout << "Please choose Bank number that you want to make ATM for : " << endl; }
-	if (language_setting == 2) { cout << "ATM을 설치할 은행을 선택하세요 : " << endl; }
 	cin >> bank_choose;
 	if (bank_choose >= bank_list.size()) {
 		if (language_setting == 1) { cout << "The corresponding bank does not exist." << endl; }
@@ -188,6 +188,7 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	default:
 		break;
 	}
+
 
 	return;
 }
@@ -391,7 +392,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 					for (int k = 0; k < bank_list[i]->get_account()[j]->getCardNumber().size(); k++) {
 						cout << bank_list[i]->get_account()[j]->getCardNumber()[k] << "\t";
 					}
-				cout << endl;
+					cout << endl;
 				}
 				cout << "========================================" << endl;
 			}
@@ -410,7 +411,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 					for (int k = 0; k < bank_list[i]->get_account()[j]->getCardNumber().size(); k++) {
 						cout << bank_list[i]->get_account()[j]->getCardNumber()[k] << "\t";
 					}
-				cout << endl;
+					cout << endl;
 				}
 				cout << "========================================" << endl;
 			}
@@ -511,7 +512,7 @@ int main() {
 		case 7:
 			feeConfig(fee1, fee2, language_setting);
 			break;
-		case 8 :
+		case 8:
 			Admin(ATM_list, bank_list, language_setting);
 		}
 		cout << "===========================<End System Session>===========================" << endl;
