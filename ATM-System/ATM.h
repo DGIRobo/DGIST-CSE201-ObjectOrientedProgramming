@@ -44,8 +44,8 @@ public:
 	void add_cash(int cash1000, int cash5000, int cash10000, int cash50000);
 	string getSerial();
 	Bank* getPrimary();
-	void make_history(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific);
-	void display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific);
+	void make_history(vector<string> rec);
+	void display_transaction(vector<string> rec);
 	void display_transaction_short(vector<string> rec);
 	virtual Account* card2account(string card, vector<Bank*> bank_list) = 0;
 	virtual Account* num2account(string num, vector<Bank*> bank_list) = 0;
