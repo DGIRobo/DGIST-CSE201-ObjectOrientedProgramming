@@ -1,6 +1,6 @@
 #include "MultiBankATM.h"
 
-Multi::Multi(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
+Multi::Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}
@@ -11,7 +11,7 @@ Multi::Multi(Bank* input_primary_bank, int input_serial_number, int input_lanuag
 
 void Multi::deposit(Account* a) {
 	int account_count = 0;
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		if (a->getBankName() == this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금합니다." << endl;
 			account_count = 1;
@@ -76,7 +76,7 @@ void Multi::deposit(Account* a) {
 	int cash5000;
 	int cash10000;
 	int cash50000;
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		cout << "입금 수단을 선택해 주세요" << endl;
 		cout << "[1] 현금" << "   " << "[2] 수표" << endl;
 		cin >> deposit_method;
@@ -123,7 +123,7 @@ void Multi::deposit(Account* a) {
 			return;
 		}
 	}
-	if (this->language_setting == "English") {
+	else {
 		cout << "Please select deposit method" << endl;
 		cout << "[1] cash" << "   " << "[2] check" << endl;
 		int deposit_method;
@@ -176,7 +176,7 @@ void Multi::deposit(Account* a) {
 
 void Multi::withdraw(Account* a) {
 	int coconut = 0;
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 출금합니다." << endl;
 			coconut = 1;
@@ -382,7 +382,7 @@ void Multi::withdraw(Account* a) {
 void Multi::account_transfer(Account* a, Account* b) {
 	int coconut = 0;
 	int cococonut = 0;
-	if (this->language_setting == "English") {
+	if (this->lang_setting == false) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Transfer money from an account at another bank." << endl;
 			coconut = 1;
@@ -535,7 +535,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 }
 
 void Multi::cash_transfer(Account* b) {
-	if (this->language_setting == "English") {
+	if (this->lang_setting == false) {
 		cout << "Pay the fee." << endl << "Please deposit the fee." << endl;
 		*(this->cash_storage[0]) += (*(this->fee_list[3])) / 1000;
 		cout << "The fee has been deposited. Initiate cash transfer." << endl;
@@ -581,73 +581,68 @@ void Multi::cash_transfer(Account* b) {
 	}
 }
 
-void Multi::session(vector<Bank*> bank_list) {
-
-	if (this->language_setting == "Korean") {
-		cout << "카드를 삽입해 주세요." << endl;
-		string cardinsert;
-		cin >> cardinsert;
-		if (cardinsert == this->admin_card) {
-			see_transaction_history();
-			return;
-		}
-		int banknum = -1;
-		for (int k = 0; k < bank_list.size(); k++) {
-			for (int i = 0; i < primary_bank->get_account().size(); i++) {
-				vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
-				for (int j = 0; j < card_list.size(); j++) {
-					if (card_list[j] == cardinsert) {
-						banknum = i;
-						break;
-					}
-				}
-				if (banknum == i) { break; }
-			}
-			if (banknum != -1) { break; }
-		}
-		if (banknum == -1) {
-			cout << "잘못된 카드입니다." << endl;
-			return;
-		}
-		Account* acc = 0;
-		for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
-			vector<string> card_list = bank_list[banknum]->get_account()[i]->getCardNumber();
+Account* Multi::card2account(string card, vector<Bank*> bank_list) {
+	int banknum = -1;
+	for (int k = 0; k < bank_list.size(); k++) {
+		for (int i = 0; i < primary_bank->get_account().size(); i++) {
+			vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
 			for (int j = 0; j < card_list.size(); j++) {
-				if (card_list[j] == cardinsert) {
-					acc = bank_list[banknum]->get_account()[i];
+				if (card_list[j] == card) {
+					banknum = i;
 					break;
 				}
 			}
+			if (banknum == i) { break; }
 		}
-		if (this->user_authorization(acc) == false) {
-			cout << "비밀번호 입력에 3회 실패하셨습니다. 거래를 종료합니다." << endl;
-			return;
-		}
-		cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl;
-		cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] (관리자 메뉴) 거래 내역 확인" << endl;
-		int selection = 1;
-		switch (selection) {
-		case 1:
-			int pass;
-			cout << "입금을 선택하셨습니다. 거래를 위해서는 비밀번호를 입력해 주세요 : ";
-			cin >> pass;
-			//this->user_authorization();
-			cout << "비밀번호가 확인되었습니다. 거래를 진행합니다." << endl;
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
+		if (banknum != -1) { break; }
+	}
+	if (banknum == -1) {
+		if (this->lang_setting == true) { cout << "지원되지 않는 카드입니다." << endl; }
+		else { cout << "Unsupported card." << endl; }
+		return nullptr;
+	}
+	Account* ac = 0;
+	for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
+		vector<string> card_list = bank_list[banknum]->get_account()[i]->getCardNumber();
+		for (int j = 0; j < card_list.size(); j++) {
+			if (card_list[j] == card) {
+				ac = bank_list[banknum]->get_account()[i];
+				break;
+			}
 		}
 	}
-	if (this->language_setting == "English") {
+	return ac;
+}
 
+Account* Multi::num2account(string num, vector<Bank*> bank_list) {
+	int banknum = -1;
+	for (int k = 0; k < bank_list.size(); k++) {
+		for (int i = 0; i < primary_bank->get_account().size(); i++) {
+			string acc_num = primary_bank->get_account()[i]->getAccountNumber();
+			if (acc_num == num) {
+				banknum = i;
+				break;
+			}
+			if (banknum == i) { break; }
+		}
+		if (banknum != -1) { break; }
 	}
-	return;
+	if (banknum == -1) {
+		if (this->lang_setting == true) { cout << "지원되지 않는 카드입니다." << endl; }
+		else { cout << "Unsupported card." << endl; }
+		return nullptr;
+	}
+	Account* ac = 0;
+	for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
+		string acc_num = bank_list[banknum]->get_account()[i]->getAccountNumber();
+		if (acc_num == num) {
+			ac = bank_list[banknum]->get_account()[i];
+			break;
+		}
+	}
+	return ac;
+}
+
+string Multi::getType() {
+	return "Multi-bank ATM";
 }

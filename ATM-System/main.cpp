@@ -101,34 +101,28 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
 	for (int i = 0; i < bank_list.size(); i++) {
-		cout << bank_list[i]->getBankName() << " Bank : " << "[" << i << "]" << endl;
+		cout << "[" << i << "] " << bank_list[i]->getBankName() << " Bank" << endl;
 	}
 	int bank_choose;
 	if (language_setting == 1) { cout << "Please choose Bank number that you want to make ATM for : " << endl; }
 	if (language_setting == 2) { cout << "ATM을 설치할 은행을 선택하세요 : " << endl; }
 	cin >> bank_choose;
+	if (bank_choose >= bank_list.size()) {
+		if (language_setting == 1) { cout << "The corresponding bank does not exist." << endl; }
+		if (language_setting == 2) { cout << "해당하는 은행이 존재하지 않습니다." << endl; }
+		cout << "==================== < ATM Make Session End! > ====================" << endl;
+		return;
+	}
 	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
 	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다.." << endl; }
-	int serial = 0;
-	while (true) {
-		int dup = 0;
 
-		int serial_temp;
-		if (language_setting == 1) { cout << "Please input ATM serial number : " << endl; }
-		if (language_setting == 2) { cout << "ATM의 일련번호를 입력하세요 : " << endl; }
-		cin >> serial_temp;
-		for (int i = 0; i < ATM_list.size(); i++) {
-			if (serial_temp == ATM_list[i]->getSerial()) {
-				if (language_setting == 1) { cout << "ATM " << serial_temp << " is already exiested!" << endl; }
-				if (language_setting == 2) { cout << "ATM " << serial_temp << " 이 이미 존재합니다!" << endl; }
-				dup = 1;
-			}
-		}
-		if (dup == 0) {
-			serial = serial_temp;
-			break;
-		}
+	string serial = "";
+	for (int i = 0; i < 6 - to_string(ATM_list.size()).size(); i++) {
+		serial += "0";
 	}
+	serial += to_string(ATM_list.size());
+	if (language_setting == 1) { cout << "Serial number of ATM will be automatically issued. Serial number of this ATM is " << serial << "." << endl; }
+	if (language_setting == 2) { cout << "ATM의 일련번호가 자동으로 발급됩니다. 본 ATM의 일련번호는 " << serial << "입니다." << endl; }
 
 	int type;
 	while (true) {
@@ -191,6 +185,33 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	}
 
 
+	return;
+}
+
+void ATMService(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting) {
+	cout << "==================== < ATM Service Session > ====================" << endl;
+	if (language_setting == 1) { cout << "Please choose ATM number that you want to use for." << endl; }
+	if (language_setting == 2) { cout << "거래를 진행하고 싶은 ATM을 선택해주세요." << endl; }
+
+	for (int i = 0; i < ATM_list.size(); i++) {
+		cout << "[" << i << "] ATM " << ATM_list[i]->getSerial() << " [Bank " << ATM_list[i]->getPrimary()->getBankName() << "/" << ATM_list[i]->getType() << "/" << ATM_list[i]->getLangType() << "]" << endl;
+	}
+	cout << endl;
+	int ATM_choose;
+	if (language_setting == 1) { cout << "ATM number : "; }
+	if (language_setting == 2) { cout << "ATM 번호 : "; }
+	cin >> ATM_choose;
+	if (ATM_choose >= ATM_list.size()) {
+		if (language_setting == 1) { cout << "The corresponding ATM does not exist." << endl; }
+		if (language_setting == 2) { cout << "해당하는 ATM이 존재하지 않습니다." << endl; }
+		cout << "==================== < ATM Service Session End! > ====================" << endl;
+		return;
+	}
+	if (language_setting == 1) { cout << ATM_list[ATM_choose]->getSerial() << " ATM is selected." << endl << "Connecting to ATM..." << endl; }
+	if (language_setting == 2) { cout << ATM_list[ATM_choose]->getSerial() << " ATM이 선택되었습니다." << endl << "ATM에 접속합니다..." << endl; }
+
+	ATM_list[ATM_choose]->session(bank_list);
+	cout << "==================== < ATM Service Session End! > ====================" << endl;
 	return;
 }
 
@@ -353,7 +374,7 @@ int main() {
 			ATMMake(ATM_list, bank_list, fee1, fee2, language_setting);
 			break;
 		case 4:
-			//ATMService(ATM_list);
+			ATMService(ATM_list, bank_list, language_setting);
 			break;
 		case 5:
 			language_setting = LanguageService(language_setting);

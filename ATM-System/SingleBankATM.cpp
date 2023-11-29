@@ -1,13 +1,13 @@
 #include "SingleBankATM.h"
 
-Single::Single(Bank* input_primary_bank, int input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
+Single::Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}
 }
 
 void Single::deposit(Account* a){
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금할 수 없습니다." << endl;
 			return;
@@ -42,7 +42,7 @@ void Single::deposit(Account* a){
 	int cash5000;
 	int cash10000;
 	int cash50000;
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		cout << "입금 수단을 선택해 주세요" << endl;
 		cout << "[1] 현금" << "   " << "[2] 수표" << endl;
 		cin >> deposit_method;
@@ -89,7 +89,7 @@ void Single::deposit(Account* a){
 			return;
 		}
 	}
-	if (this->language_setting == "English") {
+	else {
 		cout << "Please select deposit method" << endl;
 		cout << "[1] cash" << "   " << "[2] check" << endl;
 		int deposit_method;
@@ -141,7 +141,7 @@ void Single::deposit(Account* a){
 }
 
 void Single::withdraw(Account* a) {
-	if (this->language_setting == "Korean") {
+	if (this->lang_setting == true) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌에서 출금할 수 없습니다." << endl;
 			return;
@@ -268,7 +268,7 @@ void Single::withdraw(Account* a) {
 }
 
 void Single::account_transfer(Account* a, Account* b) {
-	if (this->language_setting == "English") {
+	if (this->lang_setting == false) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "You cannot transfer money from an account at another bank." << endl;
 			return;
@@ -337,7 +337,7 @@ void Single::account_transfer(Account* a, Account* b) {
 }
 
 void Single::cash_transfer(Account* b) {
-	if (this->language_setting == "English") {
+	if (this->lang_setting == false) {
 		if (b->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Money cannot be transferred to another bank's account." << endl;
 			return;
@@ -403,47 +403,46 @@ void Single::cash_transfer(Account* b) {
 	}
 }
 
-void Single::session(vector<Bank*> bank_list) {
-
-	if (this->language_setting == "Korean") {
-		cout << "카드를 삽입해 주세요." << endl;
-		string cardinsert;
-		cin >> cardinsert;
-		if (cardinsert == this->admin_card) {
-			see_transaction_history();
-			return;
-		}
-		int isPrimary = 0;
-		Account* acc = 0;
-		for (int i = 0; i < primary_bank->get_account().size(); i++) {
-			vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
-			for (int j = 0; j < card_list.size(); j++) {
-				if (card_list[j] == cardinsert) {
-					isPrimary = 1;
-					acc = primary_bank->get_account()[i];
-					break;
-				}
-			}
-		}
-
-		if (isPrimary == 0) {
-			cout << "본 기기에서 지원하지 않는 카드입니다." << endl;
-			return;
-		}
-		if (this->user_authorization(acc) == false) {
-			cout << "비밀번호 입력에 3회 실패하셨습니다. 거래를 종료합니다." << endl;
-			return;
-		}
-		int rec;
-		while (true) {
-			rec = transaction(acc);
-			if (rec == -1){
+Account* Single::card2account(string card, vector<Bank*> bank_list) {
+	bool isPrimary = false;
+	Account* ac = 0;
+	for (int i = 0; i < primary_bank->get_account().size(); i++) {
+		vector<string> card_list = primary_bank->get_account()[i]->getCardNumber();
+		for (int j = 0; j < card_list.size(); j++) {
+			if (card_list[j] == card) {
+				isPrimary = true;
+				ac = primary_bank->get_account()[i];
 				break;
 			}
 		}
 	}
-	if (this->language_setting == "English") {
-
+	if (isPrimary == false) {
+		if (this->lang_setting == 1) { cout << "지원되지 않는 카드입니다." << endl; }
+		if (this->lang_setting == 0) { cout << "Unsupported card." << endl; }
+		return nullptr;
 	}
-	return;
+	return ac;
+}
+
+Account* Single::num2account(string num, vector<Bank*> bank_list) {
+	bool isPrimary = false;
+	Account* ac = 0;
+	for (int i = 0; i < primary_bank->get_account().size(); i++) {
+		string acc_num = primary_bank->get_account()[i]->getAccountNumber();
+		if (acc_num == num) {
+			isPrimary = true;
+			ac = primary_bank->get_account()[i];
+			break;
+		}
+	}
+	if (isPrimary == false) {
+		if (this->lang_setting == 1) { cout << "지원되지 않는 카드입니다." << endl; }
+		if (this->lang_setting == 0) { cout << "Unsupported card." << endl; }
+		return nullptr;
+	}
+	return ac;
+}
+
+string Single::getType() {
+	return "Single-bank ATM";
 }
