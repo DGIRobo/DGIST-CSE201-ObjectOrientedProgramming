@@ -2,6 +2,8 @@
 
 int Bank::static_bank_counter = 0;
 
+using namespace std;
+
 Bank::Bank(string name) {
 	this->bank_name = name;
 	static_bank_counter += 1;
@@ -25,79 +27,114 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 	target_ATM->add_cash(numOf1000, numOf5000, numOf10000, numOf50000);
 }
 
-//Account* Bank::open_account(Account* a) {
-//	cout << "ê³„ì¢Œê°€ ì¡°íšŒë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
-//	string input_password;
-//	cout << "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”." << endl;
-//	cin >> input_password;
-//	if (a->getPassword() == input_password) {
-//		cout << "ì€í–‰ : " << a->getBankName() << endl;
-//		cout << "ì˜ˆê¸ˆì£¼ : " << a->getUserName() << endl;
-//		cout << "ê³„ì¢Œë²ˆí˜¸ : " << a->getAccountNumber() << endl;
-//		cout << "ë¹„ë°€ë²ˆí˜¸ : " << a->getPassword() << endl;
-//	}
-//	else {
-//		cout << "ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤." << endl;
-//	}
-//}
-// account ì£¼ì†Œë¥¼ ì—†ì„ë•Œ ë§Œë“¤ ìˆ˜ìžˆëŠ” bankìš© makeCard;
-
-void Bank::makeCard_session() {
+void Bank::makeCard_session(int language_setting) {
 	cout << "==================== < Card Create Session > ====================" << endl;
-	Account* account = search_account_number();
-
-	string input_password;
-	cout << "To make card, please write password." << endl;
 	
-	int a = 3;
-	while (true) {
+	int c = 0;
+	Account* account = search_account_number(language_setting);
 
-		if (a == 0) {
-			cout << "You write wrong password 3 times. " << endl;
-			cout << "==================== < Card Create Session End! > ====================" << endl;
-			break;
-		}
-		cout << a << " attempts left." << endl;
-		cout << "Password : ";
-		cin >> input_password;
-		a--;
-		if (account->getPassword() == input_password) {
-			cout << "Correct password." << endl;
-			string now_created_card_number;
-			now_created_card_number = account->makeCard();
-			cout << "Card is created." << endl;
-			cout << "Card Number : " << now_created_card_number << endl;
-			cout << "This is card number list that connected to your account." << endl;
-			vector <string > card_list = account->getCardNumber();
-			for (int i = 0; i < card_list.size(); i++) {
-				cout << card_list[i] << endl;
+	if (account == NULL) { c = 1; }
+
+	if (c == 0) {
+		string input_password;
+		if (language_setting == 1) { cout << "To make card, please write password." << endl; }
+		if (language_setting == 2) { cout << "Ä«µå¸¦ ¸¸µé±â À§ÇØ ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl; }
+
+		int a = 3;
+		while (true) {
+
+			if (a == 0) {
+				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
+				if (language_setting == 2) { cout << "ºñ¹Ð¹øÈ£ 4È¸ Æ²·È½À´Ï´Ù." << endl; }
+				cout << "==================== < Card Create Session End! > ====================" << endl;
+				break;
 			}
-			break;
+			if (language_setting == 1) {
+				cout << a << " attempts left." << endl;
+				cout << "Password : ";
+			}
+			if (language_setting == 2) {
+				cout << a << " È¸ ³²À½." << endl;
+				cout << "ºñ¹Ð¹øÈ£ : ";
+			}
+
+			cin >> input_password;
+			a--;
+			if (account->getPassword() == input_password) {
+				if (language_setting == 1) { cout << "Correct password." << endl; }
+				if (language_setting == 2) { cout << "¿ÇÀº ºñ¹Ð¹øÈ£." << endl; }
+
+				string now_created_card_number;
+				now_created_card_number = account->makeCard();
+				if (language_setting == 1) {
+					cout << "Card is created." << endl;
+					cout << "Card Number : " << now_created_card_number << endl;
+					cout << "This is card number list that connected to your account." << endl;
+				}
+				if (language_setting == 2) {
+					cout << "Ä«µå°¡ »ý¼ºµÇ¾ú½À´Ï´Ù." << endl;
+					cout << "Ä«µå ¹øÈ£ : " << now_created_card_number << endl;
+					cout << "°èÁÂ¿¡ ¿¬°áµÈ Ä«µå ¹øÈ£ ¸ñ·ÏÀÔ´Ï´Ù." << endl;
+				}
+
+				vector <string > card_list = account->getCardNumber();
+				for (int i = 0; i < card_list.size(); i++) {
+					cout << card_list[i] << endl;
+				}
+				break;
+			}
 		}
 	}
 	cout << "==================== < Card Create Session End! > ====================" << endl;
 }
 
-// Account*
-void Bank::create_account() {
+void Bank::create_account(int language_setting) {
 	cout << "==================== < Account Create Session > ====================" << endl;
 	string input_user_name;
 	string account_number;
 	string input_password;
 	int initial_fund;
-	cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
-	cout << "Name : ";			cin >> input_user_name;
-	cout << "Password : ";		cin >> input_password;
-	cout << "Initial fund : ";	cin >> initial_fund;
+	if (language_setting == 1) {
+		cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
+		cout << "Name : ";
+		cin >> input_user_name;
+		cout << "Password : ";
+		cin >> input_password;
+		cout << "Initial fund : ";
+		cin >> initial_fund;
+	}
+	if (language_setting == 2) {
+		cout << this->getBankName() << "ÀºÇà. °èÁÂ¸¦ »ý¼ºÇÏ±â À§ÇØ ÀÌ¸§, °èÁÂ, ÃÊ±â ÀÚ±ÝÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+		cout << "¿¹±ÝÁÖ : ";
+		cin >> input_user_name;
+		cout << "ºñ¹Ð¹øÈ£ : ";
+		cin >> input_password;
+		cout << "ÃÊ±âÀÚ±Ý : ";
+		cin >> initial_fund;
+	}
+
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
-	cout << "Account is created." << endl;
-	cout << "Bank : " << new_account->getBankName() << endl;
-	cout << "Owner : " << new_account->getUserName() << endl;
-	cout << "Account number : " << new_account->getAccountNumber() << endl;
-	cout << "Password : " << new_account->getPassword() << endl;
+
+	if (language_setting == 1) {
+		cout << "Account is created." << endl;
+		cout << "Bank : " << new_account->getBankName() << endl;
+		cout << "Owner : " << new_account->getUserName() << endl;
+		cout << "Account number : " << new_account->getAccountNumber() << endl;
+		cout << "Password : " << new_account->getPassword() << endl;
+		cout << "Do you want to make card? [Agree Y / Disagree N] : ";
+	}
+	if (language_setting == 2) {
+		cout << "°èÁÂ°¡ °³¼³µÇ¾ú½À´Ï´Ù." << endl;
+		cout << "ÀºÇà : " << new_account->getBankName() << endl;
+		cout << "¿¹±ÝÁÖ : " << new_account->getUserName() << endl;
+		cout << "°èÁÂ¹øÈ£ : " << new_account->getAccountNumber() << endl;
+		cout << "ºñ¹Ð¹øÈ£ : " << new_account->getPassword() << endl;
+		cout << "Ä«µå¸¦ »ý¼ºÇÏ½Ã°Ú½À´Ï±î? [µ¿ÀÇ Y / ºñµ¿ÀÇ N] : ";
+	}
+
 	string agreement;
-	cout << "Do you want to make card? [Agree Y / Disagree N] : "; 	cin >> agreement;
+	cin >> agreement;
 	for (int i = 0; i < agreement.size(); i++) {
 		agreement[i] = tolower(agreement[i]);
 	}
@@ -105,9 +142,17 @@ void Bank::create_account() {
 		cout << "==================== < Card Create Session > ====================" << endl;
 		string now_created_card_number;
 		now_created_card_number = new_account->makeCard();
-		cout << "Card is created." << endl;
-		cout << "Card number : " << now_created_card_number << endl;
-		cout << "This is card number list that connected to your account." << endl;
+
+		if (language_setting == 1) {
+			cout << "Card is created." << endl;
+			cout << "Card number : " << now_created_card_number << endl;
+			cout << "This is card number list that connected to your account." << endl;
+		}
+		if (language_setting == 2) {
+			cout << "Ä«µå°¡ »ý¼ºµÇ¾ú½À´Ï´Ù." << endl;
+			cout << "Ä«µå ¹øÈ£ : " << now_created_card_number << endl;
+			cout << "°èÁÂ¿¡ ¿¬°áµÈ Ä«µå ¹øÈ£ ¸ñ·ÏÀÔ´Ï´Ù." << endl;
+		}
 		vector <string> card_list = new_account->getCardNumber();
 		for (int i = 0; i < card_list.size(); i++) {
 			cout << card_list[i] << endl;
@@ -118,37 +163,81 @@ void Bank::create_account() {
 	//return new_account;
 }
 
-// Account*
-Account* Bank::search_account_number() {
+Account* Bank::search_account_number(int language_setting) {
 	cout << "==================== < Account Number Search Session > ====================" << endl;
 	vector<Account*> accounts_list = get_account();
-	cout << this->getBankName() << " Bank. Please write account number." << endl;
-	string input_account_number;
-	cout << "Account number : ";	cin >> input_account_number;
-	for (int i = 0; i < accounts_list.size(); i++) {
-		if (accounts_list[i]->getAccountNumber() == input_account_number) {
-			cout << this->getBankName() << " Bank find your account." << endl;
-			cout << "Bank : " << accounts_list[i]->getBankName() << endl;
-			cout << "Owner : " << accounts_list[i]->getUserName() << endl;
-			cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
-			cout << "==================== < Account Number Search Session End! > ====================" << endl;
-			return accounts_list[i];
+
+	int a = 3;
+
+	while (a > -1){
+		if (language_setting == 1) {
+			cout << this->getBankName() << " Bank. Please write account number." << endl;
+			cout << "Account number : ";
 		}
+		if (language_setting == 2) {
+			cout << this->getBankName() << " ÀºÇà. °èÁÂ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl;
+			cout << "°èÁÂ¹øÈ£ : ";
+		}
+
+		string input_account_number;
+		cin >> input_account_number;
+		for (int i = 0; i < accounts_list.size(); i++) {
+			if (accounts_list[i]->getAccountNumber() == input_account_number) {
+				if (language_setting == 1) {
+					cout << this->getBankName() << " Bank find your account." << endl;
+					cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+					cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+					cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+				if (language_setting == 2) {
+					cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£¾Ò½À´Ï´Ù." << endl;
+					cout << "ÀºÇà : " << accounts_list[i]->getBankName() << endl;
+					cout << "¿¹±ÝÁÖ : " << accounts_list[i]->getUserName() << endl;
+					cout << "°èÁÂ¹øÈ£ : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+
+				cout << "==================== < Account Number Search Session End! > ====================" << endl;
+				return accounts_list[i];
+			}
+		}
+		if (a == 0) {
+			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
+			if (language_setting == 2) { cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£Áö ¸øÇß½À´Ï´Ù." << endl; }
+			break;
+		}
+		if (language_setting == 1) {
+			cout << this->getBankName() << " Bank cannot find your account." << endl;
+			cout << a << " attempt left." << endl;
+		}
+		if (language_setting == 2) {
+			cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£Áö ¸øÇß½À´Ï´Ù." << endl;
+			cout << a << " È¸ ³²¾Ò½À´Ï´Ù." << endl;
+		}
+		a--;
 	}
-	cout << this->getBankName() << " Bank cannot find your account." << endl;
+	if (language_setting == 1) { cout << "You write wrong account number 4 times." << endl; }
+	if (language_setting == 2) { cout << "Àß¸øµÈ °èÁÂ ¹øÈ£¸¦ 4È¸ ÀÔ·ÂÇß½À´Ï´Ù." << endl; }
 	cout << "==================== < Account Number Search Session End! > ====================" << endl;
 	return NULL;
 }
 
-Account* Bank::search_account_number_BankSearch(string input_account) {
+Account* Bank::search_account_number_BankSearch(string input_account, int language_setting) {
 	vector<Account*> accounts_list = get_account();
 	string input_account_number = input_account;
 	for (int i = 0; i < accounts_list.size(); i++) {
 		if (accounts_list[i]->getAccountNumber() == input_account_number) {
-			cout << this->getBankName() << " Bank find your account." << endl;
-			cout << "Bank : " << accounts_list[i]->getBankName() << endl;
-			cout << "Owner : " << accounts_list[i]->getUserName() << endl;
-			cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+			if (language_setting == 1) {
+				cout << this->getBankName() << " Bank find your account." << endl;
+				cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+				cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+				cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+			}
+			if (language_setting == 2) {
+				cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£¾Ò½À´Ï´Ù." << endl;
+				cout << "ÀºÇà : " << accounts_list[i]->getBankName() << endl;
+				cout << "¿¹±ÝÁÖ : " << accounts_list[i]->getUserName() << endl;
+				cout << "°èÁÂ¹øÈ£ : " << accounts_list[i]->getAccountNumber() << endl;
+			}
 			return accounts_list[i];
 		}
 	}
@@ -156,43 +245,67 @@ Account* Bank::search_account_number_BankSearch(string input_account) {
 	return NULL;
 }
 
-// Account*
-Account* Bank::search_account_card() {
+Account* Bank::search_account_card(int language_setting) {
 	cout << "==================== < Account Card Search Session > ====================" << endl;
 	vector<Account*> accounts_list = get_account();
-	cout << this->getBankName() << " Bank. Please write card number." << endl;
+	if (language_setting == 1) { cout << this->getBankName() << " Bank. Please write card number." << endl; }
+	if (language_setting == 2) { cout << this->getBankName() << " ÀºÇà. Ä«µå ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä." << endl; }
 	string input_card_number;
-	cout << "Card number : ";	cin >> input_card_number;
+	if (language_setting == 1) {
+		cout << "Card number : ";
+		cin >> input_card_number;
+	}
+	if (language_setting == 2) {
+		cout << "Ä«µå ¹øÈ£ : ";
+		cin >> input_card_number;
+	}
 	for (int i = 0; i < accounts_list.size(); i++) {
 		vector<string> card_list = accounts_list[i]->getCardNumber();
 		for (int j = 0; j < card_list.size(); j++) {
 			if (card_list[j] == input_card_number) {
-				cout << this->getBankName() << " Bank find your account." << endl;
-
-				cout << "Bank : " << accounts_list[i]->getBankName() << endl;
-				cout << "Owner : " << accounts_list[i]->getUserName() << endl;
-				cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				if (language_setting == 1) {
+					cout << this->getBankName() << " Bank find your account." << endl;
+					cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+					cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+					cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+				if (language_setting == 2) {
+					cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£¾Ò½À´Ï´Ù." << endl;
+					cout << "ÀºÇà : " << accounts_list[i]->getBankName() << endl;
+					cout << "¿¹±ÝÁÖ : " << accounts_list[i]->getUserName() << endl;
+					cout << "°èÁÂ¹øÈ£ : " << accounts_list[i]->getAccountNumber() << endl;
+				}
 				cout << "==================== < Account Card Search Session End! > ====================" << endl;
 				return accounts_list[i];
 			}
 		}
 	}
-	cout << this->getBankName() << " Bank cannot find your account." << endl;
+	if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
+	if (language_setting == 2) { cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£Áö ¸øÇß½À´Ï´Ù." << endl; }
 	cout << "==================== < Account Card Search Session End! > ====================" << endl;
 	return NULL;
 }
 
-Account* Bank::search_account_card_BankSearch(string input_card) {
+Account* Bank::search_account_card_BankSearch(string input_card, int language_setting) {
 	vector<Account*> accounts_list = get_account();
 	string input_card_number = input_card;
 	for (int i = 0; i < accounts_list.size(); i++) {
 		vector<string> card_list = accounts_list[i]->getCardNumber();
 		for (int j = 0; j < card_list.size(); j++) {
 			if (card_list[j] == input_card_number) {
-				cout << this->getBankName() << " Bank find your account." << endl;
-				cout << "Bank : " << accounts_list[i]->getBankName() << endl;
-				cout << "Owner : " << accounts_list[i]->getUserName() << endl;
-				cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				if (language_setting == 1) {
+					cout << this->getBankName() << " Bank find your account." << endl;
+					cout << "Bank : " << accounts_list[i]->getBankName() << endl;
+					cout << "Owner : " << accounts_list[i]->getUserName() << endl;
+					cout << "Account : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+				if (language_setting == 2) {
+					cout << this->getBankName() << " ÀºÇàÀÌ °èÁÂ¸¦ Ã£¾Ò½À´Ï´Ù." << endl;
+					cout << "ÀºÇà : " << accounts_list[i]->getBankName() << endl;
+					cout << "¿¹±ÝÁÖ : " << accounts_list[i]->getUserName() << endl;
+					cout << "°èÁÂ¹øÈ£ : " << accounts_list[i]->getAccountNumber() << endl;
+				}
+
 				return accounts_list[i];
 			}
 		}

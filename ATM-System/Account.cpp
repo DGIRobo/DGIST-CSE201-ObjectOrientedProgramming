@@ -56,18 +56,6 @@ string Account::getAccountNumber() {
 	return this->account_number;
 }
 
-//string Account::makeCard() {
-//  // origin one // move account to bank
-//	static_card_counter += 1;
-//	string temp_card_num = "0000-0000-0000-";
-//	for (int i = 0; i < 4 - to_string(static_card_counter).size(); i++) {
-//		temp_card_num += "0";
-//	}
-//	temp_card_num += to_string(static_card_counter);
-//	this->access_cards.push_back(temp_card_num);
-//
-//	return temp_card_num;
-
 string Account::makeCard() {
 
 	string temp_bank_code;
