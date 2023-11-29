@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <exception>
 
 #include "Account.h"
 #include "Bank.h"
@@ -68,9 +69,42 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	}
 	cout << endl;
 	int bank_choose;
+
 	if (language_setting == 1) { cout << "Bank number : "; }
 	if (language_setting == 2) { cout << "은행 번호 : "; }
-	cin >> bank_choose;
+	
+	// cin >> bank_choose;
+	while (true) {
+		cin >> bank_choose;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (bank_choose > -1 && bank_choose < bank_list.size()) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+
 	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
 	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다." << endl; }
 
@@ -92,7 +126,37 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 		cout << "서비스 번호 : ";
 	}
 
-	cin >> service_choose;
+	// cin >> service_choose;
+	while (true) {
+		cin >> service_choose;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (service_choose > 0 && service_choose < 4) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
 
 	if (service_choose == 1) {
 		bank_list[bank_choose]->create_account(language_setting);
@@ -122,6 +186,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 				cout << "비밀번호 : ";
 			}
 
+			// password is string!
 			cin >> input_password;
 			a--;
 			if (input_account->getPassword() == input_password) {
@@ -259,19 +324,53 @@ void ATMService(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_set
 Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Search Session > ====================" << endl;
 	if (language_setting == 1) {
-
+		cout << "Please choose searach service number that you want." << endl;
+		cout << "[1] By Account Number" << endl;
+		cout << "[2] By Card Number" << endl;
+		cout << endl;
+		cout << "Search service number : ";
 	}
 	if (language_setting == 2) {
-
+		cout << "원하는 조회 서비스의 번호를 골라주세요.." << endl;
+		cout << "[1] 계좌 번호로" << endl;
+		cout << "[2] 카드 번호로" << endl;
+		cout << endl;
+		cout << "Search service number : ";
 	}
-	cout << "Please choose serach service number that you want." << endl;
-	cout << "[1] Account Number" << endl;
-	cout << "[2] Card Number" << endl;
-	cout << endl;
-	cout << "Search service number : ";
+
 
 	int search_choose;
-	cin >> search_choose;
+	// cin >> search_choose;
+	while (true) {
+		cin >> search_choose;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (search_choose > 0 && search_choose < 3) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
 
 	while (true) {
 		if (search_choose == 1) {
@@ -353,7 +452,41 @@ int LanguageService(int language_setting) {
 		cout << "번호 입력 : ";
 	}
 
-	cin >> language_setting;
+	// cin >> language_setting;
+	int setting;
+	while (true) {
+		cin >> setting;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (setting > 0 && setting < 3) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+
+	language_setting = setting;
+
 	return language_setting;
 }
 
@@ -413,6 +546,36 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 
 	int choice;
 	cin >> choice;
+	while (true) {
+		cin >> choice;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (choice > 0 && choice < 3) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
 
 	if (choice == 1) {
 		if (language_setting == 1) {
@@ -524,7 +687,37 @@ int main() {
 		}
 
 		int session_chice;
-		cin >> session_chice;
+		// cin >> session_chice;
+		while (true) {
+			cin >> session_chice;
+			if (cin.fail()) {
+				if (language_setting == 1) {
+					cout << "[Error] An input error has occurred. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+				cin.clear();
+				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+			else {
+				if (session_chice > 0 && session_chice < 9) { break; }
+				else {
+					if (language_setting == 1) {
+						cout << "[Error] Input out of range. Please write again." << endl;
+						cout << "Please Enter the Number : ";
+
+					}
+					if (language_setting == 2) {
+						cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+						cout << "숫자를 입력해주세요 : ";
+					}
+				}
+			}
+		}
 
 		switch (session_chice) {
 		case 1:
