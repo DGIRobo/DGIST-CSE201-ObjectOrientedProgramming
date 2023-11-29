@@ -42,4 +42,6 @@ public:
 	void printHistory();
 	
 	vector<string> getCardNumber();
+
+	int getAvailableFund();
 };

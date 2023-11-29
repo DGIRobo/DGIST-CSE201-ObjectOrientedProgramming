@@ -23,7 +23,6 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	}
 	temp_account_code += to_string(static_account_counter);
 	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
-	this->avaliable_funds = 0;
 	this->transaction_histories = input_user_name + ".txt";
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Generate New Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 }
@@ -125,4 +124,8 @@ void Account::printHistory() {
 
 vector<string> Account::getCardNumber() {
 	return access_cards;
+}
+
+int Account::getAvailableFund() {
+	return avaliable_funds;
 }
