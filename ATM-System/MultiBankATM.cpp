@@ -616,15 +616,15 @@ Account* Multi::card2account(string card, vector<Bank*> bank_list) {
 Account* Multi::num2account(string num, vector<Bank*> bank_list) {
 	int banknum = -1;
 	for (int k = 0; k < bank_list.size(); k++) {
-		for (int i = 0; i < primary_bank->get_account().size(); i++) {
-			string acc_num = primary_bank->get_account()[i]->getAccountNumber();
+		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
+			string acc_num = bank_list[k]->get_account()[i]->getAccountNumber();
 			if (acc_num == num) {
 				banknum = i;
 				break;
 			}
-			if (banknum == i) { break; }
+			//if (banknum == i) { break; }
 		}
-		if (banknum != -1) { break; }
+		//if (banknum != -1) { break; }
 	}
 	if (banknum == -1) {
 		if (this->lang_setting == true) { cout << "지원되지 않는 계좌입니다." << endl; }

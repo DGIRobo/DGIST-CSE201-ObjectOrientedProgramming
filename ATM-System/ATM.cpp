@@ -262,9 +262,9 @@ void ATM::display_transaction_short(vector<string> rec) {
 	//string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific
 	cout << "[/";
 	for (int i = 0; i < rec.size(); i++) {
-		cout << rec[i] << "/" << endl;
+		cout << rec[i] << "/";
 	}
-	cout << "]";
+	cout << "]" << endl;
 	return;
 }
 
