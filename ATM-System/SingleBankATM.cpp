@@ -188,7 +188,7 @@ int Single::withdraw(Account* a) {
 			temp2 += 2 * (temp3 - *(this->cash_storage[2]));
 		}
 		if (temp2 > *(this->cash_storage[1])) {
-			temp1 += 5 * (temp2 - *(this->cash_storage[0]));
+			temp1 += 5 * (temp2 - *(this->cash_storage[1]));
 		}
 		if (temp1 > *(this->cash_storage[0])) {
 			cout << "ATM에 현금이 부족합니다. 출금을 취소합니다." << endl;
@@ -252,7 +252,7 @@ int Single::withdraw(Account* a) {
 			temp2 += 2 * (temp3 - *(this->cash_storage[2]));
 		}
 		if (temp2 > *(this->cash_storage[1])) {
-			temp1 += 5 * (temp2 - *(this->cash_storage[0]));
+			temp1 += 5 * (temp2 - *(this->cash_storage[1]));
 		}
 		if (temp1 > *(this->cash_storage[0])) {
 			cout << "The ATM is out of cash. Cancel withdrawal." << endl;
