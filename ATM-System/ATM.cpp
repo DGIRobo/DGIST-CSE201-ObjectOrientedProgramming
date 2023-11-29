@@ -63,10 +63,9 @@ ATM::~ATM() {
 }
 
 void ATM::session(vector<Bank*> bank_list) {
-	if (this->lang_setting == true) { cout << "카드를 삽입해 주세요." << endl; }
-	if (this->lang_setting == false) { cout << "Please insert your card." << endl; }
+	if (this->lang_setting == true) { cout << "카드를 삽입해 주세요." << endl << "카드 번호 : "; }
+	if (this->lang_setting == false) { cout << "Please insert your card." << endl << "Card number : "; }
 	string cardinsert;
-	cout << "Card number : ";
 	cin >> cardinsert;
 	if (cardinsert == this->admin_card) {
 		see_transaction_history();
@@ -105,8 +104,8 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 
 	if (this->lang_setting == 1) { cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl; }
 	else if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
-	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 거래 종료" << endl; }
-	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl; }
+	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 거래 종료" << endl << "원하는 작업 : "; }
+	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl << "What you want to do : "; }
 	
 	int selection = 0;
 	cin >> selection;
@@ -176,10 +175,10 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 }
 
 void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
-	this->cash_storage[0] += cash1000;
-	this->cash_storage[1] += cash5000;
-	this->cash_storage[2] += cash10000;
-	this->cash_storage[3] += cash50000;
+	*(this->cash_storage[0]) += cash1000;
+	*(this->cash_storage[1]) += cash5000;
+	*(this->cash_storage[2]) += cash10000;
+	*(this->cash_storage[3]) += cash50000;
 }
 
 bool ATM::user_authorization(Account* a) {
@@ -192,14 +191,16 @@ bool ATM::user_authorization(Account* a) {
 	//비밀번호 검사
 
 	//3번 연속 틀리면 세션 중단되게
-	if (this->lang_setting == 1) { cout << "비밀번호를 3회 틀리면, 거래가 종료됩니다." << endl; }
+	if (this->lang_setting == 1) { cout << "안녕하세요, " << a->getUserName() << "." << endl; }
+	if (this->lang_setting == 0) { cout << "Hello, " << a->getUserName() << "." << endl; }
+	if (this->lang_setting == 1) { cout << "비밀번호를 3회 틀리면, 거래<가 종료됩니다." << endl; }
 	if (this->lang_setting == 0) { cout << "If you get the password wrong 3 times, the transaction ends." << endl; }
 	string pass;
 	for (int i = 0; i < 3; i++) {
 		if (this->lang_setting == 1) { cout << "비밀번호를 입력해 주십시오." << endl; }
-		if (this->lang_setting == 1) { cout << "남은 입력 횟수 : " << 3 - i << "회" << endl; }
-		if (this->lang_setting == 0) { cout << "Please enter your password." << endl; }
-		if (this->lang_setting == 0) { cout << "remaining : " << 3 - i << " times" << endl; }
+		else if (this->lang_setting == 0) { cout << "Please enter your password." << endl; }
+		if (this->lang_setting == 1) { cout << "남은 입력 횟수 : " << 3 - i << "회" << endl << "비밀번호 : "; }
+		else if (this->lang_setting == 0) { cout << "remaining : " << 3 - i << " times" << endl << "password : "; }
 		cin >> pass;
 		if (a->getPassword() == pass) {
 			return true;

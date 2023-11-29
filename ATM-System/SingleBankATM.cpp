@@ -1,5 +1,6 @@
 #include "SingleBankATM.h"
 #include <iomanip>
+#include <typeinfo>
 
 Single::Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
@@ -46,16 +47,61 @@ int Single::deposit(Account* a){
 	if (this->lang_setting == true) {
 		cout << "입금 수단을 선택해 주세요" << endl;
 		cout << "[1] 현금" << "   " << "[2] 수표" << endl;
-		cin >> deposit_method;
+		try {
+			cin >> deposit_method;
+			if (deposit_method != 1 && deposit_method != 2) {
+				throw deposit_method;
+			}
+		}
+		catch(string i){
+			cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+			return -1;
+		}
 		if (deposit_method == 1) {
 			cout << "본 기기가 처리할 수 있는 지폐의 매수는 50장까지입니다." << endl << "1000원권을 투입해 주세요." << endl;
-			cin >> cash1000;
+			try {
+				cin >> cash1000;
+				if (typeid(cash1000) != typeid(int)) {
+					throw cash1000;
+				}
+			}
+			catch (string i) {
+				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+				return -1;
+			}
 			cout << "5000원권을 투입해 주세요." << endl;
-			cin >> cash5000;
+			try {
+				cin >> cash5000;
+				if (typeid(cash5000) != typeid(int)) {
+					throw cash5000;
+				}
+			}
+			catch (string i) {
+				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+				return -1;
+			}
 			cout << "10000원권을 투입해 주세요." << endl;
-			cin >> cash10000;
+			try {
+				cin >> cash10000;
+				if (typeid(cash10000) != typeid(int)) {
+					throw cash10000;
+				}
+			}
+			catch (string i) {
+				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+				return -1;
+			}
 			cout << "50000원권을 투입해 주세요." << endl;
-			cin >> cash50000;
+			try {
+				cin >> cash50000;
+				if (typeid(cash50000) != typeid(int)) {
+					throw cash50000;
+				}
+			}
+			catch (string i) {
+				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+				return -1;
+			}
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "기기의 처리 한계를 초과하였습니다." << endl;
 				return -1;
@@ -68,7 +114,16 @@ int Single::deposit(Account* a){
 			cout << "본 기기가 처리할 수 있는 수표의 매수는 50장까지입니다. 수표를 투입해 주세요." << endl << "올바르지 않은 수표를 입력하면 투입이 중단됩니다." << endl;
 			int checks[50];
 			for (int i = 0; i <= 50; i++) {
-				cin >> checks[i];
+				try {
+					cin >> checks[i];
+					if (typeid(checks[i]) != typeid(int)) {
+						throw checks[i];
+					}
+				}
+				catch (string i) {
+					cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+					return -1;
+				}
 				if (checks[i] < 100000) {
 					checks[i] = 0;
 					cout << "투입이 중단되었습니다. 입금을 시작합니다." << endl;
