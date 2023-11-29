@@ -8,9 +8,10 @@ void ATM::languageChange() {
 		cout << "unilingual ATM cannot change language!" << endl;
 		return;
 	}
-	cout << "Please choose the language setting." << endl;
+	if (lang_setting == false) { cout << "Please choose the language setting." << endl; }
+	else { cout << "언어를 선택해 주세요." << endl; }
 	cout << "[1] English" << endl;
-	cout << "[2] Korean" << endl;
+	cout << "[2] 한국어" << endl;
 
 	int input_language_setting;
 	while (true) {
@@ -19,7 +20,8 @@ void ATM::languageChange() {
 			break;
 		}
 		else {
-			cout << "Wrong choice! Please choose appropriate choice."  << endl;
+			if (lang_setting == false) { cout << "An unsupported language. Return to the previous screen." << endl; }
+			if (lang_setting == true) { cout << "지원하지 않는 언어입니다. 이전 화면으로 돌아갑니다." << endl; }
 		}
 	}
 
