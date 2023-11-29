@@ -102,6 +102,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	}
 	if (service_choose == 3) {
 		Account* input_account = bank_list[bank_choose]->search_account_number(language_setting);
+		if (input_account == NULL) { return; }
 		string input_password;
 		int a = 3;
 		while (true) {
