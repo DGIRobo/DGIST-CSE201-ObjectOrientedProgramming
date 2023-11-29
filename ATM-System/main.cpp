@@ -321,6 +321,126 @@ int LanguageService(int language_setting) {
 	return language_setting;
 }
 
+void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting) {
+	string admin_password = "admin";
+
+	// \t
+	if (language_setting == 1) {
+		cout << "This is Admin session." << endl;
+		cout << endl;
+		cout << "Please Enter the password : ";
+	}
+	if (language_setting == 2) {
+		cout << "관리자 세션입니다." << endl;
+		cout << endl;
+		cout << "비밀번호를 입력해주세요 : ";
+	}
+	string input_password;
+
+	int a = 0;
+	for (int i = 0; i < 3; i++) {
+		cin >> input_password;
+		if (admin_password == input_password) {
+			if (language_setting == 1) { cout << "Admin confirmed." << endl; }
+			if (language_setting == 2) { cout << "관리자 확인 완료." << endl; }
+			a = 1;
+			break;
+		}
+		if (a == 0) {
+			if (language_setting == 1) { cout << 2 - i << " attempt left." << endl; }
+			if (language_setting == 2) { cout << 2 - i << " 회 남음." << endl; }
+		}
+	}
+
+	if (a == 0) {
+		if (language_setting == 1) { cout << "You write wrong password 3 times." << endl; }
+		if (language_setting == 2) { cout << "잘못된 비밀번호를 3회 입력하셨습니다." << endl; }
+		return;
+	}
+
+	if (a == 1) {
+		if (language_setting == 1) {
+			cout << "Please Select the task you want to do." << endl;
+			cout << "[1] Bank & Account Info" << endl;
+			cout << "[2] ATM Info" << endl;
+			cout << endl;
+			cout << "Please Enter the Number : ";
+		}
+		if (language_setting == 2) {
+			cout << "진행하고자 하는 업무를 선택하세요." << endl;
+			cout << "[1] 은행 & 계좌 정보" << endl;
+			cout << "[2] ATM 정보" << endl;
+			cout << endl;
+			cout << "숫자를 입력해주세요 : ";
+		}
+	}
+
+	int choice;
+	cin >> choice;
+
+	if (choice == 1) {
+		if (language_setting == 1) {
+			cout << "==================== < Bank & Account Info > ====================" << endl;
+			for (int i = 0; i < bank_list.size(); i++) {
+				cout << endl;
+				cout << "Bank : " << bank_list[i]->getBankName() << endl;
+				cout << endl;
+
+				for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
+					cout << "Name : " << bank_list[i]->get_account()[j]->getUserName() << " ID : " << bank_list[i]->get_account()[j]->getAccountNumber() << " Password : " << bank_list[i]->get_account()[j]->getPassword() << " Available Fund : " << bank_list[i]->get_account()[j]->getAvailableFund() << endl;
+					cout << "Card : ";
+					for (int k = 0; k < bank_list[i]->get_account()[j]->getCardNumber().size(); k++) {
+						cout << bank_list[i]->get_account()[j]->getCardNumber()[k] << "\t";
+					}
+					cout << endl;
+				}
+				cout << "========================================" << endl;
+			}
+			cout << "==================== < Bank & Account Info End!> ====================" << endl;
+		}
+		if (language_setting == 2) {
+			cout << "==================== < Bank & Account Info > ====================" << endl;
+			for (int i = 0; i < bank_list.size(); i++) {
+				cout << endl;
+				cout << "은행 : " << bank_list[i]->getBankName() << endl;
+				cout << endl;
+
+				for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
+					cout << "예금주 : " << bank_list[i]->get_account()[j]->getUserName() << " 계좌번호 : " << bank_list[i]->get_account()[j]->getAccountNumber() << " 비밀번호 : " << bank_list[i]->get_account()[j]->getPassword() << " 계좌잔고 : " << bank_list[i]->get_account()[j]->getAvailableFund() << endl;
+					cout << "카드번호 : ";
+					for (int k = 0; k < bank_list[i]->get_account()[j]->getCardNumber().size(); k++) {
+						cout << bank_list[i]->get_account()[j]->getCardNumber()[k] << "\t";
+					}
+					cout << endl;
+				}
+				cout << "========================================" << endl;
+			}
+			cout << "==================== < Bank & Account Info End!> ====================" << endl;
+		}
+	}
+
+	if (choice == 2) {
+		if (language_setting == 1) {
+			cout << "==================== < ATM Info > ====================" << endl;
+			for (int i = 0; i < ATM_list.size(); i++) {
+				cout << endl;
+				cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
+				// " Amount : "
+			}
+			cout << "==================== < ATM Info End!> ====================" << endl;
+		}
+		if (language_setting == 2) {
+			cout << "==================== < ATM Info > ====================" << endl;
+			for (int i = 0; i < ATM_list.size(); i++) {
+				cout << endl;
+				cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
+				// " Amount : "
+			}
+			cout << "==================== < ATM Info End!> ====================" << endl;
+		}
+	}
+}
+
 int main() {
 	vector<Bank*> bank_list;
 	vector<ATM*> ATM_list;
@@ -348,6 +468,7 @@ int main() {
 			cout << "[5] Change Language Setting" << endl;
 			cout << "[6] Shut Down the Bank System Service" << endl;
 			cout << "[7] Fee Configuration" << endl;
+			cout << "[8] Admin" << endl;
 			cout << endl;
 
 			cout << "Please Enter the Number : ";
@@ -361,6 +482,7 @@ int main() {
 			cout << "[5] 언어 설정 변경" << endl;
 			cout << "[6] Bank System Service 종료" << endl;
 			cout << "[7] 수수료 설정" << endl;
+			cout << "[8] 관리자" << endl;
 			cout << endl;
 			cout << "숫자를 입력해주세요 : ";
 		}
@@ -390,6 +512,8 @@ int main() {
 		case 7:
 			feeConfig(fee1, fee2, language_setting);
 			break;
+		case 8:
+			Admin(ATM_list, bank_list, language_setting);
 		}
 		cout << "===========================<End System Session>===========================" << endl;
 	}
