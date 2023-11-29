@@ -79,6 +79,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 		cout << "Please choose number that you want to get service." << endl;
 		cout << "[1] Create Account" << endl;
 		cout << "[2] Make Card" << endl;
+		cout << "[3] Account history" << endl;
 		cout << endl;
 		cout << "Serive number : ";
 	}
@@ -86,6 +87,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 		cout << "이용하고자 하는 서비스를 선택해주세요." << endl;
 		cout << "[1] 계좌 개설" << endl;
 		cout << "[2] 카드 생성" << endl;
+		cout << "[3] 계좌 기록" << endl;
 		cout << endl;
 		cout << "서비스 번호 : ";
 	}
@@ -98,6 +100,41 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	if (service_choose == 2) {
 		bank_list[bank_choose]->makeCard_session(language_setting);
 	}
+	if (service_choose == 3) {
+		Account* input_account = bank_list[bank_choose]->search_account_number(language_setting);
+		if (input_account == NULL) { return; }
+		string input_password;
+		int a = 3;
+		while (true) {
+
+			if (a == 0) {
+				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
+				if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+				cout << "==================== < Account History Session End! > ====================" << endl;
+				return;
+			}
+			if (language_setting == 1) {
+				cout << a << " attempts left." << endl;
+				cout << "Password : ";
+			}
+			if (language_setting == 2) {
+				cout << a << " 회 남음." << endl;
+				cout << "비밀번호 : ";
+			}
+
+			cin >> input_password;
+			a--;
+			if (input_account->getPassword() == input_password) {
+				if (language_setting == 1) { cout << "Correct password." << endl; }
+				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
+				cout << endl;
+				input_account->printHistory();
+				cout << "==================== < Account History Session End! > ====================" << endl;
+				return;
+			}
+		}
+	}
+
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
@@ -188,7 +225,6 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	default:
 		break;
 	}
-
 
 	return;
 }
