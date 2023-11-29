@@ -441,6 +441,43 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 	}
 }
 
+void AccountHistory(vector<Bank*> bank_list, int language_setting) {
+
+	cout << "==================== < Account History Session > ====================" << endl;
+	Account* account = BankSearch(bank_list, language_setting);
+	
+	string input_password;
+	int a = 3;
+	while (true) {
+
+		if (a == 0) {
+			if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
+			if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+			cout << "==================== < Account History Session End! > ====================" << endl;
+			break;
+		}
+		if (language_setting == 1) {
+			cout << a << " attempts left." << endl;
+			cout << "Password : ";
+		}
+		if (language_setting == 2) {
+			cout << a << " 회 남음." << endl;
+			cout << "비밀번호 : ";
+		}
+
+		cin >> input_password;
+		a--;
+		if (account->getPassword() == input_password) {
+			if (language_setting == 1) { cout << "Correct password." << endl; }
+			if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
+			cout << endl;
+			account->printHistory();
+			cout << "==================== < Account History Session End! > ====================" << endl;
+		}
+	}
+}
+
+
 int main() {
 	vector<Bank*> bank_list;
 	vector<ATM*> ATM_list;
@@ -469,6 +506,7 @@ int main() {
 			cout << "[6] Shut Down the Bank System Service" << endl;
 			cout << "[7] Fee Configuration" << endl;
 			cout << "[8] Admin" << endl;
+			cout << "[9] Account History" << endl;
 			cout << endl;
 
 			cout << "Please Enter the Number : ";
@@ -483,6 +521,7 @@ int main() {
 			cout << "[6] Bank System Service 종료" << endl;
 			cout << "[7] 수수료 설정" << endl;
 			cout << "[8] 관리자" << endl;
+			cout << "[9] 계좌 기록" << endl;
 			cout << endl;
 			cout << "숫자를 입력해주세요 : ";
 		}
@@ -514,6 +553,8 @@ int main() {
 			break;
 		case 8:
 			Admin(ATM_list, bank_list, language_setting);
+		case 9:
+			AccountHistory(bank_list, language_setting);
 		}
 		cout << "===========================<End System Session>===========================" << endl;
 	}
