@@ -53,6 +53,13 @@ void BankMake(vector<Bank*>& bank_list, int language_setting) {
 void BankService(vector<Bank*> bank_list, int language_setting) {
 
 	cout << "==================== < Bank Service Session > ====================" << endl;
+
+	if (bank_list.size() == 0) {
+		if (language_setting == 1) { cout << "There is no bank. So bank service is not available." << endl; }
+		if (language_setting == 2) { cout << "은행이 없어 은행 서비스를 수행할 수 없습니다." << endl; }
+		return;
+	}
+
 	if (language_setting == 1) { cout << "Please choose Bank number that you want to make account for." << endl; }
 	if (language_setting == 2) { cout << "계좌를 만들고 싶은 은행을 선택해주세요." << endl; }
 
@@ -98,6 +105,13 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	cout << "==================== < ATM Duplicate Session > ====================" << endl;
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
+
+	if (bank_list.size() == 0) {
+		if (language_setting == 1) { cout << "There is no bank. So ATM can not be made." << endl; }
+		if (language_setting == 2) { cout << "은행이 없어 ATM을 설치할 수 없습니다." << endl; }
+		return;
+	}
+
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << bank_list[i]->getBankName() << " Bank : " << "[" << i << "]" << endl;
 	}
@@ -277,13 +291,13 @@ int LanguageService(int language_setting) {
 	if (language_setting == 1) {
 		cout << "Select language" << endl;
 		cout << "[1] English" << endl;
-		cout << "[2] Korean" << endl;
+		cout << "[2] 한국어" << endl;
 		cout << endl;
 		cout << "Please Enter the Number: ";
 	}
 	if (language_setting == 2) {
 		cout << "언어선택" << endl;
-		cout << "[1] 영어" << endl;
+		cout << "[1] English" << endl;
 		cout << "[2] 한국어" << endl;
 		cout << endl;
 		cout << "번호 입력 : ";
@@ -314,7 +328,7 @@ int main() {
 		if (language_setting == 1) {
 			cout << "Please Select the task you want to do." << endl;
 			cout << "[1] Make Bank" << endl;
-			cout << "[2] Banking Service (Make Account of Make Card)" << endl;
+			cout << "[2] Banking Service (Make Account or Make Card)" << endl;
 			cout << "[3] Make ATM" << endl;
 			cout << "[4] ATM Service (Deposit, Withdraw, etc...)" << endl;
 			cout << "[5] Change Language Setting" << endl;
