@@ -218,8 +218,8 @@ bool ATM::user_authorization(Account* a) {
 }
 
 void ATM::see_transaction_history() {
-	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인" << setw(10) << "[1] 현금 보충" << setw(10) << "[2] 돌아가기" << endl; }
-	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history" << setw(10) << "[1] cash replenishment" << setw(10) << "[2] return" << endl; }
+	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인 " << "[1] 현금 보충 " << "[2] 돌아가기" << endl; }
+	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history " << "[1] cash replenishment " << "[2] return" << endl; }
 	int no;
 	cin >> no;
 	if (no == 2) {
@@ -269,16 +269,15 @@ void ATM::make_history(vector<string> rec) {
 	//account transfer:enemy account number
 	//cash transfer:enemy account number
 	//vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
-	int len = static_cast<int>(rec.size());
+	//int len = static_cast<int>(rec.size());
 
 	ofstream writeFromFile(this->transaction_histories, ios::app);
-	for (int i = 0; i < len; ++i) {
-		string tmp = rec[i];
-		if (i != len - 1) {
-			tmp += ", ";
-		}
-		writeFromFile << tmp;
-	}
+	writeFromFile << "TransactionID : " << rec[0] << "\n";
+	writeFromFile << "CardNumber : " << rec[1] << "\n";
+	writeFromFile << "TransactionTypes : " << rec[2] << "\n";
+	writeFromFile << "Success or failure : " << rec[3] << "\n";
+	writeFromFile << "Amount : " << rec[4] << "\n";
+	writeFromFile << "Note : " << rec[5] << "\n";
 	writeFromFile << "\n";
 	return;
 }
