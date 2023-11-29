@@ -425,7 +425,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 			for (int i = 0; i < ATM_list.size(); i++) {
 				cout << endl;
 				cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
-				// " Amount : "
+				cout << "Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
 			}
 			cout << "==================== < ATM Info End!> ====================" << endl;
 		}
@@ -434,7 +434,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 			for (int i = 0; i < ATM_list.size(); i++) {
 				cout << endl;
 				cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
-				// " Amount : "
+				cout << "ÀÜ¿©Çö±Ý : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
 			}
 			cout << "==================== < ATM Info End!> ====================" << endl;
 		}
