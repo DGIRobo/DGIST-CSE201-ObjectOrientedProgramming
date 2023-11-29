@@ -16,6 +16,8 @@ private:
 	
 	Bank* bank;
 
+	int account_id;
+
 	string bank_name;
 	string user_name;
 	static int static_account_counter;
@@ -44,4 +46,6 @@ public:
 	vector<string> getCardNumber();
 
 	int getAvailableFund();
+
+	int getAccountID();
 };
