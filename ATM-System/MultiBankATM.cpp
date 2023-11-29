@@ -409,7 +409,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 				a->withdraw(*(this->fee_list[2]));
 			}
 		}
-		if (coconut == 1 && cococonut == 1) {
+		else if (coconut == 1 && cococonut == 1) {
 			cout << "Pay the fee." << endl;
 			if (*(this->multi_fee_list[3]) == 0) {
 				cout << "There are no fees to pay." << endl;
