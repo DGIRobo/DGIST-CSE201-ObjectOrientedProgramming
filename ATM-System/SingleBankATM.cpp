@@ -1,6 +1,4 @@
 #include "SingleBankATM.h"
-#include <iomanip>
-#include <typeinfo>
 
 Single::Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4]) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
@@ -49,57 +47,24 @@ int Single::deposit(Account* a){
 		cout << "[1] 현금" << "   " << "[2] 수표" << endl;
 		try {
 			cin >> deposit_method;
-			if (deposit_method != 1 && deposit_method != 2) {
-				throw deposit_method;
-			}
 		}
-		catch(string i){
-			cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+		catch(bad_alloc& e){
+			cout << "입력 오류가 발생했습니다. 거래를 중단합니다." << endl;
 			return -1;
 		}
 		if (deposit_method == 1) {
-			cout << "본 기기가 처리할 수 있는 지폐의 매수는 50장까지입니다." << endl << "1000원권을 투입해 주세요." << endl;
 			try {
+				cout << "본 기기가 처리할 수 있는 지폐의 매수는 50장까지입니다." << endl << "1000원권을 투입해 주세요." << endl;
 				cin >> cash1000;
-				if (typeid(cash1000) != typeid(int)) {
-					throw cash1000;
-				}
-			}
-			catch (string i) {
-				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
-				return -1;
-			}
-			cout << "5000원권을 투입해 주세요." << endl;
-			try {
+				cout << "5000원권을 투입해 주세요." << endl;
 				cin >> cash5000;
-				if (typeid(cash5000) != typeid(int)) {
-					throw cash5000;
-				}
-			}
-			catch (string i) {
-				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
-				return -1;
-			}
-			cout << "10000원권을 투입해 주세요." << endl;
-			try {
+				cout << "10000원권을 투입해 주세요." << endl;
 				cin >> cash10000;
-				if (typeid(cash10000) != typeid(int)) {
-					throw cash10000;
-				}
-			}
-			catch (string i) {
-				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
-				return -1;
-			}
-			cout << "50000원권을 투입해 주세요." << endl;
-			try {
+				cout << "50000원권을 투입해 주세요." << endl;
 				cin >> cash50000;
-				if (typeid(cash50000) != typeid(int)) {
-					throw cash50000;
-				}
 			}
-			catch (string i) {
-				cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+			catch(bad_alloc& e) {
+				cout << "입력 오류가 발생했습니다. 거래를 중단합니다." << endl;
 				return -1;
 			}
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
@@ -116,12 +81,9 @@ int Single::deposit(Account* a){
 			for (int i = 0; i <= 50; i++) {
 				try {
 					cin >> checks[i];
-					if (typeid(checks[i]) != typeid(int)) {
-						throw checks[i];
-					}
 				}
-				catch (string i) {
-					cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
+				catch (bad_alloc& e) {
+					cout << "입력 오류가 발생했습니다. 거래를 중단합니다." << endl;
 					return -1;
 				}
 				if (checks[i] < 100000) {
@@ -150,16 +112,28 @@ int Single::deposit(Account* a){
 		cout << "Please select deposit method" << endl;
 		cout << "[1] cash" << "   " << "[2] check" << endl;
 		int deposit_method;
-		cin >> deposit_method;
+		try {
+			cin >> deposit_method;
+		}
+		catch (bad_alloc& e) {
+			cout << "An input error has occurred. Closing the transaction." << endl;
+			return -1;
+		}
 		if (deposit_method == 1) {
 			cout << "This device can process up to 50 cashes." << endl << "Please input 1000 won bills." << endl;
-			cin >> cash1000;
-			cout << "Please input 5000 won bills." << endl;
-			cin >> cash5000;
-			cout << "Please input 10000 won bills." << endl;
-			cin >> cash10000;
-			cout << "Please input 50000 won bills." << endl;
-			cin >> cash50000;
+			try {
+				cin >> cash1000;
+				cout << "Please input 5000 won bills." << endl;
+				cin >> cash5000;
+				cout << "Please input 10000 won bills." << endl;
+				cin >> cash10000;
+				cout << "Please input 50000 won bills." << endl;
+				cin >> cash50000;
+			}
+			catch (bad_alloc& e) {
+				cout << "An input error has occurred. Closing the transaction." << endl;
+				return -1;
+			}
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "The device's processing limit has been exceeded." << endl;
 				return -1;
@@ -172,7 +146,13 @@ int Single::deposit(Account* a){
 			cout << "This device can process up to 50 checks. Please insert checks." << endl << "If you enter an incorrect check, the insertion will be ended." << endl;
 			int checks[50];
 			for (int i = 0; i <= 50; i++) {
-				cin >> checks[i];
+				try {
+					cin >> checks[i];
+				}
+				catch (bad_alloc& e) {
+					cout << "An input error has occurred. Closing the transaction." << endl;
+					return -1;
+				}
 				if (checks[i] < 100000) {
 					checks[i] = 0;
 					cout << "Insertion ended. deposit is starting." << endl;
@@ -219,7 +199,13 @@ int Single::withdraw(Account* a) {
 		int amount;
 		cout << "출금할 액수를 1000의 배수 단위로 입력하세요. 최대 금액은 50만원입니다." << endl;
 		cout << "당신의 잔고는 " << setw(10) << a->checkFunds() << "원 입니다." << endl;
-		cin >> amount;
+		try {
+			cin >> amount;
+		}
+		catch (bad_alloc& e) {
+			cout << "입력 오류가 발생했습니다. 거래를 중단합니다." << endl;
+			return -1;
+		}
 		if (amount > 500000) {
 			cout << "50만원을 초과한 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
 			a->deposit(*(this->fee_list[1]));
@@ -283,7 +269,13 @@ int Single::withdraw(Account* a) {
 		int amount;
 		cout << "Enter the amount you wish to withdraw in multiples of 1000. The maximum amount is 500,000 won." << endl;
 		cout << "Your remaining fund is " << setw(10) << a->checkFunds() << "." << endl;
-		cin >> amount;
+		try {
+			cin >> amount;
+		}
+		catch (bad_alloc& e) {
+			cout << "An input error has occurred. Closing the transaction." << endl;
+			return -1;
+		}
 		if (amount > 500000) {
 			cout << "You entered an amount exceeding 500,000 won. Cancel withdrawal." << endl;
 			a->deposit(*(this->fee_list[1]));
@@ -354,7 +346,13 @@ int Single::account_transfer(Account* a, Account* b) {
 		int amount;
 		cout << "Please enter the amount you wish to transfer." << endl;
 		cout << "Your remaining fund is " << setw(10) << a->checkFunds() << "." << endl;
-		cin >> amount;
+		try {
+			cin >> amount;
+		}
+		catch (bad_alloc& e) {
+			cout << "An input error has occurred. Closing the transaction." << endl;
+			return -1;
+		}
 		if (amount > a->checkFunds()) {
 			cout << "Your balance is insufficient. Cancel the transfer." << endl;
 			a->deposit(*(this->fee_list[2]));
@@ -389,7 +387,13 @@ int Single::account_transfer(Account* a, Account* b) {
 		int amount;
 		cout << "송금할 액수를 입력해 주세요." << endl;
 		cout << "당신의 잔고는 " << setw(10) << a->checkFunds() << "원 입니다." << endl;
-		cin >> amount;
+		try {
+			cin >> amount;
+		}
+		catch (bad_alloc& e) {
+			cout << "입력 오류가 발생했습니다. 입금을 중단합니다." << endl;
+			return -1;
+		}
 		if (amount > a->checkFunds()) {
 			cout << "잔액이 부족합니다. 송금을 취소합니다." << endl;
 			a->deposit(*(this->fee_list[2]));
@@ -422,14 +426,20 @@ int Single::cash_transfer(Account* b) {
 		int cash5000;
 		int cash10000;
 		int cash50000;
-		cout << "Please insert a 1,000 won bill." << endl;
-		cin >> cash1000;
-		cout << "Please insert a 5,000 won bill." << endl;
-		cin >> cash5000;
-		cout << "Please insert a 10,000 won bill." << endl;
-		cin >> cash10000;
-		cout << "Please insert a 50,000 won bill." << endl;
-		cin >> cash50000;
+		try {
+			cout << "Please insert a 1,000 won bill." << endl;
+			cin >> cash1000;
+			cout << "Please insert a 5,000 won bill." << endl;
+			cin >> cash5000;
+			cout << "Please insert a 10,000 won bill." << endl;
+			cin >> cash10000;
+			cout << "Please insert a 50,000 won bill." << endl;
+			cin >> cash50000;
+		}
+		catch (bad_alloc& e) {
+			cout << "An input error has occurred. Closing the transaction." << endl;
+			return -1;
+		}
 		add_cash(cash1000, cash5000, cash10000, cash50000);
 		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "The transfer has been completed." << endl;
@@ -454,14 +464,20 @@ int Single::cash_transfer(Account* b) {
 		int cash5000;
 		int cash10000;
 		int cash50000;
-		cout << "1000원권을 투입해 주세요." << endl;
-		cin >> cash1000;
-		cout << "5000원권을 투입해 주세요." << endl;
-		cin >> cash5000;
-		cout << "10000원권을 투입해 주세요." << endl;
-		cin >> cash10000;
-		cout << "50000원권을 투입해 주세요." << endl;
-		cin >> cash50000;
+		try {
+			cout << "1000원권을 투입해 주세요." << endl;
+			cin >> cash1000;
+			cout << "5000원권을 투입해 주세요." << endl;
+			cin >> cash5000;
+			cout << "10000원권을 투입해 주세요." << endl;
+			cin >> cash10000;
+			cout << "50000원권을 투입해 주세요." << endl;
+			cin >> cash50000;
+		}
+		catch (bad_alloc& e) {
+			cout << "입력 오류가 발생했습니다. 거래를 중단합니다." << endl;
+			return -1;
+		}
 		add_cash(cash1000, cash5000, cash10000, cash50000);
 		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "송금이 완료되었습니다." << endl;

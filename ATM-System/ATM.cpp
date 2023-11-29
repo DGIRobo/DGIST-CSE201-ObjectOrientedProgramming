@@ -1,5 +1,5 @@
 #include "ATM.h"
-#include <iomanip>
+
 
 int ATM::static_ATM_counter = 0;
 int ATM::static_transaction_counter = 0;
@@ -18,11 +18,18 @@ void ATM::languageChange() {
 
 	int input_language_setting;
 	while (true) {
-		cin >> input_language_setting;
-		if (input_language_setting == 1 or input_language_setting == 2) {
+		try {
+			cin >> input_language_setting;
+			if(input_language_setting != 1 && input_language_setting != 2) {
+				throw 123;
+			}
 			break;
 		}
-		else {
+		catch (bad_alloc& e) {
+			if (lang_setting == true) { cout << "입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl; }
+			else { cout << "An input error has occurred. Please type the input again." << endl; }
+		}
+		catch (int i) {
 			if (lang_setting == false) { cout << "An unsupported language. Return to the previous screen." << endl; }
 			if (lang_setting == true) { cout << "지원하지 않는 언어입니다. 이전 화면으로 돌아갑니다." << endl; }
 		}
@@ -109,7 +116,16 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] account inquiry" << endl << "[7] end transfer" << endl << "What you want to do : "; }
 	
 	int selection = 0;
-	cin >> selection;
+	while (true) {
+		try {
+			cin >> selection;
+			break;
+		}
+		catch (bad_alloc& e) {
+			if (lang_setting == true) { cout << "입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl; }
+			else { cout << "An input error has occurred. Please type the input again." << endl; }
+		}
+	}
 	if (selection == 1) {
 		rec.push_back("Deposit");
 		amount = deposit(a);
@@ -167,6 +183,8 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 		amount = 0;
 	}
 	else {
+		if (lang_setting == true) { cout << "입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl; }
+		else { cout << "An input error has occurred. Please type the input again." << endl; }
 		rec.push_back("invalid transaction");
 		rec.push_back("Failure");
 		rec.push_back("-1");
@@ -221,27 +239,47 @@ void ATM::see_transaction_history() {
 	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인 " << "[1] 현금 보충 " << "[2] 돌아가기" << endl; }
 	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history " << "[1] cash replenishment " << "[2] return" << endl; }
 	int no;
-	cin >> no;
+	while (true) {
+		try {
+			cin >> no;
+			break;
+		}
+		catch (bad_alloc& e) {
+			if (lang_setting == true) { cout << "입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl; }
+			else { cout << "An input error has occurred. Please type the input again." << endl; }
+		}
+	}
 	if (no == 2) {
+		if (lang_setting == true) { cout << "초기 화면으로 돌아갑니다." << endl; }
+		else { cout << "Returning to the initial screen." << endl; }
 		return;
 	}
-	else if (no == 1) {
-		int replenish[4] = {0,0,0,0};
-		if (this->lang_setting == 1) { cout << "보충할 1000원권의 양을 입력해 주세요." << endl; }
-		if (this->lang_setting == 0) { cout << "Please enter the amount of 1,000 won bills to be replenished." << endl; }
-		cin >> replenish[0];
-		if (this->lang_setting == 1) { cout << "보충할 5000원권의 양을 입력해 주세요." << endl; }
-		if (this->lang_setting == 0) { cout << "Please enter the amount of 5,000 won bills to be replenished." << endl; }
-		cin >> replenish[1];
-		if (this->lang_setting == 1) { cout << "보충할 10000원권의 양을 입력해 주세요." << endl; }
-		if (this->lang_setting == 0) { cout << "Please enter the amount of 10,000 won bills to be replenished." << endl; }
-		cin >> replenish[2];
-		if (this->lang_setting == 1) { cout << "보충할 50000원권의 양을 입력해 주세요." << endl; }
-		if (this->lang_setting == 0) { cout << "Please enter the amount of 50,000 won bills to be replenished." << endl; }
-		cin >> replenish[3];
+	if (no == 1) {
+		int replenish[4] = { 0,0,0,0 };
+		while (true) {
+			try {
+				if (this->lang_setting == 1) { cout << "보충할 1000원권의 양을 입력해 주세요." << endl; }
+				if (this->lang_setting == 0) { cout << "Please enter the amount of 1,000 won bills to be replenished." << endl; }
+				cin >> replenish[0];
+				if (this->lang_setting == 1) { cout << "보충할 5000원권의 양을 입력해 주세요." << endl; }
+				if (this->lang_setting == 0) { cout << "Please enter the amount of 5,000 won bills to be replenished." << endl; }
+				cin >> replenish[1];
+				if (this->lang_setting == 1) { cout << "보충할 10000원권의 양을 입력해 주세요." << endl; }
+				if (this->lang_setting == 0) { cout << "Please enter the amount of 10,000 won bills to be replenished." << endl; }
+				cin >> replenish[2];
+				if (this->lang_setting == 1) { cout << "보충할 50000원권의 양을 입력해 주세요." << endl; }
+				if (this->lang_setting == 0) { cout << "Please enter the amount of 50,000 won bills to be replenished." << endl; }
+				cin >> replenish[3];
+				break;
+			}
+			catch (bad_alloc& e) {
+				if (lang_setting == true) { cout << "입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl; }
+				else { cout << "An input error has occurred. Please type the input again." << endl; }
+			}
+		}
 		add_cash(replenish[0], replenish[1], replenish[2], replenish[3]);
 	}
-	else {
+	else if (no == 0) {
 		if (this->lang_setting == 1) { cout << "거래 내역을 출력합니다." << endl << endl; }
 		else if (this->lang_setting == 0) { cout << "Printing transaction histories." << endl << endl; }
 		ifstream readFile(this->transaction_histories);
@@ -257,6 +295,10 @@ void ATM::see_transaction_history() {
 			if (this->lang_setting == 0) { cout << "No corresponding files exist." << endl; }
 		}
 	}
+	else {
+		if (lang_setting == true) { cout << "잘못된 명령어입니다. 초기 화면으로 돌아갑니다." << endl; }
+		else { cout << "Wrong command. Returning to the initial screen." << endl; }
+	}
 	return;
 }
 
@@ -268,7 +310,7 @@ void ATM::make_history(vector<string> rec) {
 	//other transaction-specific information
 	//account transfer:enemy account number
 	//cash transfer:enemy account number
-	//vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
+	//vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecific Information
 	//int len = static_cast<int>(rec.size());
 
 	ofstream writeFromFile(this->transaction_histories, ios::app);

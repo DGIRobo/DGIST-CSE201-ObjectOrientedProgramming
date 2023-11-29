@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <typeinfo>
+#include <exception>
 #include "Bank.h"
 #include "Account.h"
 
