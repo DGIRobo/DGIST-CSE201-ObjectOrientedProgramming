@@ -9,7 +9,7 @@ Multi::Multi(Bank* input_primary_bank, string input_serial_number, int input_lan
 	}
 }
 
-void Multi::deposit(Account* a) {
+int Multi::deposit(Account* a) {
 	int account_count = 0;
 	if (this->lang_setting == true) {
 		if (a->getBankName() == this->primary_bank->getBankName()) {
@@ -46,7 +46,6 @@ void Multi::deposit(Account* a) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "Deposits will be made to accounts at other banks." << endl;
 			account_count = 1;
-			return;
 		}
 		if (account_count == 0) {
 			cout << "Pay the fee." << endl << "Please deposit the fee." << endl;
@@ -91,11 +90,11 @@ void Multi::deposit(Account* a) {
 			cin >> cash50000;
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "기기의 처리 한계를 초과하였습니다." << endl;
-				return;
+				return -1;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
 			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
-			return;
+			return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 		}
 		else if (deposit_method == 2) {
 			cout << "본 기기가 처리할 수 있는 수표의 매수는 50장까지입니다. 수표를 투입해 주세요." << endl << "올바르지 않은 수표를 입력하면 투입이 중단됩니다." << endl;
@@ -116,11 +115,11 @@ void Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
-			return;
+			return check_sum;
 		}
 		else {
 			cout << "오류가 발생했습니다. 입금을 중단합니다." << endl;
-			return;
+			return -1;
 		}
 	}
 	else {
@@ -139,11 +138,11 @@ void Multi::deposit(Account* a) {
 			cin >> cash50000;
 			if (cash1000 + cash5000 + cash10000 + cash50000 > 51) {
 				cout << "The device's processing limit has been exceeded." << endl;
-				return;
+				return -1;
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
 			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
-			return;
+			return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 		}
 		else if (deposit_method == 2) {
 			cout << "This device can process up to 50 checks. Please insert checks." << endl << "If you enter an incorrect check, the insertion will be ended." << endl;
@@ -164,17 +163,17 @@ void Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
-			return;
+			return check_sum;
 		}
 		else {
 			cout << "Error detected. Deposit will be stopped." << endl;
-			return;
+			return -1;
 		}
 	}
-	return;
+	return -1;
 }
 
-void Multi::withdraw(Account* a) {
+int Multi::withdraw(Account* a) {
 	int coconut = 0;
 	if (this->lang_setting == true) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
@@ -191,7 +190,7 @@ void Multi::withdraw(Account* a) {
 			}
 			else if (*(this->fee_list[1]) > a->checkFunds()) {
 				cout << "잔액이 부족합니다." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->fee_list[1]));
@@ -203,7 +202,7 @@ void Multi::withdraw(Account* a) {
 			}
 			else if (*(this->multi_fee_list[1]) > a->checkFunds()) {
 				cout << "잔액이 부족합니다." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[1]));
@@ -221,7 +220,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		if (amount % 1000 != 0) {
 			cout << "1000의 배수가 아닌 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
@@ -231,7 +230,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		if (amount > a->checkFunds()) {
 			cout << "계좌에 잔액이 부족합니다. 출금을 취소합니다." << endl;
@@ -241,7 +240,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		int temp4 = amount / 50000;
 		int temp3 = (amount % 50000) / 10000;
@@ -264,7 +263,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		else {
 			*(this->cash_storage[3]) -= temp4;
@@ -274,7 +273,7 @@ void Multi::withdraw(Account* a) {
 		}
 		a->withdraw(amount);
 		cout << "출금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
-		return;
+		return amount;
 	}
 	else {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
@@ -291,7 +290,7 @@ void Multi::withdraw(Account* a) {
 			}
 			else if (*(this->fee_list[1]) > a->checkFunds()) {
 				cout << "Your balance is insufficient." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->fee_list[1]));
@@ -304,7 +303,7 @@ void Multi::withdraw(Account* a) {
 			}
 			else if (*(this->multi_fee_list[1]) > a->checkFunds()) {
 				cout << "Your balance is insufficient." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[1]));
@@ -322,7 +321,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		if (amount % 1000 != 0) {
 			cout << "You entered an amount that is not a multiple of 1000. Cancel withdrawal." << endl;
@@ -332,7 +331,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		if (amount > a->checkFunds()) {
 			cout << "There are insufficient funds in your account. Cancel withdrawal." << endl;
@@ -342,7 +341,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		int temp4 = amount / 50000;
 		int temp3 = (amount % 50000) / 10000;
@@ -365,7 +364,7 @@ void Multi::withdraw(Account* a) {
 			else {
 				a->deposit(*(this->multi_fee_list[1]));
 			}
-			return;
+			return -1;
 		}
 		else {
 			*(this->cash_storage[3]) -= temp4;
@@ -375,11 +374,11 @@ void Multi::withdraw(Account* a) {
 		}
 		a->withdraw(amount);
 		cout << "Withdrawal has been completed." << endl << "The balance of the withdrawal account is " << a->checkFunds() << ".";
-		return;
+		return amount;
 	}
 }
 
-void Multi::account_transfer(Account* a, Account* b) {
+int Multi::account_transfer(Account* a, Account* b) {
 	int coconut = 0;
 	int cococonut = 0;
 	if (this->lang_setting == false) {
@@ -404,7 +403,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->fee_list[2]) > a->checkFunds()) {
 				cout << "Your balance is insufficient." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->fee_list[2]));
@@ -417,7 +416,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->multi_fee_list[3]) > a->checkFunds()) {
 				cout << "Your balance is insufficient." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[3]));
@@ -430,7 +429,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->multi_fee_list[2]) > a->checkFunds()) {
 				cout << "Your balance is insufficient." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[2]));
@@ -451,12 +450,12 @@ void Multi::account_transfer(Account* a, Account* b) {
 			else {
 				a->deposit(*(this->multi_fee_list[2]));
 			}
-			return;
+			return -1;
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
 		cout << "The transfer has been completed." << endl << "The balance of the source account is" << a->checkFunds() << ".";
-		return;
+		return amount;
 	}
 	else {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
@@ -480,7 +479,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->fee_list[2]) > a->checkFunds()) {
 				cout << "잔액이 부족합니다." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->fee_list[2]));
@@ -492,7 +491,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->multi_fee_list[3]) > a->checkFunds()) {
 				cout << "잔액이 부족합니다." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[3]));
@@ -504,7 +503,7 @@ void Multi::account_transfer(Account* a, Account* b) {
 			}
 			else if (*(this->multi_fee_list[2]) > a->checkFunds()) {
 				cout << "잔액이 부족합니다." << endl;
-				return;
+				return -1;
 			}
 			else {
 				a->withdraw(*(this->multi_fee_list[2]));
@@ -525,16 +524,16 @@ void Multi::account_transfer(Account* a, Account* b) {
 			else {
 				a->deposit(*(this->multi_fee_list[2]));
 			}
-			return;
+			return -1;
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
 		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
-		return;
+		return amount;
 	}
 }
 
-void Multi::cash_transfer(Account* b) {
+int Multi::cash_transfer(Account* b) {
 	if (this->lang_setting == false) {
 		cout << "Pay the fee." << endl << "Please deposit the fee." << endl;
 		*(this->cash_storage[0]) += (*(this->fee_list[3])) / 1000;
@@ -555,7 +554,7 @@ void Multi::cash_transfer(Account* b) {
 		add_cash(cash1000, cash5000, cash10000, cash50000);
 		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "The transfer has been completed." << endl;
-		return;
+		return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 	}
 	else {
 		cout << "요금을 지불합니다." << endl << "수수료를 입금해 주세요." << endl;
@@ -577,7 +576,7 @@ void Multi::cash_transfer(Account* b) {
 		add_cash(cash1000, cash5000, cash10000, cash50000);
 		b->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
 		cout << "송금이 완료되었습니다." << endl;
-		return;
+		return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 	}
 }
 
@@ -628,8 +627,8 @@ Account* Multi::num2account(string num, vector<Bank*> bank_list) {
 		if (banknum != -1) { break; }
 	}
 	if (banknum == -1) {
-		if (this->lang_setting == true) { cout << "지원되지 않는 카드입니다." << endl; }
-		else { cout << "Unsupported card." << endl; }
+		if (this->lang_setting == true) { cout << "지원되지 않는 계좌입니다." << endl; }
+		else { cout << "Unsupported account." << endl; }
 		return nullptr;
 	}
 	Account* ac = 0;

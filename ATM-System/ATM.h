@@ -33,19 +33,20 @@ public:
 	~ATM();
 
 	void session(vector<Bank*> bank_list);
-	int transaction(Account* a, vector<Bank*> bank_list);
+	vector<string> transaction(Account* a, vector<Bank*> bank_list, string CardNumber);
 	void languageChange();
-	virtual void deposit(Account* a) = 0;
-	virtual void withdraw(Account* a) = 0;
-	virtual void account_transfer(Account* a, Account* b) = 0;
-	virtual void cash_transfer(Account* b) = 0;
+	virtual int deposit(Account* a) = 0;
+	virtual int withdraw(Account* a) = 0;
+	virtual int account_transfer(Account* a, Account* b) = 0;
+	virtual int cash_transfer(Account* b) = 0;
 	void see_transaction_history();
 	bool user_authorization(Account* a);
 	void add_cash(int cash1000, int cash5000, int cash10000, int cash50000);
 	string getSerial();
 	Bank* getPrimary();
-	void make_history(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific);
-	void display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific);
+	void make_history(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific);
+	void display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific);
+	void display_transaction_short(vector<string> rec);
 	virtual Account* card2account(string card, vector<Bank*> bank_list) = 0;
 	virtual Account* num2account(string num, vector<Bank*> bank_list) = 0;
 	virtual string getType() = 0;

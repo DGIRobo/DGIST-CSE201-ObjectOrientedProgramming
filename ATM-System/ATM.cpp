@@ -76,30 +76,43 @@ void ATM::session(vector<Bank*> bank_list) {
 		if (this->lang_setting == 0) { cout << "Failed to enter password 3 times. Transaction will be canceled." << endl; }
 		return;
 	}
-	int rec;
-	while (true) {
-		rec = transaction(acc, bank_list);
-		if (rec == -1) {
+	vector<vector<string>> record;
+	for (int i = 0;;i++) {
+		record.push_back(transaction(acc, bank_list, cardinsert));
+		if (record.at(i).at(2) == "Termination") {
 			break;
 		}
+	}
+	for (int i = 0; i < record.size(); i++) {
+		display_transaction_short(record.at(i));
 	}
 	return;
 }
 
-int ATM::transaction(Account* a, vector<Bank*> bank_list) {
+vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string CardNumber) {
+	vector<string> rec; //transactionID, card number, transaction type, success or failure, amount, note
+	rec.push_back(to_string(++static_transaction_counter));
+	rec.push_back(CardNumber);
+	int amount = 0;
+	string note = "";
+
 	if (this->lang_setting == 1) { cout << this->getSerial() << "번 ATM에 접속하셨습니다. 무슨 작업을 도와드릴까요?" << endl; }
-	if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
+	else if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
 	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 거래 종료" << endl; }
-	if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl; }
+	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] end transfer" << endl; }
+	
 	int selection = 0;
 	cin >> selection;
 	if (selection == 1) {
-		deposit(a);
+		rec.push_back("Deposit");
+		amount = deposit(a);
 	}
 	else if (selection == 2) {
-		withdraw(a);
+		rec.push_back("Withdraw");
+		amount = withdraw(a);
 	}
 	else if (selection == 3) {
+		rec.push_back("account transfer");
 		if (this->lang_setting == 1) { cout << "송금할 계좌의 번호를 입력해 주세요 : "; }
 		if (this->lang_setting == 0) { cout << "Please enter the number of the account you want to transfer : "; }
 		string numinsert1 = "";
@@ -108,11 +121,15 @@ int ATM::transaction(Account* a, vector<Bank*> bank_list) {
 		if (b == nullptr) {
 			if (this->lang_setting == 1) { cout << "잘못된 계좌 번호를 입력하셨습니다. 거래를 종료합니다." << endl; }
 			if (this->lang_setting == 0) { cout << "Invalid account number. Transaction will be canceled." << endl; }
-			return -1;
+			amount = -1;
 		}
-		account_transfer(a, b);
+		else {
+			amount = account_transfer(a, b);
+			note = b->getAccountNumber();
+		}
 	}
 	else if (selection == 4) {
+		rec.push_back("cash transfer");
 		if (this->lang_setting == 1) { cout << "송금할 계좌의 번호를 입력해 주세요 : "; }
 		if (this->lang_setting == 0) { cout << "Please enter the number of the account you want to transfer : "; }
 		string numinsert2 = "";
@@ -121,17 +138,32 @@ int ATM::transaction(Account* a, vector<Bank*> bank_list) {
 		if (b == nullptr) {
 			if (this->lang_setting == 1) { cout << "잘못된 계좌 번호를 입력하셨습니다. 거래를 종료합니다." << endl; }
 			if (this->lang_setting == 0) { cout << "Invalid account number. Transaction will be canceled." << endl; }
-			return -1;
+			amount = -1;
 		}
-		cash_transfer(b);
+		else {
+			amount = cash_transfer(b);
+			note = b->getAccountNumber();
+		}
 	}
 	else if (selection == 5) {
+		rec.push_back("language change");
 		languageChange();
+		amount = 0;
 	}
 	else if (selection == 6) {
-		return -1;
+		rec.push_back("Termination");
+		amount = 0;
 	}
-	return 0;
+	else {
+		rec.push_back("invalid transaction");
+		rec.push_back("Failure");
+		rec.push_back("-1");
+	}
+	if (amount == -1) { rec.push_back("Failure"); }
+	else { rec.push_back("Success"); }
+	rec.push_back(to_string(amount));
+	if (note != "") { rec.push_back(note); }
+	return rec;
 }
 
 void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
@@ -192,7 +224,7 @@ void ATM::see_transaction_history() {
 	return;
 }
 
-void ATM::make_history(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific) {
+void ATM::make_history(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific) {
 	//Transaction ID
 	//Card Number
 	//Transaction Types : deposit, withdraw, account transfer, cash_transfer
@@ -200,7 +232,7 @@ void ATM::make_history(string TransactionID, string CardNumber, string Transacti
 	//other transaction-specific information
 	//account transfer:enemy account number
 	//cash transfer:enemy account number
-	vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
+	vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, sorf, Amount, Specific }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 	int len = static_cast<int>(new_history.size());
 
 	ofstream writeFromFile(this->transaction_histories, ios::app);
@@ -215,12 +247,24 @@ void ATM::make_history(string TransactionID, string CardNumber, string Transacti
 	return;
 }
 
-void ATM::display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string Specific) {
+void ATM::display_transaction(string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific) {
+	//string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific
 	cout << "Transaction ID : " << TransactionID << endl;
 	cout << "CardNumber : " << CardNumber << endl;
 	cout << "TransactionTypes : " << TransactionTypes << endl;
+	cout << "Success or Failure : " << sorf << endl;
 	cout << "Amount : " << Amount << endl;
 	cout << "Note : " << Specific << endl;
+	return;
+}
+
+void ATM::display_transaction_short(vector<string> rec) {
+	//string TransactionID, string CardNumber, string TransactionTypes, string sorf, string Amount, string Specific
+	cout << "[/";
+	for (int i = 0; i < rec.size(); i++) {
+		cout << rec[i] << "/" << endl;
+	}
+	cout << "]";
 	return;
 }
 
