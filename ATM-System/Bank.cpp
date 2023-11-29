@@ -128,6 +128,7 @@ void Bank::create_account(int language_setting) {
 		cout << "Owner : " << new_account->getUserName() << endl;
 		cout << "Account number : " << new_account->getAccountNumber() << endl;
 		cout << "Password : " << new_account->getPassword() << endl;
+		cout << "Available fund : " << new_account->getAvailableFund() << endl;
 		cout << "Do you want to make card? [Agree Y / Disagree N] : ";
 	}
 	if (language_setting == 2) {
@@ -136,6 +137,7 @@ void Bank::create_account(int language_setting) {
 		cout << "예금주 : " << new_account->getUserName() << endl;
 		cout << "계좌번호 : " << new_account->getAccountNumber() << endl;
 		cout << "비밀번호 : " << new_account->getPassword() << endl;
+		cout << "계좌잔고 : " << new_account->getAvailableFund() << endl;
 		cout << "카드를 생성하시겠습니까? [동의 Y / 비동의 N] : ";
 	}
 
