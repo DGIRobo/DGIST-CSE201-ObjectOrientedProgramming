@@ -1,4 +1,5 @@
 #include "MultiBankATM.h"
+#include <iomanip>
 
 Multi::Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
 	for (int i = 0; i < 4; i++) {
@@ -115,6 +116,7 @@ int Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
+			cout << "입금이 완료되었습니다." << endl << "입금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다.";
 			return check_sum;
 		}
 		else {
@@ -163,6 +165,7 @@ int Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
+			cout << "Deposit has been completed." << endl << "The balance of the deposit account is " << setw(10) << a->checkFunds() << ".";
 			return check_sum;
 		}
 		else {
@@ -211,7 +214,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "출금할 액수를 1000의 배수 단위로 입력하세요. 최대 금액은 50만원입니다." << endl;
-		cout << "당신의 잔고는 " << a->checkFunds() << "원 입니다." << endl;
+		cout << "당신의 잔고는 " << setw(10) << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "50만원을 초과한 금액을 입력하셨습니다. 출금을 취소합니다." << endl;
@@ -273,7 +276,7 @@ int Multi::withdraw(Account* a) {
 			*(this->cash_storage[0]) -= temp1;
 		}
 		a->withdraw(amount);
-		cout << "출금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
+		cout << "출금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다.";
 		return amount;
 	}
 	else {
@@ -313,7 +316,7 @@ int Multi::withdraw(Account* a) {
 		//this->withdraw(a);
 		int amount;
 		cout << "Enter the amount you wish to withdraw in multiples of 1000. The maximum amount is 500,000 won." << endl;
-		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
+		cout << "Your remaining fund is " << setw(10) << a->checkFunds() << "." << endl;
 		cin >> amount;
 		if (amount > 500000) {
 			cout << "You entered an amount exceeding 500,000 won. Cancel withdrawal." << endl;
@@ -375,7 +378,7 @@ int Multi::withdraw(Account* a) {
 			*(this->cash_storage[0]) -= temp1;
 		}
 		a->withdraw(amount);
-		cout << "Withdrawal has been completed." << endl << "The balance of the withdrawal account is " << a->checkFunds() << ".";
+		cout << "Withdrawal has been completed." << endl << "The balance of the withdrawal account is " << setw(10) << a->checkFunds() << ".";
 		return amount;
 	}
 }
@@ -440,7 +443,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "Please enter the amount you wish to transfer." << endl;
-		cout << "Your remaining fund is " << a->checkFunds() << "." << endl;
+		cout << "Your remaining fund is " << setw(10) << a->checkFunds() << "." << endl;
 		cin >> amount;
 		if (a->checkFunds() < amount) {
 			cout << "Your balance is insufficient. Cancel the transfer." << endl;
@@ -457,7 +460,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
-		cout << "The transfer has been completed." << endl << "The balance of the source account is" << a->checkFunds() << ".";
+		cout << "The transfer has been completed." << endl << "The balance of the source account is" << setw(10) << a->checkFunds() << ".";
 		return amount;
 	}
 	else {
@@ -515,7 +518,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		//this->account_transfer(a, b);
 		int amount;
 		cout << "송금할 액수를 입력해 주세요." << endl;
-		cout << "보유하신 잔고는 " << a->checkFunds() << "원 입니다." << endl;
+		cout << "보유하신 잔고는 " << setw(10) << a->checkFunds() << "원 입니다." << endl;
 		cin >> amount;
 		if (amount > a->checkFunds()) {
 			cout << "잔액이 부족합니다. 송금을 취소합니다." << endl;
@@ -532,7 +535,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
-		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << a->checkFunds() << "입니다.";
+		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다.";
 		return amount;
 	}
 }
