@@ -6,7 +6,7 @@ Single::Single(Bank* input_primary_bank, string input_serial_number, int input_l
 	}
 }
 
-int Single::deposit(Account* a){
+int Single::deposit(Account* a) {
 	if (this->lang_setting == true) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
 			cout << "타 은행의 계좌로 입금할 수 없습니다." << endl;

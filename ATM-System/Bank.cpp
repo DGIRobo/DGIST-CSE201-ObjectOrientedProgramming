@@ -4,6 +4,74 @@ int Bank::static_bank_counter = 0;
 
 using namespace std;
 
+int Bank:: no_error(int language_setting) {
+	while (true) {
+		int temp;
+		cin >> temp;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (temp >= 0) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+}
+
+int Bank::no_error_range(int language_setting, int min, int max) {
+	while (true) {
+		int temp;
+		cin >> temp;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (temp > min - 1 && temp < max + 1) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+}
+
 Bank::Bank(string name) {
 	this->bank_name = name;
 	static_bank_counter += 1;
@@ -50,8 +118,8 @@ void Bank::makeCard_session(int language_setting) {
 		while (true) {
 
 			if (a == 0) {
-				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
-				if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+				if (language_setting == 1) { cout << "You write wrong password 3 times. " << endl; }
+				if (language_setting == 2) { cout << "비밀번호 3회 틀렸습니다." << endl; }
 				cout << "==================== < Card Create Session End! > ====================" << endl;
 				break;
 			}
@@ -99,7 +167,6 @@ void Bank::create_account(int language_setting) {
 	string input_user_name;
 	string account_number;
 	string input_password;
-	int initial_fund;
 	if (language_setting == 1) {
 		cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
 		cout << "Name : ";
@@ -107,7 +174,6 @@ void Bank::create_account(int language_setting) {
 		cout << "Password : ";
 		cin >> input_password;
 		cout << "Initial fund : ";
-		// cin >> initial_fund;
 	}
 	if (language_setting == 2) {
 		cout << this->getBankName() << "은행. 계좌를 생성하기 위해 이름, 계좌, 초기 자금을 입력해주세요." << endl;
@@ -116,40 +182,11 @@ void Bank::create_account(int language_setting) {
 		cout << "비밀번호 : ";
 		cin >> input_password;
 		cout << "초기자금 : ";
-		// cin >> initial_fund;
 	}
 
+	int initial_fund;
 	// cin >> initial_fund;
-	while (true) {
-		cin >> initial_fund;
-		if (cin.fail()) {
-			if (language_setting == 1) {
-				cout << "[Error] An input error has occurred. Please write again." << endl;
-				cout << "Please Enter the Number : ";
-
-			}
-			if (language_setting == 2) {
-				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
-				cout << "숫자를 입력해주세요 : ";
-			}
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		}
-		else {
-			if (initial_fund > 0) { break; }
-			else {
-				if (language_setting == 1) {
-					cout << "[Error] Input out of range. Please write again." << endl;
-					cout << "Please Enter the Number : ";
-
-				}
-				if (language_setting == 2) {
-					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
-					cout << "숫자를 입력해주세요 : ";
-				}
-			}
-		}
-	}
+	initial_fund = no_error(language_setting);
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
@@ -219,19 +256,24 @@ void Bank::create_account(int language_setting) {
 Account* Bank::search_account_number(int language_setting) {
 	cout << "==================== < Account Number Search Session > ====================" << endl;
 	vector<Account*> accounts_list = get_account();
-
 	int a = 3;
+	while (true) {
+		if (a == 0) {
+			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
+			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
+			break;
+		}
 
-	while (a > -1){
 		if (language_setting == 1) {
-			cout << this->getBankName() << " Bank. Please write account number." << endl;
+			cout << a << " attempts left." << endl;
 			cout << "Account number : ";
 		}
 		if (language_setting == 2) {
-			cout << this->getBankName() << " 은행. 계좌번호를 입력해주세요." << endl;
+			cout << a << " 회 남음." << endl;
 			cout << "계좌번호 : ";
 		}
 
+		a--;
 		string input_account_number;
 		cin >> input_account_number;
 		for (int i = 0; i < accounts_list.size(); i++) {
@@ -253,23 +295,9 @@ Account* Bank::search_account_number(int language_setting) {
 				return accounts_list[i];
 			}
 		}
-		if (a == 0) {
-			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
-			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
-			break;
-		}
-		if (language_setting == 1) {
-			cout << this->getBankName() << " Bank cannot find your account." << endl;
-			cout << a << " attempt left." << endl;
-		}
-		if (language_setting == 2) {
-			cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl;
-			cout << a << " 회 남았습니다." << endl;
-		}
-		a--;
 	}
-	if (language_setting == 1) { cout << "You write wrong account number 4 times." << endl; }
-	if (language_setting == 2) { cout << "잘못된 계좌 번호를 4회 입력했습니다." << endl; }
+	if (language_setting == 1) { cout << "You write wrong account number 3 times." << endl; }
+	if (language_setting == 2) { cout << "잘못된 계좌 번호를 3회 입력했습니다." << endl; }
 	cout << "==================== < Account Number Search Session End! > ====================" << endl;
 	return NULL;
 }
