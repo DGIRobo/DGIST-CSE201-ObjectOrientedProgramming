@@ -572,53 +572,53 @@ int Multi::cash_transfer(Account* b) {
 }
 
 Account* Multi::card2account(string card, vector<Bank*> bank_list) {
-	int banknum = -1;
+	int* banknum = new int(-1);
 	for (int k = 0; k < bank_list.size(); k++) {
 		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
 			vector<string> card_list = bank_list[i]->get_account()[i]->getCardNumber();
 			for (int j = 0; j < card_list.size(); j++) {
 				if (card_list[j] == card) {
-					banknum = i;
+					*banknum = i;
 					break;
 				}
 			}
-			if (banknum == i) { break; }
 		}
-		if (banknum != -1) { break; }
 	}
-	if (banknum == -1) {
+	if (*banknum == -1) {
 		if (this->lang_setting == true) { cout << "지원되지 않는 카드입니다." << endl; }
 		else { cout << "Unsupported card." << endl; }
 		return nullptr;
 	}
 	Account* ac = 0;
-	for (int i = 0; i < bank_list[banknum]->get_account().size(); i++) {
-		vector<string> card_list = bank_list[banknum]->get_account()[i]->getCardNumber();
+	for (int i = 0; i < bank_list[*banknum]->get_account().size(); i++) {
+		vector<string> card_list = bank_list[*banknum]->get_account()[i]->getCardNumber();
 		for (int j = 0; j < card_list.size(); j++) {
 			if (card_list[j] == card) {
-				ac = bank_list[banknum]->get_account()[i];
+				ac = bank_list[*banknum]->get_account()[i];
 				break;
 			}
 		}
 	}
+	delete banknum;
 	return ac;
 }
 
 Account* Multi::num2account(string num, vector<Bank*> bank_list) {
-	int banknum = -1;
+	int* banknum = new int(-1);
 	Account* ac = nullptr;
 	for (int k = 0; k < bank_list.size(); k++) {
 		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
 			string acc_num = bank_list[k]->get_account()[i]->getAccountNumber();
 			if (acc_num == num) {
-				banknum = i;
-				ac = bank_list[banknum]->get_account()[i];
+				*banknum = i;
+				ac = bank_list[*banknum]->get_account()[i];
 				break;
 			}
-			if (banknum == i) { break; }
+			if (*banknum == i) { break; }
 		}
-		if (banknum != -1) { break; }
+		if (*banknum != -1) { break; }
 	}
+	delete banknum;
 	return ac;
 }
 
