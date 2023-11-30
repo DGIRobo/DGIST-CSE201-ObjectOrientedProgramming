@@ -28,7 +28,7 @@ protected:
 
 	Bank* primary_bank;
 	int language_available;
-	
+
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
@@ -58,4 +58,6 @@ public:
 	int get5000();
 	int get10000();
 	int get50000();
+	int no_error(bool language_setting);
+	int no_error_range(bool language_setting, int min, int max);
 };
