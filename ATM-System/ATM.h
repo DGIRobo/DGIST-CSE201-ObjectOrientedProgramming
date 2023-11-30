@@ -58,4 +58,6 @@ public:
 	int get5000();
 	int get10000();
 	int get50000();
+	int no_error(bool language_setting);
+	int no_error_range(bool language_setting, int min, int max);
 };
