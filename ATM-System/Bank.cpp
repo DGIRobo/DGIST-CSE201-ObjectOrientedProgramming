@@ -4,6 +4,74 @@ int Bank::static_bank_counter = 0;
 
 using namespace std;
 
+int Bank:: no_error(int language_setting) {
+	while (true) {
+		int temp;
+		cin >> temp;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (temp >= 0) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+}
+
+int Bank::no_error_range(int language_setting, int min, int max) {
+	while (true) {
+		int temp;
+		cin >> temp;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (temp > min - 1 && temp < max + 1) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
+	}
+}
+
 Bank::Bank(string name) {
 	this->bank_name = name;
 	static_bank_counter += 1;
@@ -99,7 +167,6 @@ void Bank::create_account(int language_setting) {
 	string input_user_name;
 	string account_number;
 	string input_password;
-	int initial_fund;
 	if (language_setting == 1) {
 		cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
 		cout << "Name : ";
@@ -107,7 +174,6 @@ void Bank::create_account(int language_setting) {
 		cout << "Password : ";
 		cin >> input_password;
 		cout << "Initial fund : ";
-		// cin >> initial_fund;
 	}
 	if (language_setting == 2) {
 		cout << this->getBankName() << "은행. 계좌를 생성하기 위해 이름, 계좌, 초기 자금을 입력해주세요." << endl;
@@ -116,40 +182,11 @@ void Bank::create_account(int language_setting) {
 		cout << "비밀번호 : ";
 		cin >> input_password;
 		cout << "초기자금 : ";
-		// cin >> initial_fund;
 	}
 
+	int initial_fund;
 	// cin >> initial_fund;
-	while (true) {
-		cin >> initial_fund;
-		if (cin.fail()) {
-			if (language_setting == 1) {
-				cout << "[Error] An input error has occurred. Please write again." << endl;
-				cout << "Please Enter the Number : ";
-
-			}
-			if (language_setting == 2) {
-				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
-				cout << "숫자를 입력해주세요 : ";
-			}
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		}
-		else {
-			if (initial_fund > 0) { break; }
-			else {
-				if (language_setting == 1) {
-					cout << "[Error] Input out of range. Please write again." << endl;
-					cout << "Please Enter the Number : ";
-
-				}
-				if (language_setting == 2) {
-					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
-					cout << "숫자를 입력해주세요 : ";
-				}
-			}
-		}
-	}
+	initial_fund = no_error(language_setting);
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);

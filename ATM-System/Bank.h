@@ -17,6 +17,9 @@ private:
 	vector<Account*>accounts;
 protected:
 public:
+	int no_error(int language_setting);
+	int no_error_range(int language_setting, int min, int max);
+
 	Bank(string name);
 	~Bank();
 	int getBankId();
