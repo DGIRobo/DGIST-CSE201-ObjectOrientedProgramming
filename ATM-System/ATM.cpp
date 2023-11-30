@@ -141,20 +141,22 @@ void ATM::session(vector<Bank*> bank_list) {
 		if (this->lang_setting == 0) { cout << "Failed to enter password 3 times. Transaction will be canceled." << endl; }
 		return;
 	}
+	int* with_counter = new int(0);
 	vector<vector<string>> record;
 	for (int i = 0;;i++) {
-		record.push_back(transaction(acc, bank_list, cardinsert));
+		record.push_back(transaction(acc, bank_list, cardinsert, with_counter));
 		if (record.at(i).at(2) == "Termination") {
 			break;
 		}
 	}
+	delete with_counter;
 	for (int i = 0; i < record.size(); i++) {
 		display_transaction_short(record.at(i));
 	}
 	return;
 }
 
-vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string CardNumber) {
+vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string CardNumber, int* with_counter) {
 	vector<string> rec; //transactionID, card number, transaction type, success or failure, amount, note
 	rec.push_back(to_string(++static_transaction_counter));
 	rec.push_back(CardNumber);
@@ -171,9 +173,16 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 		rec.push_back("Deposit");
 		amount = deposit(a);
 	}
-	else if (selection == 2) {
+	else if (selection == 2 && *with_counter < 3) {
 		rec.push_back("Withdraw");
 		amount = withdraw(a);
+		*with_counter += 1;
+	}
+	else if (selection == 2 && *with_counter >= 3) {
+		rec.push_back("Withdraw");
+		if (this->lang_setting == 1) { cout << "출금은 한 세션에 3회까지만 가능합니다!!" << endl; }
+		else { cout << "The maximum number of withdrawals per each session is 3!!" << endl; }
+		amount = -1;
 	}
 	else if (selection == 3) {
 		rec.push_back("account transfer");

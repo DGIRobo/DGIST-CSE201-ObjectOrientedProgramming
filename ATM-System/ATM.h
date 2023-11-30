@@ -36,7 +36,7 @@ public:
 	~ATM();
 
 	void session(vector<Bank*> bank_list);
-	vector<string> transaction(Account* a, vector<Bank*> bank_list, string CardNumber);
+	vector<string> transaction(Account* a, vector<Bank*> bank_list, string CardNumber, int* with_counter);
 	void languageChange();
 	virtual int deposit(Account* a) = 0;
 	virtual int withdraw(Account* a) = 0;
