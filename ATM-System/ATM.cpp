@@ -286,8 +286,8 @@ bool ATM::user_authorization(Account* a) {
 }
 
 void ATM::see_transaction_history() {
-	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인 " << "[1] 현금 보충 " << "[2] 돌아가기" << endl; }
-	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history " << "[1] cash replenishment " << "[2] return" << endl; }
+	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인 " << endl; }
+	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Transaction history " << endl; }
 	int no = no_error_range(lang_setting, 0, 2);
 	if (no == 2) {
 		if (lang_setting == true) { cout << "초기 화면으로 돌아갑니다." << endl; }
@@ -329,8 +329,8 @@ void ATM::see_transaction_history() {
 		return;
 	}
 	else {
-		if (lang_setting == true) { cout << "잘못된 명령어입니다. 초기 화면으로 돌아갑니다." << endl; }
-		else { cout << "Wrong command. Returning to the initial screen." << endl; }
+		if (lang_setting == true) { cout << "초기 화면으로 돌아갑니다." << endl; }
+		else { cout << "Returning to the initial screen." << endl; }
 		return;
 	}
 	return;
