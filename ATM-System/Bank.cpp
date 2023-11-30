@@ -107,7 +107,7 @@ void Bank::create_account(int language_setting) {
 		cout << "Password : ";
 		cin >> input_password;
 		cout << "Initial fund : ";
-		cin >> initial_fund;
+		// cin >> initial_fund;
 	}
 	if (language_setting == 2) {
 		cout << this->getBankName() << "은행. 계좌를 생성하기 위해 이름, 계좌, 초기 자금을 입력해주세요." << endl;
@@ -116,7 +116,39 @@ void Bank::create_account(int language_setting) {
 		cout << "비밀번호 : ";
 		cin >> input_password;
 		cout << "초기자금 : ";
+		// cin >> initial_fund;
+	}
+
+	// cin >> initial_fund;
+	while (true) {
 		cin >> initial_fund;
+		if (cin.fail()) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else {
+			if (initial_fund > 0) { break; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}
 	}
 
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
@@ -142,11 +174,24 @@ void Bank::create_account(int language_setting) {
 	}
 
 	string agreement;
-	cin >> agreement;
-	for (int i = 0; i < agreement.size(); i++) {
-		agreement[i] = tolower(agreement[i]);
+	// cin >> agreement;
+	while (true) {
+		cin >> agreement;
+		if (agreement != "n" && agreement != "N" && agreement != "y" && agreement != "Y") {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "[Agree Y / Disagree N] : ";
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "[동의 Y / 비동의 N] : ";
+			}
+		}
+		else { break; }
 	}
-	if (agreement == "y") {
+
+	if (agreement == "n" || agreement == "N"){ cout << "==================== < Card Create Session End! > ====================" << endl; }
+	if (agreement == "y" || agreement == "Y") {
 		cout << "==================== < Card Create Session > ====================" << endl;
 		string now_created_card_number;
 		now_created_card_number = new_account->makeCard();
