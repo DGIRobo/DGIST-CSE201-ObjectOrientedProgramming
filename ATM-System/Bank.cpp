@@ -118,8 +118,8 @@ void Bank::makeCard_session(int language_setting) {
 		while (true) {
 
 			if (a == 0) {
-				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
-				if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+				if (language_setting == 1) { cout << "You write wrong password 3 times. " << endl; }
+				if (language_setting == 2) { cout << "비밀번호 3회 틀렸습니다." << endl; }
 				cout << "==================== < Card Create Session End! > ====================" << endl;
 				break;
 			}
@@ -256,19 +256,24 @@ void Bank::create_account(int language_setting) {
 Account* Bank::search_account_number(int language_setting) {
 	cout << "==================== < Account Number Search Session > ====================" << endl;
 	vector<Account*> accounts_list = get_account();
-
 	int a = 3;
+	while (true) {
+		if (a == 0) {
+			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
+			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
+			break;
+		}
 
-	while (a > -1){
 		if (language_setting == 1) {
-			cout << this->getBankName() << " Bank. Please write account number." << endl;
+			cout << a << " attempts left." << endl;
 			cout << "Account number : ";
 		}
 		if (language_setting == 2) {
-			cout << this->getBankName() << " 은행. 계좌번호를 입력해주세요." << endl;
+			cout << a << " 회 남음." << endl;
 			cout << "계좌번호 : ";
 		}
 
+		a--;
 		string input_account_number;
 		cin >> input_account_number;
 		for (int i = 0; i < accounts_list.size(); i++) {
@@ -290,23 +295,9 @@ Account* Bank::search_account_number(int language_setting) {
 				return accounts_list[i];
 			}
 		}
-		if (a == 0) {
-			if (language_setting == 1) { cout << this->getBankName() << " Bank cannot find your account." << endl; }
-			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
-			break;
-		}
-		if (language_setting == 1) {
-			cout << this->getBankName() << " Bank cannot find your account." << endl;
-			cout << a << " attempt left." << endl;
-		}
-		if (language_setting == 2) {
-			cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl;
-			cout << a << " 회 남았습니다." << endl;
-		}
-		a--;
 	}
-	if (language_setting == 1) { cout << "You write wrong account number 4 times." << endl; }
-	if (language_setting == 2) { cout << "잘못된 계좌 번호를 4회 입력했습니다." << endl; }
+	if (language_setting == 1) { cout << "You write wrong account number 3 times." << endl; }
+	if (language_setting == 2) { cout << "잘못된 계좌 번호를 3회 입력했습니다." << endl; }
 	cout << "==================== < Account Number Search Session End! > ====================" << endl;
 	return NULL;
 }

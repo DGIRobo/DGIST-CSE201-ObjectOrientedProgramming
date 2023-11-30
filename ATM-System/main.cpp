@@ -182,8 +182,8 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 		while (true) {
 
 			if (a == 0) {
-				if (language_setting == 1) { cout << "You write wrong password 4 times. " << endl; }
-				if (language_setting == 2) { cout << "비밀번호 4회 틀렸습니다." << endl; }
+				if (language_setting == 1) { cout << "You write wrong password 3 times. " << endl; }
+				if (language_setting == 2) { cout << "비밀번호 3회 틀렸습니다." << endl; }
 				cout << "==================== < Account History Session End! > ====================" << endl;
 				return;
 			}
@@ -197,8 +197,8 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 			}
 
 			// password is string!
-			cin >> input_password;
 			a--;
+			cin >> input_password;
 			if (input_account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
 				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
