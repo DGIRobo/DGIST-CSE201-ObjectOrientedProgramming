@@ -13,8 +13,31 @@ using namespace std;
 
 int no_error(int language_setting) {
 	while (true) {
+		
 		int temp;
-		cin >> temp;
+		//cin >> temp;
+		string abc;
+		cin >> abc;
+		
+		if (abc.find(".") != string::npos || abc.find("-") != string::npos) {
+			if (language_setting == 1) {
+				cout << "[Error] An input error has occurred. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			// cin.clear();
+			// cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
+
+		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
+			temp = stoi(abc);
+		}
+
 		if (cin.fail()) {
 			if (language_setting == 1) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
@@ -29,7 +52,10 @@ int no_error(int language_setting) {
 			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 		else {
-			if (temp >= 0) { return temp; }
+			if (temp >= 0) {
+				cout << temp;
+				return temp;
+			}
 			else {
 				if (language_setting == 1) {
 					cout << "[Error] Input out of range. Please write again." << endl;
