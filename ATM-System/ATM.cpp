@@ -142,7 +142,7 @@ void ATM::session(vector<Bank*> bank_list) {
 		return;
 	}
 	vector<vector<string>> record;
-	for (int i = 0;; i++) {
+	for (int i = 0;;i++) {
 		record.push_back(transaction(acc, bank_list, cardinsert));
 		if (record.at(i).at(2) == "Termination") {
 			break;
@@ -165,7 +165,7 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 	else if (this->lang_setting == 0) { cout << "You've accessed ATM number " << this->getSerial() << ".What can we do for you ? " << endl; }
 	if (this->lang_setting == 1) { cout << "[1] 입금" << endl << "[2] 출금" << endl << "[3] 계좌 송금" << endl << "[4] 현금 송금" << endl << "[5] 언어 변경" << endl << "[6] 계좌 조회" << endl << "[7] 거래 종료" << endl << "원하는 작업 : "; }
 	else if (this->lang_setting == 0) { cout << "[1] deposit" << endl << "[2] withdraw" << endl << "[3] account transfer" << endl << "[4] cash transfer" << endl << "[5] language change" << endl << "[6] account inquiry" << endl << "[7] end transfer" << endl << "What you want to do : "; }
-
+	
 	int selection = no_error_range(lang_setting, 1, 7);
 	if (selection == 1) {
 		rec.push_back("Deposit");
@@ -248,7 +248,7 @@ void ATM::add_cash(int cash1000, int cash5000, int cash10000, int cash50000) {
 
 bool ATM::user_authorization(Account* a) {
 	//카드 입력
-
+	
 	//카드 유효성 검사
 
 	//비밀번호 입력
@@ -279,8 +279,7 @@ bool ATM::user_authorization(Account* a) {
 void ATM::see_transaction_history() {
 	if (this->lang_setting == 1) { cout << "관리자 카드가 입력되었습니다." << endl << "관리자 권한으로 어떤 작업을 하시겠습니까?" << endl << "[0] 거래 내역 확인 " << "[1] 현금 보충 " << "[2] 돌아가기" << endl; }
 	if (this->lang_setting == 0) { cout << "Admin card has inserted." << endl << "What do you want to do with administrator privileges?" << endl << "[0] Check transaction history " << "[1] cash replenishment " << "[2] return" << endl; }
-	int no = 0;
-	no_error_range(no, 0, 2);
+	int no = no_error_range(lang_setting, 0, 2);
 	if (no == 2) {
 		if (lang_setting == true) { cout << "초기 화면으로 돌아갑니다." << endl; }
 		else { cout << "Returning to the initial screen." << endl; }

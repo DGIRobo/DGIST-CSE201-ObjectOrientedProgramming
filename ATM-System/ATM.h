@@ -28,7 +28,7 @@ protected:
 
 	Bank* primary_bank;
 	int language_available;
-
+	
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
