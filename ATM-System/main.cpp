@@ -12,59 +12,13 @@
 using namespace std;
 
 int no_error(int language_setting) {
+	int temp = 0;
 	while (true) {
 		
-		int temp;
 		//cin >> temp;
 		string abc;
-		
-		cin.clear();
-		getline(cin, abc);
 		//cin >> abc;
-
-		//  || abc.find(" ") != string::npos
-		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find(" ") != string::npos) {
-			if (language_setting == 1) {
-				cout << "[Error] An input error has occurred. Please write again." << endl;
-				cout << "Please Enter the Number : ";
-			}
-			if (language_setting == 2) {
-				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
-				cout << "숫자를 입력해주세요 : ";
-			}
-			continue;
-		}
-
-		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
-			temp = stoi(abc);
-		}
-
-		if (temp >= 0) {
-			cout << temp;
-			return temp;
-		}
-		else {
-			if (language_setting == 1) {
-				cout << "[Error] Input out of range. Please write again." << endl;
-				cout << "Please Enter the Number : ";
-			}
-			if (language_setting == 2) {
-				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
-				cout << "숫자를 입력해주세요 : ";
-			}
-		}	
-	}
-}
-
-int no_error_range(int language_setting, int min, int max) {
-	while (true) {
-
-		int temp;
-		//cin >> temp;
-		string abc;
-		// cin >> abc;
 		getline(cin, abc);
-		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -80,20 +34,56 @@ int no_error_range(int language_setting, int min, int max) {
 
 		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
 			temp = stoi(abc);
+			if (temp >= 0) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
 		}
-		
-		if (temp > min - 1 && temp < max + 1) { return temp; }
-		else {
+	}
+}
+
+int no_error_range(int language_setting, int min, int max) {
+	int temp = 0;
+	while (true) {
+
+		//cin >> temp;
+		string abc;
+		//cin >> abc;
+		getline(cin, abc);
+
+		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
-				cout << "[Error] Input out of range. Please write again." << endl;
+				cout << "[Error] An input error has occurred. Please write again." << endl;
 				cout << "Please Enter the Number : ";
 			}
 			if (language_setting == 2) {
-				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
 				cout << "숫자를 입력해주세요 : ";
 			}
-			
+			continue;
 		}
+
+		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
+			temp = stoi(abc);
+			if (temp > min - 1 && temp < max + 1) { return temp; }
+			else {
+				if (language_setting == 1) {
+					cout << "[Error] Input out of range. Please write again." << endl;
+					cout << "Please Enter the Number : ";
+				}
+				if (language_setting == 2) {
+					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+					cout << "숫자를 입력해주세요 : ";
+				}
+			}
+		}	
 	}
 }
 
@@ -641,37 +631,6 @@ int main() {
 		}
 
 		int session_chice = 0;
-		// cin >> session_chice;
-		//while (true) {
-		//	cin >> session_chice;
-		//	if (cin.fail()) {
-		//		if (language_setting == 1) {
-		//			cout << "[Error] An input error has occurred. Please write again." << endl;
-		//			cout << "Please Enter the Number : ";
-
-		//		}
-		//		if (language_setting == 2) {
-		//			cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
-		//			cout << "숫자를 입력해주세요 : ";
-		//		}
-		//		cin.clear();
-		//		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		//	}
-		//	else {
-		//		if (session_chice > 0 && session_chice < 9) { break; }
-		//		else {
-		//			if (language_setting == 1) {
-		//				cout << "[Error] Input out of range. Please write again." << endl;
-		//				cout << "Please Enter the Number : ";
-
-		//			}
-		//			if (language_setting == 2) {
-		//				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
-		//				cout << "숫자를 입력해주세요 : ";
-		//			}
-		//		}
-		//	}
-		//}
 		session_chice = no_error_range(language_setting, 1, 8);
 
 		switch (session_chice) {
