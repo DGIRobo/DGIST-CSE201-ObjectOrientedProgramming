@@ -90,6 +90,7 @@ int Multi::deposit(Account* a) {
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
 			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+			cout << "입금이 완료되었습니다." << endl << "입금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다." << endl;
 			return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 		}
 		else if (deposit_method == 2) {
@@ -111,7 +112,7 @@ int Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
-			cout << "입금이 완료되었습니다." << endl << "입금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다.";
+			cout << "입금이 완료되었습니다." << endl << "입금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다." << endl;
 			return check_sum;
 		}
 		else {
@@ -138,6 +139,7 @@ int Multi::deposit(Account* a) {
 			}
 			add_cash(cash1000, cash5000, cash10000, cash50000);
 			a->deposit((cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000));
+			cout << "Deposit has been completed." << endl << "The balance of the deposit account is " << setw(10) << a->checkFunds() << "." << endl;
 			return (cash1000 * 1000) + (cash5000 * 5000) + (cash10000 * 10000) + (cash50000 * 50000);
 		}
 		else if (deposit_method == 2) {
@@ -159,7 +161,7 @@ int Multi::deposit(Account* a) {
 				else break;
 			}
 			a->deposit(check_sum);
-			cout << "Deposit has been completed." << endl << "The balance of the deposit account is " << setw(10) << a->checkFunds() << ".";
+			cout << "Deposit has been completed." << endl << "The balance of the deposit account is " << setw(10) << a->checkFunds() << "." << endl;
 			return check_sum;
 		}
 		else {
