@@ -300,6 +300,7 @@ void ATM::see_transaction_history() {
 		if (this->lang_setting == 0) { cout << "Please enter the amount of 50,000 won bills to be replenished." << endl; }
 		replenish[3] = no_error(lang_setting);
 		add_cash(replenish[0], replenish[1], replenish[2], replenish[3]);
+		return;
 	}
 	else if (no == 0) {
 		if (this->lang_setting == 1) { cout << "거래 내역을 출력합니다." << endl << endl; }
@@ -316,10 +317,12 @@ void ATM::see_transaction_history() {
 			if (this->lang_setting == 1) { cout << "해당하는 파일이 없습니다." << endl; }
 			if (this->lang_setting == 0) { cout << "No corresponding files exist." << endl; }
 		}
+		return;
 	}
 	else {
 		if (lang_setting == true) { cout << "잘못된 명령어입니다. 초기 화면으로 돌아갑니다." << endl; }
 		else { cout << "Wrong command. Returning to the initial screen." << endl; }
+		return;
 	}
 	return;
 }
