@@ -453,7 +453,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
-		cout << "The transfer has been completed." << endl << "The balance of the source account is" << setw(10) << a->checkFunds() << ".";
+		cout << "The transfer has been completed." << endl << "The balance of the source account is" << setw(10) << a->checkFunds() << "." << endl;
 		return amount;
 	}
 	else {
@@ -527,7 +527,7 @@ int Multi::account_transfer(Account* a, Account* b) {
 		}
 		a->withdraw(amount);
 		b->deposit(amount);
-		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다.";
+		cout << "송금이 완료되었습니다." << endl << "출금 계좌의 잔고는 " << setw(10) << a->checkFunds() << "입니다." << endl;
 		return amount;
 	}
 }
