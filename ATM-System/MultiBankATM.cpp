@@ -382,18 +382,20 @@ int Multi::account_transfer(Account* a, Account* b) {
 	int cococonut = 0;
 	if (this->lang_setting == false) {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
-			cout << "Transfer money from an account at another bank." << endl;
+			cout << "Transfer money from an account at another bank : " << a->getUserName() << endl;
 			coconut = 1;
 		}
-		else {
-			cout << "Transfer money from an account at this bank." << endl;
+		//else {
+		if (a->getBankName() == this->primary_bank->getBankName()) {
+			cout << "Transfer money from an account at this bank : " << a->getUserName() << endl;
 		}
 		if (b->getBankName() != this->primary_bank->getBankName()) {
-			cout << "Transferred to another bank's account." << endl;
+			cout << "Transferred to another bank's account : " << b->getUserName() << endl;
 			cococonut = 1;
 		}
-		else {
-			cout << "Transferred to this bank's account." << endl;
+		//else {
+		if (b->getBankName() == this->primary_bank->getBankName()) {
+			cout << "Transferred to this bank's account : " << b->getUserName() << endl;
 		}
 		if (coconut == 0 && cococonut == 0) {
 			cout << "Pay the fee." << endl;
@@ -458,18 +460,18 @@ int Multi::account_transfer(Account* a, Account* b) {
 	}
 	else {
 		if (a->getBankName() != this->primary_bank->getBankName()) {
-			cout << "타 은행의 계좌에서 송금합니다." << endl;
+			cout << "타 은행의 계좌에서 송금합니다 : " << a->getUserName() << endl;
 			coconut = 1;
 		}
 		else {
-			cout << "본 은행의 계좌에서 송금합니다." << endl;
+			cout << "본 은행의 계좌에서 송금합니다 : " << a->getUserName() << endl;
 		}
 		if (b->getBankName() != this->primary_bank->getBankName()) {
-			cout << "타 은행의 계좌로 송금합니다." << endl;
+			cout << "타 은행의 계좌로 송금합니다 : " << b->getUserName() << endl;
 			cococonut = 1;
 		}
 		else {
-			cout << "본 은행의 계좌로 송금합니다." << endl;
+			cout << "본 은행의 계좌로 송금합니다 : " << b->getUserName() << endl;
 		}
 		cout << "요금을 지불합니다." << endl;
 		if (coconut == 0 && cococonut == 0) {
@@ -604,13 +606,13 @@ Account* Multi::num2account(string num, vector<Bank*> bank_list) {
 		for (int i = 0; i < bank_list[k]->get_account().size(); i++) {
 			string acc_num = bank_list[k]->get_account()[i]->getAccountNumber();
 			if (acc_num == num) {
-				*banknum = i;
+				*banknum = k;
 				ac = bank_list[*banknum]->get_account()[i];
 				break;
 			}
 		}
 	}
-	delete banknum;
+	//delete banknum;
 	return ac;
 }
 
