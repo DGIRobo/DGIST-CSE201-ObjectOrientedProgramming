@@ -186,13 +186,9 @@ void ATM::session(vector<Bank*> bank_list) {
 	if (this->lang_setting == true) { cout << "카드를 삽입해 주세요." << endl << "카드 번호 : "; }
 	if (this->lang_setting == false) { cout << "Please insert your card." << endl << "Card number : "; }
 	string cardinsert;
-	cin >> cardinsert;
+	//cin >> cardinsert;
 
-	//// qwer
-	if (cardinsert == "Q" || cardinsert == "q") {
-		printNow();
-		cin >> cardinsert;
-	}
+	Qsearch(cardinsert);
 
 	if (cardinsert == this->admin_card) {
 		see_transaction_history();
