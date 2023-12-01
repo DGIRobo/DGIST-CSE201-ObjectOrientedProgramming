@@ -4,13 +4,34 @@
 int ATM::static_ATM_counter = 0;
 int ATM::static_transaction_counter = 0;
 
+void ATM::Qsearch(string str) {
+
+	while (true) {
+		cin >> str;
+		if (str == "Q" || str == "q") {
+			printNow();
+		}
+		else {
+			return;
+		}
+	}
+}
+
 int ATM::no_error(bool language_setting) {
 	int temp = 0;
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
-		if (abc == "Q" || abc == "q") { printNow(); }
+		// cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow();
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 0) {
@@ -58,8 +79,16 @@ int ATM::no_error_range(bool language_setting, int min, int max) {
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
-		if (abc == "Q" || abc == "q") { printNow(); }
+		// cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow();
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 0) {

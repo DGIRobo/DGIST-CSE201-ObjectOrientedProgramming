@@ -33,6 +33,8 @@ protected:
 	
 public:
 
+	void Qsearch(string str);
+
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
 	ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>* blist, vector<ATM*>* alist);
 	~ATM();
