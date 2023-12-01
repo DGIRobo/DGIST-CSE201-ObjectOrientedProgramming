@@ -381,6 +381,18 @@ void ATM::display_transaction_short(vector<string> rec) {
 	return;
 }
 
+void ATM::printNow() {
+	for (int i = 0; i < bank_list.size(); i++) {
+		for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
+			cout << "Account[" << bank_list[i]->get_account()[j]->getUserName() << "] : " << bank_list[i]->get_account()[j]->checkFunds() << endl;
+		}
+	}
+	for (int i = 0; i < ATM_list.size(); i++) {
+		cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
+	}
+	return;
+}
+
 string ATM::getSerial() {
 	return serial_number;
 }
