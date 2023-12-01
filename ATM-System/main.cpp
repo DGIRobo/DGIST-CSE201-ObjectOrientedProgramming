@@ -278,7 +278,7 @@ void BankService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_s
 			a--;
 			//cin >> input_password;
 			input_password = Qsearch(ATM_list, bank_list);
-			cout << input_password;
+			//cout << input_password;
 
 			if (input_account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
@@ -744,6 +744,20 @@ int main() {
 	}
 
 	cout << "===========================<End System>===========================" << endl;
+
+	for (int i = 0; i < 4; i++) {
+		delete fee1[i];
+	}
+	for (int i = 0; i < 4; i++) {
+		delete fee2[i];
+	}
+	for (int i = 0; i < (int)bank_list.size(); i++) {
+		delete bank_list[i];
+	}
+	for (int i = 0; i < (int)ATM_list.size(); i++) {
+		delete ATM_list[i];
+	}
+
 	return 0;
 }
 
