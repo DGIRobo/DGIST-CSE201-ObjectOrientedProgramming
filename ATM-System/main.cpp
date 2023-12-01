@@ -241,7 +241,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
-void ATMMake(vector<ATM*> ATM_list, vector<Bank*> bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting, vector<Bank*>* blist, vector<ATM*>* alist) {
+void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting, vector<Bank*>* blist, vector<ATM*>* alist) {
 	cout << "==================== < ATM Duplicate Session > ====================" << endl;
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
