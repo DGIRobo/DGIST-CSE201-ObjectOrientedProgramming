@@ -4,12 +4,50 @@ int Bank::static_bank_counter = 0;
 
 using namespace std;
 
+void Bank::printNow() {
+	for (int i = 0; i < (*blist).size(); i++) {
+		for (int j = 0; j < (*blist)[i]->get_account().size(); j++) {
+			cout << "Account[" << (*blist)[i]->get_account()[j]->getUserName() << "] : " << (*blist)[i]->get_account()[j]->checkFunds() << "/" << (*blist)[i]->get_account()[j]->getAccountNumber() << "/" << (*blist)[i]->get_account()[j]->getBankName() << endl;
+		}
+	}
+	for (int i = 0; i < (*alist).size(); i++) {
+		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << (*alist)[i]->getPrimary()->getBankName() << " " << (*alist)[i]->getType() << " " << (*alist)[i]->getLangType() << endl;
+		cout << "Remaing cash : " << 1000 * (*alist)[i]->get1000() + 5000 * (*alist)[i]->get5000() + 10000 * (*alist)[i]->get10000() + 50000 * (*alist)[i]->get50000() << " (1000 : " << (*alist)[i]->get1000() << ", 5000 : " << (*alist)[i]->get5000() << ", 10000 : " << (*alist)[i]->get10000() << ", 50000 : " << (*alist)[i]->get50000() << ")" << endl;
+		// cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
+	}
+	cout << endl;
+	cout << "Please re-enter here : ";
+	return;
+}
+
+void Bank::Qsearch(string* str) {
+
+	while (true) {
+		cin >> *str;
+		if (*str == "Q" || *str == "q") {
+			printNow();
+		}
+		else {
+			return;
+		}
+	}
+}
+
 int Bank:: no_error(int language_setting) {
 	int temp = 0;
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
+		//cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow();
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -57,7 +95,16 @@ int Bank::no_error_range(int language_setting, int min, int max) {
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
+		//cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow();
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -100,10 +147,14 @@ int Bank::no_error_range(int language_setting, int min, int max) {
 	}
 }
 
-Bank::Bank(string name) {
+Bank::Bank(string name, vector<Bank*>* blist, vector<ATM*>* alist) {
 	this->bank_name = name;
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
+
+	this->blist = blist;
+	this->alist = alist;
+
 	cout << this->getBankName() << " Bank is created." << endl;
 }
 
@@ -160,7 +211,9 @@ void Bank::makeCard_session(int language_setting) {
 				cout << "비밀번호 : ";
 			}
 
-			cin >> input_password;
+			// cin >> input_password;
+			string* pinput_password = &input_password;
+			Qsearch(pinput_password);
 			a--;
 			if (account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
@@ -193,22 +246,29 @@ void Bank::makeCard_session(int language_setting) {
 void Bank::create_account(int language_setting) {
 	cout << "==================== < Account Create Session > ====================" << endl;
 	string input_user_name;
+	string* pinput_user_name = &input_user_name;
 	string account_number;
+
 	string input_password;
+	string* pinput_password = &input_password;
 	if (language_setting == 1) {
 		cout << this->getBankName() << "Bank. To create account. please write name, password and initial fund." << endl;
 		cout << "Name : ";
-		cin >> input_user_name;
+		// cin >> input_user_name;
+		Qsearch(pinput_user_name);
 		cout << "Password : ";
-		cin >> input_password;
+		// cin >> input_password;
+		Qsearch(pinput_password);
 		cout << "Initial fund : ";
 	}
 	if (language_setting == 2) {
 		cout << this->getBankName() << "은행. 계좌를 생성하기 위해 이름, 계좌, 초기 자금을 입력해주세요." << endl;
 		cout << "예금주 : ";
-		cin >> input_user_name;
+		// cin >> input_user_name;
+		Qsearch(pinput_user_name);
 		cout << "비밀번호 : ";
-		cin >> input_password;
+		// cin >> input_password;
+		Qsearch(pinput_password);
 		cout << "초기자금 : ";
 	}
 
@@ -239,9 +299,11 @@ void Bank::create_account(int language_setting) {
 	}
 
 	string agreement;
+	string* pagreement = &agreement;
 	// cin >> agreement;
 	while (true) {
-		cin >> agreement;
+		// cin >> agreement;
+		Qsearch(pagreement);
 		if (agreement != "n" && agreement != "N" && agreement != "y" && agreement != "Y") {
 			if (language_setting == 1) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
@@ -303,7 +365,9 @@ Account* Bank::search_account_number(int language_setting) {
 
 		a--;
 		string input_account_number;
-		cin >> input_account_number;
+		string* pinput_account_number = &input_account_number;
+		// cin >> input_account_number;
+		Qsearch(pinput_account_number);
 		for (int i = 0; i < accounts_list.size(); i++) {
 			if (accounts_list[i]->getAccountNumber() == input_account_number) {
 				if (language_setting == 1) {
@@ -360,13 +424,16 @@ Account* Bank::search_account_card(int language_setting) {
 	if (language_setting == 1) { cout << this->getBankName() << " Bank. Please write card number." << endl; }
 	if (language_setting == 2) { cout << this->getBankName() << " 은행. 카드 번호를 입력해주세요." << endl; }
 	string input_card_number;
+	string* pinput_card_number = &input_card_number;
 	if (language_setting == 1) {
 		cout << "Card number : ";
-		cin >> input_card_number;
+		// cin >> input_card_number;
+		Qsearch(pinput_card_number);
 	}
 	if (language_setting == 2) {
 		cout << "카드 번호 : ";
-		cin >> input_card_number;
+		// cin >> input_card_number;
+		Qsearch(pinput_card_number);
 	}
 	for (int i = 0; i < accounts_list.size(); i++) {
 		vector<string> card_list = accounts_list[i]->getCardNumber();

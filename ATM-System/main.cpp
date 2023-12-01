@@ -11,12 +11,51 @@
 
 using namespace std;
 
-int no_error(int language_setting) {
+void printNow(vector<ATM*>& ATM_list, vector<Bank*>& bank_list) {
+	
+	for (int i = 0; i < bank_list.size(); i++) {
+		for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
+			cout << "Account[" << (bank_list)[i]->get_account()[j]->getUserName() << "] : " << (bank_list)[i]->get_account()[j]->checkFunds() << "/" << (bank_list)[i]->get_account()[j]->getAccountNumber() << "/" << (bank_list)[i]->get_account()[j]->getBankName() << endl;
+		}
+	}
+	for (int i = 0; i < (ATM_list).size(); i++) {
+		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << (ATM_list)[i]->getPrimary()->getBankName() << " " << (ATM_list)[i]->getType() << " " << (ATM_list)[i]->getLangType() << endl;
+		cout << "Remaing cash : " << 1000 * (ATM_list)[i]->get1000() + 5000 * (ATM_list)[i]->get5000() + 10000 * (ATM_list)[i]->get10000() + 50000 * (ATM_list)[i]->get50000() << " (1000 : " << (ATM_list)[i]->get1000() << ", 5000 : " << (ATM_list)[i]->get5000() << ", 10000 : " << (ATM_list)[i]->get10000() << ", 50000 : " << (ATM_list)[i]->get50000() << ")" << endl;
+	}
+
+	cout << endl;
+	cout << "Please re-enter here : ";
+	return;
+}
+
+void Qsearch(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, string str) {
+
+	while (true) {
+		cin >> str;
+		if (str == "Q" || str == "q") {
+			printNow(ATM_list, bank_list);
+		}
+		else {
+			return;
+		}
+	}
+}
+
+int no_error(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_setting) {
 	int temp = 0;
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
+		// cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow(ATM_list, bank_list);
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -59,12 +98,21 @@ int no_error(int language_setting) {
 	}
 }
 
-int no_error_range(int language_setting, int min, int max) {
+int no_error_range(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_setting, int min, int max) {
 	int temp = 0;
 	while (true) {
 
 		string abc = "";
-		cin >> abc;
+		// cin >> abc;
+		while (true) {
+			cin >> abc;
+			if (abc == "Q" || abc == "q") {
+				printNow(ATM_list, bank_list);
+			}
+			else {
+				break;
+			}
+		}
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -107,7 +155,7 @@ int no_error_range(int language_setting, int min, int max) {
 	}
 }
 
-void BankMake(vector<Bank*>& bank_list, int language_setting) {
+void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_setting, vector<Bank*>* blist, vector<ATM*>* alist) {
 
 	cout << "==================== < Bank Duplicate Session > ====================" << endl;
 	string bank_name; string bank_name_save;
@@ -115,9 +163,12 @@ void BankMake(vector<Bank*>& bank_list, int language_setting) {
 	while (true) {
 		int dup = 0;
 
-		if (language_setting == 1) { cout << "Please write bank name : ";	 cin >> bank_name; }
-		if (language_setting == 2) { cout << "은행명을 입력해주세요. : ";	 cin >> bank_name; }
+		if (language_setting == 1) { cout << "Please write bank name : "; }
+		if (language_setting == 2) { cout << "은행명을 입력해주세요. : "; }
 
+		cin >> bank_name;
+		// Qsearch(ATM_list, bank_list, bank_name);
+		
 		bank_name_save = bank_name;
 
 		for (int i = 0; i < bank_name.size(); i++) {
@@ -140,14 +191,14 @@ void BankMake(vector<Bank*>& bank_list, int language_setting) {
 		}
 		if (dup == 0) {
 			// bank_list.push_back(Bank(bank_name_save));
-			bank_list.push_back(new Bank(bank_name_save));
+			bank_list.push_back(new Bank(bank_name_save, blist, alist));
 			cout << "==================== < Bank Duplicate Session End! > ====================" << endl;
 			break;
 		}
 	}
 }
 
-void BankService(vector<Bank*> bank_list, int language_setting) {
+void BankService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_setting) {
 
 	cout << "==================== < Bank Service Session > ====================" << endl;
 
@@ -169,7 +220,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	if (language_setting == 2) { cout << "은행 번호 : "; }
 	
 	int bank_choose = 0;
-	bank_choose = no_error_range(language_setting, 0, bank_list.size() - 1);
+	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, bank_list.size() - 1);
 
 	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
 	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다." << endl; }
@@ -193,7 +244,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 
 	int service_choose = 0;
 	// cin >> service_choose;
-	service_choose = no_error_range(language_setting, 1, 3);
+	service_choose = no_error_range(ATM_list, bank_list, language_setting, 1, 3);
 
 
 	if (service_choose == 1) {
@@ -226,7 +277,9 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 
 			// password is string!
 			a--;
-			cin >> input_password;
+			//cin >> input_password;
+			Qsearch(ATM_list, bank_list, input_password);
+
 			if (input_account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
 				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
@@ -253,7 +306,7 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	
 	int bank_choose = 0;
 	// cin >> bank_choose;
-	bank_choose = no_error_range(language_setting, 0, bank_list.size() - 1);
+	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, bank_list.size() - 1);
 
 	if (bank_choose >= bank_list.size()) {
 		if (language_setting == 1) { cout << "The corresponding bank does not exist." << endl; }
@@ -277,14 +330,14 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 
 	int type = 0;
 	// cin >> type;
-	type = no_error_range(language_setting, 1, 2);
+	type = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
 
 	if (language_setting == 1) { cout << "Please input ATM language type." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
 	if (language_setting == 2) { cout << "ATM의 언어 type을 선택해 주세요." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
 	
 	int language = 0;
 	// cin >> language;
-	language = no_error_range(language_setting, 1, 2);
+	language = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
 
 	int* fund[4] = { 0, };
 	for (int i = 0; i < 4; i++) {
@@ -293,22 +346,22 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	if (language_setting == 1) { cout << "Please Enter the Amount of 1000 won bills." << endl; }
 	if (language_setting == 2) { cout << "1000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[0]);
-	*(fund[0]) = no_error(language_setting);
+	*(fund[0]) = no_error(ATM_list, bank_list, language_setting);
 
 	if (language_setting == 1) { cout << "Please Enter the Amount of 5000 won bills." << endl; }
 	if (language_setting == 2) { cout << "5000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[1]);
-	*(fund[1]) = no_error(language_setting);
+	*(fund[1]) = no_error(ATM_list, bank_list, language_setting);
 	
 	if (language_setting == 1) { cout << "Please Enter the Amount of 10000 won bills." << endl; }
 	if (language_setting == 2) { cout << "10000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[2]);
-	*(fund[2]) = no_error(language_setting);
+	*(fund[2]) = no_error(ATM_list, bank_list, language_setting);
 
 	if (language_setting == 1) { cout << "Please Enter the Amount of 50000 won bills." << endl; }
 	if (language_setting == 2) { cout << "50000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[3]);
-	*(fund[3]) = no_error(language_setting);
+	*(fund[3]) = no_error(ATM_list, bank_list, language_setting);
 
 	switch (type) {
 	case 1:
@@ -349,7 +402,7 @@ void ATMService(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_set
 	
 	int ATM_choose = 0;
 	// cin >> ATM_choose;
-	ATM_choose = no_error_range(language_setting, 0, ATM_list.size() - 1);
+	ATM_choose = no_error_range(ATM_list, bank_list, language_setting, 0, ATM_list.size() - 1);
 
 	//if (ATM_choose >= ATM_list.size()) {
 	//	if (language_setting == 1) { cout << "The corresponding ATM does not exist." << endl; }
@@ -366,7 +419,7 @@ void ATMService(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_set
 	return;
 }
 
-Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
+Account* BankSearch(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Search Session > ====================" << endl;
 	if (language_setting == 1) {
 		cout << "Please choose searach service number that you want." << endl;
@@ -385,14 +438,16 @@ Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 
 	int search_choose = 0;
 	// cin >> search_choose;
-	search_choose = no_error_range(language_setting, 1, 2);
+	search_choose = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
 
 	while (true) {
 		if (search_choose == 1) {
 			string account_number;
 			if (language_setting == 1) { cout << "Please write your account number : "; }
 			if (language_setting == 2) { cout << "계좌번호를 입력해주세요. : "; }
-			cin >> account_number;
+
+			//cin >> account_number;
+			Qsearch(ATM_list, bank_list, account_number);
 
 			for (int i = 0; i < bank_list.size(); i++) {
 				if (bank_list[i]->search_account_number_BankSearch(account_number, language_setting) != NULL) {
@@ -407,7 +462,9 @@ Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 			string card_number;
 			if (language_setting == 1) { cout << "Please write your card number : "; }
 			if (language_setting == 2) { cout << "카드 번호를 입력해주세요. : "; }
-			cin >> card_number;
+			
+			//cin >> card_number;
+			Qsearch(ATM_list, bank_list, card_number);
 
 			for (int i = 0; i < bank_list.size(); i++) {
 				if (bank_list[i]->search_account_card_BankSearch(card_number, language_setting) != NULL) {
@@ -422,43 +479,43 @@ Account* BankSearch(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Search Session End! > ====================" << endl;
 }
 
-void feeConfig(int* fee_list1[4], int* fee_list2[4], int language_setting) {
+void feeConfig(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting) {
 	if (language_setting == 1) { cout << "Please Enter the deposit fee for primary bank." << endl; }
 	if (language_setting == 2) { cout << "Primary bank 계좌에서의 입금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list1[0]);
-	*(fee_list1[0]) = no_error(language_setting);
+	*(fee_list1[0]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the withdrawal fee for primary bank." << endl; }
 	if (language_setting == 2) { cout << "Primary bank 계좌에서의 출금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list1[1]);
-	*(fee_list1[1]) = no_error(language_setting);
+	*(fee_list1[1]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the account transfer fee between primary banks." << endl; }
 	if (language_setting == 2) { cout << "Primary bank 계좌끼리의 송금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list1[2]);
-	*(fee_list1[2]) = no_error(language_setting);
+	*(fee_list1[2]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the cash transfer fee." << endl; }
 	if (language_setting == 2) { cout << "현금 송금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list1[3]);
-	*(fee_list1[3]) = no_error(language_setting);
+	*(fee_list1[3]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the deposit fee for non-primary bank." << endl; }
 	if (language_setting == 2) { cout << "Non-Primary bank 계좌에서의 입금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list2[0]);
-	*(fee_list2[0]) = no_error(language_setting);
+	*(fee_list2[0]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the withdrawal fee for non-primary bank." << endl; }
 	if (language_setting == 2) { cout << "Non-primary bank 계좌에서의 출금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list2[1]);
-	*(fee_list2[1]) = no_error(language_setting);
+	*(fee_list2[1]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the account transfer fee between primary bank and non-primary banks." << endl; }
 	if (language_setting == 2) { cout << "Primary bank 계좌와 non-primary bank 계좌 사이의 송금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list2[2]);
-	*(fee_list2[2]) = no_error(language_setting);
+	*(fee_list2[2]) = no_error(ATM_list, bank_list, language_setting);
 	if (language_setting == 1) { cout << "Please Enter the account transfer fee between non-primary banks." << endl; }
 	if (language_setting == 2) { cout << "Non-primary bank 계좌끼리의 송금 수수료를 입력해 주세요." << endl; }
 	// cin >> *(fee_list2[3]);
-	*(fee_list2[3]) = no_error(language_setting);
+	*(fee_list2[3]) = no_error(ATM_list, bank_list, language_setting);
 	return;
 }
 
-int LanguageService(int language_setting) {
+int LanguageService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_setting) {
 	cout << "===========================<Language Change Session>===========================" << endl;
 	if (language_setting == 1) {
 		cout << "Select language" << endl;
@@ -477,7 +534,7 @@ int LanguageService(int language_setting) {
 
 	int setting = 0;
 	// cin >> setting;
-	setting = no_error_range(language_setting, 1, 2);
+	setting = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
 	language_setting = setting;
 
 	return language_setting;
@@ -501,7 +558,10 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 
 	int a = 0;
 	for (int i = 0; i < 3; i++) {
-		cin >> input_password;
+
+		//cin >> input_password;
+		Qsearch(ATM_list, bank_list, input_password);
+
 		if (admin_password == input_password) {
 			if (language_setting == 1) { cout << "Admin confirmed." << endl; }
 			if (language_setting == 2) { cout << "관리자 확인 완료." << endl; }
@@ -539,7 +599,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 
 	int choice = 0;
 	// cin >> choice;
-	choice = no_error_range(language_setting, 1, 2);
+	choice = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
 
 	if (choice == 1) {
 		if (language_setting == 1) {
@@ -653,14 +713,14 @@ int main() {
 		}
 
 		int session_chice = 0;
-		session_chice = no_error_range(language_setting, 1, 8);
+		session_chice = no_error_range(ATM_list, bank_list, language_setting, 1, 8);
 
 		switch (session_chice) {
 		case 1:
-			BankMake(bank_list, language_setting);
+			BankMake(ATM_list, bank_list, language_setting, blist, alist);
 			break;
 		case 2:
-			BankService(bank_list, language_setting);
+			BankService(ATM_list, bank_list, language_setting);
 			break;
 		case 3:
 			ATMMake(ATM_list, bank_list, fee1, fee2, language_setting, blist, alist);
@@ -669,13 +729,13 @@ int main() {
 			ATMService(ATM_list, bank_list, language_setting);
 			break;
 		case 5:
-			language_setting = LanguageService(language_setting);
+			language_setting = LanguageService(ATM_list, bank_list, language_setting);
 			break;
 		case 6:
 			onSession = false;
 			break;
 		case 7:
-			feeConfig(fee1, fee2, language_setting);
+			feeConfig(ATM_list, bank_list, fee1, fee2, language_setting);
 			break;
 		case 8:
 			Admin(ATM_list, bank_list, language_setting);
