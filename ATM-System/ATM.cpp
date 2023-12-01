@@ -4,11 +4,11 @@
 int ATM::static_ATM_counter = 0;
 int ATM::static_transaction_counter = 0;
 
-void ATM::Qsearch(string str) {
+void ATM::Qsearch(string* str) {
 
 	while (true) {
-		cin >> str;
-		if (str == "Q" || str == "q") {
+		cin >> *str;
+		if (*str == "Q" || *str == "q") {
 			printNow();
 		}
 		else {
@@ -185,10 +185,11 @@ ATM::~ATM() {
 void ATM::session(vector<Bank*> bank_list) {
 	if (this->lang_setting == true) { cout << "카드를 삽입해 주세요." << endl << "카드 번호 : "; }
 	if (this->lang_setting == false) { cout << "Please insert your card." << endl << "Card number : "; }
-	string cardinsert;
+	string cardinsert = "";
+	string* pcardinsert = &cardinsert;
 	//cin >> cardinsert;
 
-	Qsearch(cardinsert);
+	Qsearch(pcardinsert);
 
 	if (cardinsert == this->admin_card) {
 		see_transaction_history();
@@ -253,7 +254,8 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 		if (this->lang_setting == 1) { cout << "송금할 계좌의 번호를 입력해 주세요 : "; }
 		if (this->lang_setting == 0) { cout << "Please enter the number of the account you want to transfer : "; }
 		string numinsert1 = "";
-		cin >> numinsert1;
+		string* pnuminsert1 = &numinsert1;
+		Qsearch(pnuminsert1);
 		Account* b = num2account(numinsert1, bank_list);
 		if (b == nullptr) {
 			if (this->lang_setting == 1) { cout << "잘못된 계좌 번호를 입력하셨습니다. 거래를 종료합니다." << endl; }
@@ -270,7 +272,8 @@ vector<string> ATM::transaction(Account* a, vector<Bank*> bank_list, string Card
 		if (this->lang_setting == 1) { cout << "송금할 계좌의 번호를 입력해 주세요 : "; }
 		if (this->lang_setting == 0) { cout << "Please enter the number of the account you want to transfer : "; }
 		string numinsert2 = "";
-		cin >> numinsert2;
+		string* pnuminsert2 = &numinsert2;
+		Qsearch(pnuminsert2);
 		Account* b = num2account(numinsert2, bank_list);
 		if (b == nullptr) {
 			if (this->lang_setting == 1) { cout << "잘못된 계좌 번호를 입력하셨습니다. 거래를 종료합니다." << endl; }
@@ -334,12 +337,13 @@ bool ATM::user_authorization(Account* a) {
 	if (this->lang_setting == 1) { cout << "비밀번호를 3회 틀리면, 거래<가 종료됩니다." << endl; }
 	if (this->lang_setting == 0) { cout << "If you get the password wrong 3 times, the transaction ends." << endl; }
 	string pass = "";
+	string* ppass = &pass;
 	for (int i = 0; i < 3; i++) {
 		if (this->lang_setting == 1) { cout << "비밀번호를 입력해 주십시오." << endl; }
 		else if (this->lang_setting == 0) { cout << "Please enter your password." << endl; }
 		if (this->lang_setting == 1) { cout << "남은 입력 횟수 : " << 3 - i << "회" << endl << "비밀번호 : "; }
 		else if (this->lang_setting == 0) { cout << "remaining : " << 3 - i << " times" << endl << "password : "; }
-		cin >> pass;
+		Qsearch(ppass);
 		if (a->getPassword() == pass) {
 			return true;
 		}
@@ -455,7 +459,7 @@ void ATM::printNow() {
 		// cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
 	}
 	cout << endl;
-	cout << "Previous Input : ";
+	cout << "Please re-enter here : ";
 	return;
 }
 
