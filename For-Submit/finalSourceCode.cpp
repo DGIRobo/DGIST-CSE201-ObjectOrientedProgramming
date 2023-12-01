@@ -15,8 +15,11 @@ class ATM;
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ Account Class Declaration
 class Account {
 private:
+
 	Bank* bank;
+
 	int account_id;
+
 	string bank_name;
 	string user_name;
 	static int static_account_counter;
@@ -41,8 +44,11 @@ public:
 	void withdraw(int output_money);
 	void updateHistory(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string TransactionSpecificInformation);
 	void printHistory();
+
 	vector<string> getCardNumber();
+
 	int getAvailableFund();
+
 	int getAccountID();
 };
 
@@ -53,31 +59,43 @@ private:
 	int bank_id;
 	string bank_name;
 	vector<Account*>accounts;
+
 	vector<Bank*>* blist;
 	vector<ATM*>* alist;
+
 protected:
 public:
 	void printNow();
 	void Qsearch(string* str);
+
 	int no_error(int language_setting);
 	int no_error_range(int language_setting, int min, int max);
+
 	Bank(string name, vector<Bank*>* blist, vector<ATM*>* alist);
 	~Bank();
 	int getBankId();
 	string getBankName();
 	void deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf10000, int numOf50000);
+
+	// Account* open_account(Account* a);
+
 	void create_account(int language_setting);
 	Account* search_account_number(int language_setting);
 	Account* search_account_number_BankSearch(string input_account, int language_setting);
+
 	Account* search_account_card(int language_setting);
 	Account* search_account_card_BankSearch(string input_card, int language_setting);
+
 	vector<Account*> get_account();
+
 	void makeCard_session(int language_setting);
+
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ATM Class Declaration
 class ATM {
 private:
+
 protected:
 	string serial_number;
 	string admin_card;
@@ -90,13 +108,18 @@ protected:
 	int type;
 	vector<Bank*>* blist;
 	vector<ATM*>* alist;
+
 	Bank* primary_bank;
 	int language_available;
+
 public:
+
 	void Qsearch(string* str);
+
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
 	ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>* blist, vector<ATM*>* alist);
 	~ATM();
+
 	void session(vector<Bank*> bank_list);
 	vector<string> transaction(Account* a, vector<Bank*> bank_list, string CardNumber, int* with_counter);
 	void languageChange();
@@ -135,6 +158,7 @@ public:
 	Single();
 	Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], vector<Bank*>* blist, vector<ATM*>* alist);
 	~Single();
+
 	int deposit(Account* a);
 	int withdraw(Account* a);
 	int account_transfer(Account* a, Account* b);
@@ -155,6 +179,7 @@ public:
 	Multi();
 	Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* mfees[4], vector<Bank*>* blist, vector<ATM*>* alist);
 	~Multi();
+
 	int deposit(Account* a);
 	int withdraw(Account* a);
 	int account_transfer(Account* a, Account* b);
@@ -225,6 +250,7 @@ string Account::getAccountNumber() {
 }
 
 string Account::makeCard() {
+
 	string temp_bank_code;
 	for (int i = 0; i < 4 - to_string(this->bank->getBankId()).size(); i++) {
 		temp_bank_code += "0";
@@ -242,7 +268,9 @@ string Account::makeCard() {
 		temp_card_code += "0";
 	}
 	temp_card_code += to_string(static_card_counter);
+
 	string card_number = "0000-" + temp_bank_code + "-" + temp_account_code + "-" + temp_card_code;
+
 	this->access_cards.push_back(card_number);
 	return card_number;
 }
@@ -262,6 +290,7 @@ void Account::withdraw(int output_money) {
 void Account::updateHistory(string TransactionID, string CardNumber, string TransactionTypes, string Amount, string TransactionSpecificInformation) {
 	vector<string>new_history = { TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation }; // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 	int len = static_cast<int>(new_history.size());
+
 	ofstream writeFromFile(this->transaction_histories, ios::app);
 	for (int i = 0; i < len; ++i) {
 		string tmp = new_history[i];
@@ -319,6 +348,7 @@ void Bank::printNow() {
 }
 
 void Bank::Qsearch(string* str) {
+
 	while (true) {
 		cin >> *str;
 		if (*str == "Q" || *str == "q") {
@@ -333,6 +363,7 @@ void Bank::Qsearch(string* str) {
 int Bank::no_error(int language_setting) {
 	int temp = 0;
 	while (true) {
+
 		string abc = "";
 		//cin >> abc;
 		while (true) {
@@ -344,6 +375,7 @@ int Bank::no_error(int language_setting) {
 				break;
 			}
 		}
+
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
@@ -355,6 +387,7 @@ int Bank::no_error(int language_setting) {
 			}
 			continue;
 		}
+
 		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
 			temp = stoi(abc);
 			if (temp >= 0) { return temp; }
@@ -387,6 +420,7 @@ int Bank::no_error(int language_setting) {
 int Bank::no_error_range(int language_setting, int min, int max) {
 	int temp = 0;
 	while (true) {
+
 		string abc = "";
 		//cin >> abc;
 		while (true) {
@@ -398,6 +432,7 @@ int Bank::no_error_range(int language_setting, int min, int max) {
 				break;
 			}
 		}
+
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
@@ -409,6 +444,7 @@ int Bank::no_error_range(int language_setting, int min, int max) {
 			}
 			continue;
 		}
+
 		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
 			temp = stoi(abc);
 			if (temp > min - 1 && temp < max + 1) { return temp; }
@@ -442,12 +478,18 @@ Bank::Bank(string name, vector<Bank*>* blist, vector<ATM*>* alist) {
 	this->bank_name = name;
 	static_bank_counter += 1;
 	this->bank_id = static_bank_counter;
+
 	this->blist = blist;
 	this->alist = alist;
+
 	cout << this->getBankName() << " Bank is created." << endl;
 }
 
 Bank::~Bank() {
+
+	for (int i = 0; i < accounts.size(); i++) {
+		delete accounts[i];
+	}
 	cout << this->bank_name << " Bank is eliminated." << endl;
 }
 
@@ -465,20 +507,26 @@ void Bank::deposit2ATM(ATM* target_ATM, int numOf1000, int numOf5000, int numOf1
 
 void Bank::makeCard_session(int language_setting) {
 	cout << "==================== < Card Create Session > ====================" << endl;
+
 	if (accounts.size() == 0) {
 		if (language_setting == 1) { cout << "There is no account. So making card is not available." << endl; }
 		if (language_setting == 2) { cout << "은행에 존재하는 계좌가 없어 카드 생성을 수행할 수 없습니다." << endl; }
 		return;
 	}
+
 	int c = 0;
 	Account* account = search_account_number(language_setting);
+
 	if (account == NULL) { c = 1; }
+
 	if (c == 0) {
 		string input_password;
 		if (language_setting == 1) { cout << "To make card, please write password." << endl; }
 		if (language_setting == 2) { cout << "카드를 만들기 위해 비밀번호를 입력해주세요." << endl; }
+
 		int a = 3;
 		while (true) {
+
 			if (a == 0) {
 				if (language_setting == 1) { cout << "You write wrong password 3 times. " << endl; }
 				if (language_setting == 2) { cout << "비밀번호 3회 틀렸습니다." << endl; }
@@ -493,12 +541,15 @@ void Bank::makeCard_session(int language_setting) {
 				cout << a << " 회 남음." << endl;
 				cout << "비밀번호 : ";
 			}
+
+			// cin >> input_password;
 			string* pinput_password = &input_password;
 			Qsearch(pinput_password);
 			a--;
 			if (account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
 				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
+
 				string now_created_card_number;
 				now_created_card_number = account->makeCard();
 				if (language_setting == 1) {
@@ -511,6 +562,7 @@ void Bank::makeCard_session(int language_setting) {
 					cout << "카드 번호 : " << now_created_card_number << endl;
 					cout << "계좌에 연결된 카드 번호 목록입니다." << endl;
 				}
+
 				vector <string > card_list = account->getCardNumber();
 				for (int i = 0; i < card_list.size(); i++) {
 					cout << card_list[i] << endl;
@@ -527,6 +579,7 @@ void Bank::create_account(int language_setting) {
 	string input_user_name;
 	string* pinput_user_name = &input_user_name;
 	string account_number;
+
 	string input_password;
 	string* pinput_password = &input_password;
 	if (language_setting == 1) {
@@ -549,11 +602,14 @@ void Bank::create_account(int language_setting) {
 		Qsearch(pinput_password);
 		cout << "초기자금 : ";
 	}
+
 	int initial_fund;
 	// cin >> initial_fund;
 	initial_fund = no_error(language_setting);
+
 	Account* new_account = new Account(this, input_user_name, input_password, initial_fund);
 	accounts.push_back(new_account);
+
 	if (language_setting == 1) {
 		cout << "Account is created." << endl;
 		cout << "Bank : " << new_account->getBankName() << endl;
@@ -572,6 +628,7 @@ void Bank::create_account(int language_setting) {
 		cout << "계좌잔고 : " << new_account->getAvailableFund() << endl;
 		cout << "카드를 생성하시겠습니까? [동의 Y / 비동의 N] : ";
 	}
+
 	string agreement;
 	string* pagreement = &agreement;
 	// cin >> agreement;
@@ -590,6 +647,7 @@ void Bank::create_account(int language_setting) {
 		}
 		else { break; }
 	}
+
 	if (agreement == "n" || agreement == "N") { cout << "==================== < Card Create Session End! > ====================" << endl; }
 	if (agreement == "y" || agreement == "Y") {
 		cout << "==================== < Card Create Session > ====================" << endl;
@@ -626,6 +684,7 @@ Account* Bank::search_account_number(int language_setting) {
 			if (language_setting == 2) { cout << this->getBankName() << " 은행이 계좌를 찾지 못했습니다." << endl; }
 			break;
 		}
+
 		if (language_setting == 1) {
 			cout << a << " attempts left." << endl;
 			cout << "Account number : ";
@@ -634,6 +693,7 @@ Account* Bank::search_account_number(int language_setting) {
 			cout << a << " 회 남음." << endl;
 			cout << "계좌번호 : ";
 		}
+
 		a--;
 		string input_account_number;
 		string* pinput_account_number = &input_account_number;
@@ -653,6 +713,7 @@ Account* Bank::search_account_number(int language_setting) {
 					cout << "예금주 : " << accounts_list[i]->getUserName() << endl;
 					cout << "계좌번호 : " << accounts_list[i]->getAccountNumber() << endl;
 				}
+
 				cout << "==================== < Account Number Search Session End! > ====================" << endl;
 				return accounts_list[i];
 			}
@@ -684,6 +745,7 @@ Account* Bank::search_account_number_BankSearch(string input_account, int langua
 			return accounts_list[i];
 		}
 	}
+	// cout << this->getBankName() << "Bank cannot find your account." << endl;
 	return NULL;
 }
 
@@ -696,10 +758,12 @@ Account* Bank::search_account_card(int language_setting) {
 	string* pinput_card_number = &input_card_number;
 	if (language_setting == 1) {
 		cout << "Card number : ";
+		// cin >> input_card_number;
 		Qsearch(pinput_card_number);
 	}
 	if (language_setting == 2) {
 		cout << "카드 번호 : ";
+		// cin >> input_card_number;
 		Qsearch(pinput_card_number);
 	}
 	for (int i = 0; i < accounts_list.size(); i++) {
@@ -748,10 +812,12 @@ Account* Bank::search_account_card_BankSearch(string input_card, int language_se
 					cout << "예금주 : " << accounts_list[i]->getUserName() << endl;
 					cout << "계좌번호 : " << accounts_list[i]->getAccountNumber() << endl;
 				}
+
 				return accounts_list[i];
 			}
 		}
 	}
+	// cout << this->getBankName() << "Bank cannot find your account." << endl;
 	return NULL;
 }
 
@@ -931,10 +997,15 @@ ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, i
 }
 
 ATM::~ATM() {
+	if (this->lang_setting == true) { cout << "ATM " << this->getSerial() << " 이 제거됩니다." << endl; }
+	else if (this->lang_setting == false) { cout << "ATM " << this->getSerial() << " is being removed." << endl; }
 	this->primary_bank = nullptr;
 	this->serial_number = "";
 	this->type = 0;
 	this->language_available = 0;
+	this->admin_card = "";
+	this->blist = nullptr;
+	this->alist = nullptr;
 
 	for (int i = 0; i < 4; ++i) {
 		this->cash_storage[i] = 0;
@@ -3065,7 +3136,7 @@ int main() {
 	for (int i = 0; i < 4; i++) {
 		delete fee2[i];
 	}
-	for (int i = 0; i < (int) bank_list.size(); i++) {
+	for (int i = 0; i < (int)bank_list.size(); i++) {
 		delete bank_list[i];
 	}
 	for (int i = 0; i < (int)ATM_list.size(); i++) {
