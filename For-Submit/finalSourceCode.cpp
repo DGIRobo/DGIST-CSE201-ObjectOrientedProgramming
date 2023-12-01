@@ -169,7 +169,9 @@ int Account::static_card_counter = 0;
 int Account::static_account_counter = 0;
 
 Account::Account(Bank* input_bank, string input_user_name, string input_password, int initial_fund) {
+
 	this->bank = input_bank;
+
 	this->bank_name = input_bank->getBankName();
 	this->user_name = input_user_name;
 	this->password = input_password;
@@ -180,14 +182,16 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	}
 	temp_bank_code += to_string(input_bank->getBankId());
 	this->static_account_counter += 1;
+
 	this->account_id = this->static_account_counter;
+
 	string temp_account_code;
 	for (int i = 0; i < 6 - to_string(this->account_id).size(); i++) {
 		temp_account_code += "0";
 	}
 	temp_account_code += to_string(this->account_id);
 	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
-	this->transaction_histories = input_user_name + ".txt";
+	this->transaction_histories = this->account_number + ".txt";
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Generate New Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 }
 
@@ -197,6 +201,7 @@ Account::~Account() {
 	this->password = "";
 	this->avaliable_funds = 0;
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Delete Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
+	cout << "Account " << this->account_number << " of " << this->bank_name << " is eliminated." << endl;
 }
 
 string Account::getBankName() {

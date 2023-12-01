@@ -26,7 +26,7 @@ Account::Account(Bank* input_bank, string input_user_name, string input_password
 	}
 	temp_account_code += to_string(this->account_id);
 	this->account_number = "000-" + temp_bank_code + "-" + temp_account_code;
-	this->transaction_histories = input_user_name + ".txt";
+	this->transaction_histories = this->account_number + ".txt";
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Generate New Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
 }
 
@@ -36,6 +36,7 @@ Account::~Account() {
 	this->password = "";
 	this->avaliable_funds = 0;
 	this->updateHistory("0", "None", "0", to_string(avaliable_funds), "Delete Account"); // TransactionID, CardNumber, TransactionTypes, Amount, TransactionSpecificInformation
+	cout << "Account " << this->account_number << " of " << this->bank_name << " is eliminated." << endl;
 }
 
 string Account::getBankName() {
