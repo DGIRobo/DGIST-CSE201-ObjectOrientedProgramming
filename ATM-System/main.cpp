@@ -155,7 +155,7 @@ int no_error_range(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int languag
 	}
 }
 
-void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_setting) {
+void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_setting, vector<Bank*>* blist, vector<ATM*>* alist) {
 
 	cout << "==================== < Bank Duplicate Session > ====================" << endl;
 	string bank_name; string bank_name_save;
@@ -191,7 +191,7 @@ void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_set
 		}
 		if (dup == 0) {
 			// bank_list.push_back(Bank(bank_name_save));
-			bank_list.push_back(new Bank(bank_name_save));
+			bank_list.push_back(new Bank(bank_name_save, blist, alist));
 			cout << "==================== < Bank Duplicate Session End! > ====================" << endl;
 			break;
 		}
@@ -717,7 +717,7 @@ int main() {
 
 		switch (session_chice) {
 		case 1:
-			BankMake(ATM_list, bank_list, language_setting);
+			BankMake(ATM_list, bank_list, language_setting, blist, alist);
 			break;
 		case 2:
 			BankService(ATM_list, bank_list, language_setting);

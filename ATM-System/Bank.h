@@ -15,12 +15,19 @@ private:
 	int bank_id;
 	string bank_name;
 	vector<Account*>accounts;
+
+	vector<Bank*>* blist;
+	vector<ATM*>* alist;
+
 protected:
 public:
+	void printNow();
+	void Qsearch(string* str);
+
 	int no_error(int language_setting);
 	int no_error_range(int language_setting, int min, int max);
 
-	Bank(string name);
+	Bank(string name, vector<Bank*>* blist, vector<ATM*>* alist);
 	~Bank();
 	int getBankId();
 	string getBankName();
