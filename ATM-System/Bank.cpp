@@ -159,6 +159,10 @@ Bank::Bank(string name, vector<Bank*>* blist, vector<ATM*>* alist) {
 }
 
 Bank::~Bank() {
+	
+	for (int i = 0; i < accounts.size(); i++) {
+		delete accounts[i];
+	}
 	cout << this->bank_name << " Bank is eliminated." << endl;
 }
 
