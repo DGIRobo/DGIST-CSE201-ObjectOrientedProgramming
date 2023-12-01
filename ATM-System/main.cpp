@@ -11,7 +11,7 @@
 using namespace std;
 
 void printNow(vector<ATM*>& ATM_list, vector<Bank*>& bank_list) {
-	
+
 	for (int i = 0; i < bank_list.size(); i++) {
 		for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
 			cout << "Account[" << (bank_list)[i]->get_account()[j]->getUserName() << "] : " << (bank_list)[i]->get_account()[j]->checkFunds() << "/" << (bank_list)[i]->get_account()[j]->getAccountNumber() << "/" << (bank_list)[i]->get_account()[j]->getBankName() << endl;
@@ -167,7 +167,7 @@ void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_set
 
 		cin >> bank_name;
 		// Qsearch(ATM_list, bank_list, bank_name);
-		
+
 		bank_name_save = bank_name;
 
 		for (int i = 0; i < bank_name.size(); i++) {
@@ -217,9 +217,9 @@ void BankService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_s
 
 	if (language_setting == 1) { cout << "Bank number : "; }
 	if (language_setting == 2) { cout << "은행 번호 : "; }
-	
+
 	int bank_choose = 0;
-	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, bank_list.size() - 1);
+	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, (int) bank_list.size() - 1);
 
 	if (language_setting == 1) { cout << bank_list[bank_choose]->getBankName() << " bank is selected." << endl; }
 	if (language_setting == 2) { cout << bank_list[bank_choose]->getBankName() << " 은행이 선택되었습니다." << endl; }
@@ -302,10 +302,10 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	for (int i = 0; i < bank_list.size(); i++) {
 		cout << "[" << i << "] " << bank_list[i]->getBankName() << " Bank" << endl;
 	}
-	
+
 	int bank_choose = 0;
 	// cin >> bank_choose;
-	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, bank_list.size() - 1);
+	bank_choose = no_error_range(ATM_list, bank_list, language_setting, 0, (int) bank_list.size() - 1);
 
 	if (bank_choose >= bank_list.size()) {
 		if (language_setting == 1) { cout << "The corresponding bank does not exist." << endl; }
@@ -333,7 +333,7 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 
 	if (language_setting == 1) { cout << "Please input ATM language type." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
 	if (language_setting == 2) { cout << "ATM의 언어 type을 선택해 주세요." << endl << "[1] Unilingual ATM" << endl << "[2] Bilingual ATM" << endl; }
-	
+
 	int language = 0;
 	// cin >> language;
 	language = no_error_range(ATM_list, bank_list, language_setting, 1, 2);
@@ -351,7 +351,7 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	if (language_setting == 2) { cout << "5000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[1]);
 	*(fund[1]) = no_error(ATM_list, bank_list, language_setting);
-	
+
 	if (language_setting == 1) { cout << "Please Enter the Amount of 10000 won bills." << endl; }
 	if (language_setting == 2) { cout << "10000원권의 수를 입력해 주세요." << endl; }
 	// cin >> *(fund[2]);
@@ -398,10 +398,10 @@ void ATMService(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_set
 	cout << endl;
 	if (language_setting == 1) { cout << "ATM number : "; }
 	if (language_setting == 2) { cout << "ATM 번호 : "; }
-	
+
 	int ATM_choose = 0;
 	// cin >> ATM_choose;
-	ATM_choose = no_error_range(ATM_list, bank_list, language_setting, 0, ATM_list.size() - 1);
+	ATM_choose = no_error_range(ATM_list, bank_list, language_setting, 0, (int) ATM_list.size() - 1);
 
 	//if (ATM_choose >= ATM_list.size()) {
 	//	if (language_setting == 1) { cout << "The corresponding ATM does not exist." << endl; }
@@ -461,7 +461,7 @@ Account* BankSearch(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int languag
 			string card_number;
 			if (language_setting == 1) { cout << "Please write your card number : "; }
 			if (language_setting == 2) { cout << "카드 번호를 입력해주세요. : "; }
-			
+
 			//cin >> card_number;
 			Qsearch(ATM_list, bank_list, card_number);
 
@@ -745,3 +745,6 @@ int main() {
 	cout << "===========================<End System>===========================" << endl;
 	return 0;
 }
+
+
+
