@@ -5,7 +5,6 @@
 #include "Account.h"
 #include "Bank.h"
 #include "ATM.h"
-#include "Fee.h"
 #include "SingleBankATM.h"
 #include "MultiBankATM.h"
 
@@ -746,6 +745,3 @@ int main() {
 	cout << "===========================<End System>===========================" << endl;
 	return 0;
 }
-
-
-
