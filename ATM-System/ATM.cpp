@@ -172,10 +172,15 @@ ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, i
 }
 
 ATM::~ATM() {
+	if (this->lang_setting == true) { cout << "ATM " << this->getSerial() << " 이 제거됩니다." << endl; }
+	else if (this->lang_setting == false) { cout << "ATM " << this->getSerial() << " is being removed." << endl; }
 	this->primary_bank = nullptr;
 	this->serial_number = "";
 	this->type = 0;
 	this->language_available = 0;
+	this->admin_card = "";
+	this->blist = nullptr;
+	this->alist = nullptr;
 
 	for (int i = 0; i < 4; ++i) {
 		this->cash_storage[i] = 0;
