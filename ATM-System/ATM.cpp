@@ -421,11 +421,10 @@ void ATM::display_transaction_short(vector<string> rec) {
 void ATM::printNow() {
 	for (int i = 0; i < (*blist).size(); i++) {
 		for (int j = 0; j < (*blist)[i]->get_account().size(); j++) {
-			cout << "Account[" << (*blist)[i]->get_account()[j]->getUserName() << "] : " << (*blist)[i]->get_account()[j]->checkFunds() << endl;
+			cout << "Account[" << (*blist)[i]->get_account()[j]->getUserName() << "] : " << (*blist)[i]->get_account()[j]->checkFunds() << "/" << (*blist)[i]->get_account()[j]->getAccountNumber() << "/" << (*blist)[i]->get_account()[j]->getBankName() << endl;
 		}
 	}
 	for (int i = 0; i < (*alist).size(); i++) {
-		cout << endl;
 		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << (*alist)[i]->getPrimary()->getBankName() << " " << (*alist)[i]->getType() << " " << (*alist)[i]->getLangType() << endl;
 		cout << "Remaing cash : " << 1000 * (*alist)[i]->get1000() + 5000 * (*alist)[i]->get5000() + 10000 * (*alist)[i]->get10000() + 50000 * (*alist)[i]->get50000() << " (1000 : " << (*alist)[i]->get1000() << ", 5000 : " << (*alist)[i]->get5000() << ", 10000 : " << (*alist)[i]->get10000() << ", 50000 : " << (*alist)[i]->get50000() << ")" << endl;
 		// cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
