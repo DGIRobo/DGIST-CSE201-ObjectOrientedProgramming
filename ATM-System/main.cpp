@@ -27,15 +27,15 @@ void printNow(vector<ATM*>& ATM_list, vector<Bank*>& bank_list) {
 	return;
 }
 
-void Qsearch(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, string str) {
-
+string Qsearch(vector<ATM*>& ATM_list, vector<Bank*>& bank_list) {
+	string str;
 	while (true) {
 		cin >> str;
 		if (str == "Q" || str == "q") {
 			printNow(ATM_list, bank_list);
 		}
 		else {
-			return;
+			return str;
 		}
 	}
 }
@@ -277,7 +277,8 @@ void BankService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_s
 			// password is string!
 			a--;
 			//cin >> input_password;
-			Qsearch(ATM_list, bank_list, input_password);
+			input_password = Qsearch(ATM_list, bank_list);
+			cout << input_password;
 
 			if (input_account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
@@ -446,7 +447,7 @@ Account* BankSearch(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int languag
 			if (language_setting == 2) { cout << "계좌번호를 입력해주세요. : "; }
 
 			//cin >> account_number;
-			Qsearch(ATM_list, bank_list, account_number);
+			account_number = Qsearch(ATM_list, bank_list);
 
 			for (int i = 0; i < bank_list.size(); i++) {
 				if (bank_list[i]->search_account_number_BankSearch(account_number, language_setting) != NULL) {
@@ -463,7 +464,7 @@ Account* BankSearch(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int languag
 			if (language_setting == 2) { cout << "카드 번호를 입력해주세요. : "; }
 
 			//cin >> card_number;
-			Qsearch(ATM_list, bank_list, card_number);
+			card_number = Qsearch(ATM_list, bank_list);
 
 			for (int i = 0; i < bank_list.size(); i++) {
 				if (bank_list[i]->search_account_card_BankSearch(card_number, language_setting) != NULL) {
@@ -559,7 +560,7 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 	for (int i = 0; i < 3; i++) {
 
 		//cin >> input_password;
-		Qsearch(ATM_list, bank_list, input_password);
+		input_password = Qsearch(ATM_list, bank_list);
 
 		if (admin_password == input_password) {
 			if (language_setting == 1) { cout << "Admin confirmed." << endl; }
