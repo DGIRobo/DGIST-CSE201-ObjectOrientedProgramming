@@ -14,11 +14,9 @@ using namespace std;
 int no_error(int language_setting) {
 	int temp = 0;
 	while (true) {
-		
-		//cin >> temp;
-		string abc;
-		//cin >> abc;
-		getline(cin, abc);
+
+		string abc = "";
+		cin >> abc;
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -44,7 +42,19 @@ int no_error(int language_setting) {
 					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
 					cout << "숫자를 입력해주세요 : ";
 				}
+				continue;
 			}
+		}
+		if (atoi(abc.c_str()) == 0 && abc.compare("0") != 0) {
+			if (language_setting == 1) {
+				cout << "[Error] Input out of range. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			continue;
 		}
 	}
 }
@@ -53,10 +63,8 @@ int no_error_range(int language_setting, int min, int max) {
 	int temp = 0;
 	while (true) {
 
-		//cin >> temp;
-		string abc;
-		//cin >> abc;
-		getline(cin, abc);
+		string abc = "";
+		cin >> abc;
 
 		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 1) {
@@ -82,8 +90,20 @@ int no_error_range(int language_setting, int min, int max) {
 					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
 					cout << "숫자를 입력해주세요 : ";
 				}
+				continue;
 			}
-		}	
+		}
+		if (atoi(abc.c_str()) == 0 && abc.compare("0") != 0) {
+			if (language_setting == 1) {
+				cout << "[Error] Input out of range. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+			}
+			if (language_setting == 2) {
+				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			continue;
+		}
 	}
 }
 

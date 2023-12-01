@@ -5,69 +5,99 @@ int ATM::static_ATM_counter = 0;
 int ATM::static_transaction_counter = 0;
 
 int ATM::no_error(bool language_setting) {
+	int temp = 0;
 	while (true) {
-		int temp;
-		cin >> temp;
-		if (cin.fail()) {
+
+		string abc = "";
+		cin >> abc;
+		if (abc == "Q" || abc == "q") { printNow(); }
+
+		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 0) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
 				cout << "Please Enter the Number : ";
-
 			}
 			if (language_setting == 1) {
 				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
 				cout << "숫자를 입력해주세요 : ";
 			}
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
 		}
-		else {
+
+		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
+			temp = stoi(abc);
 			if (temp >= 0) { return temp; }
 			else {
 				if (language_setting == 0) {
 					cout << "[Error] Input out of range. Please write again." << endl;
 					cout << "Please Enter the Number : ";
-
 				}
 				if (language_setting == 1) {
 					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
 					cout << "숫자를 입력해주세요 : ";
 				}
+				continue;
 			}
+		}
+		if (atoi(abc.c_str()) == 0 && abc.compare("0") != 0) {
+			if (language_setting == 0) {
+				cout << "[Error] Input out of range. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+			}
+			if (language_setting == 1) {
+				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			continue;
 		}
 	}
 }
 
 int ATM::no_error_range(bool language_setting, int min, int max) {
+	int temp = 0;
 	while (true) {
-		int temp;
-		cin >> temp;
-		if (cin.fail()) {
+
+		string abc = "";
+		cin >> abc;
+		if (abc == "Q" || abc == "q") { printNow(); }
+
+		if (abc.find(".") != string::npos || abc.find("-") != string::npos || abc.find("\n") != string::npos) {
 			if (language_setting == 0) {
 				cout << "[Error] An input error has occurred. Please write again." << endl;
 				cout << "Please Enter the Number : ";
-
 			}
 			if (language_setting == 1) {
 				cout << "[에러] 입력 오류가 발생했습니다. 다시 한 번 입력해 주세요." << endl;
 				cout << "숫자를 입력해주세요 : ";
 			}
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
 		}
-		else {
+
+		if (atoi(abc.c_str()) != 0 || abc.compare("0") == 0) {
+			temp = stoi(abc);
 			if (temp > min - 1 && temp < max + 1) { return temp; }
 			else {
 				if (language_setting == 0) {
 					cout << "[Error] Input out of range. Please write again." << endl;
 					cout << "Please Enter the Number : ";
-
 				}
 				if (language_setting == 1) {
 					cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
 					cout << "숫자를 입력해주세요 : ";
 				}
+				continue;
 			}
+		}
+		if (atoi(abc.c_str()) == 0 && abc.compare("0") != 0) {
+			if (language_setting == 0) {
+				cout << "[Error] Input out of range. Please write again." << endl;
+				cout << "Please Enter the Number : ";
+			}
+			if (language_setting == 1) {
+				cout << "[에러] 범위 밖의 입력. 다시 한 번 입력해 주세요." << endl;
+				cout << "숫자를 입력해주세요 : ";
+			}
+			continue;
 		}
 	}
 }
@@ -128,6 +158,13 @@ void ATM::session(vector<Bank*> bank_list) {
 	if (this->lang_setting == false) { cout << "Please insert your card." << endl << "Card number : "; }
 	string cardinsert;
 	cin >> cardinsert;
+
+	//// qwer
+	if (cardinsert == "Q" || cardinsert == "q") {
+		printNow();
+		cin >> cardinsert;
+	}
+
 	if (cardinsert == this->admin_card) {
 		see_transaction_history();
 		return;
@@ -388,8 +425,12 @@ void ATM::printNow() {
 		}
 	}
 	for (int i = 0; i < ATM_list.size(); i++) {
-		cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
+		cout << endl;
+		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
+		cout << "Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
+		// cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
 	}
+	cout << "printNow End!" << endl;
 	return;
 }
 
