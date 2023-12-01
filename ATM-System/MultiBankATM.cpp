@@ -1,6 +1,6 @@
 #include "MultiBankATM.h"
 
-Multi::Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4]) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund) {
+Multi::Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* fees2[4], vector<Bank*>& bank_list, vector<ATM*>& ATM_list) : ATM(input_primary_bank, input_serial_number, 2, input_lanuage_available, initial_fund, bank_list, ATM_list) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}

@@ -293,12 +293,12 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	switch (type) {
 	case 1:
 		//Single(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1);
-		ATM_list.push_back(new Single(bank_list[bank_choose], serial, language, fund, fee_list1));
+		ATM_list.push_back(new Single(bank_list[bank_choose], serial, language, fund, fee_list1, bank_list, ATM_list));
 		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	case 2:
 		//Multi(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1, fee_list2);
-		ATM_list.push_back(new Multi(bank_list[bank_choose], serial, language, fund, fee_list1, fee_list2));
+		ATM_list.push_back(new Multi(bank_list[bank_choose], serial, language, fund, fee_list1, fee_list2, bank_list, ATM_list));
 		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	default:

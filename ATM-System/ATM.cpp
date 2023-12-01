@@ -97,13 +97,15 @@ void ATM::languageChange() {
 	return;
 }
 
-ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[]) {
+ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>& bank_list, vector<ATM*>& ATM_list) {
 	this->primary_bank = input_primary_bank;
 	this->serial_number = input_serial_number;
 	this->type = input_type;
 	this->language_available = input_lanuage_available;
 	this->transaction_histories = input_serial_number + ".txt";
 	this->admin_card = input_primary_bank->getBankName() + "admin";
+	this->bank_list = bank_list;
+	this->ATM_list = ATM_list;
 
 	for (int i = 0; i < 4; ++i) {
 		this->cash_storage[i] = initial_fund[i];
