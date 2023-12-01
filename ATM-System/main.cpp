@@ -166,8 +166,8 @@ void BankMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int language_set
 		if (language_setting == 1) { cout << "Please write bank name : "; }
 		if (language_setting == 2) { cout << "은행명을 입력해주세요. : "; }
 
-		// cin >> bank_name;
-		Qsearch(ATM_list, bank_list, bank_name);
+		cin >> bank_name;
+		// Qsearch(ATM_list, bank_list, bank_name);
 		
 		bank_name_save = bank_name;
 
@@ -279,6 +279,7 @@ void BankService(vector<ATM*>& ATM_list, vector<Bank*> bank_list, int language_s
 			a--;
 			//cin >> input_password;
 			Qsearch(ATM_list, bank_list, input_password);
+
 			if (input_account->getPassword() == input_password) {
 				if (language_setting == 1) { cout << "Correct password." << endl; }
 				if (language_setting == 2) { cout << "옳은 비밀번호." << endl; }
