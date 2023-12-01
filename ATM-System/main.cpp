@@ -241,7 +241,7 @@ void BankService(vector<Bank*> bank_list, int language_setting) {
 	cout << "==================== < Bank Service Session End! > ====================" << endl;
 }
 
-void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting) {
+void ATMMake(vector<ATM*> ATM_list, vector<Bank*> bank_list, int* fee_list1[4], int* fee_list2[4], int language_setting, vector<Bank*>* blist, vector<ATM*>* alist) {
 	cout << "==================== < ATM Duplicate Session > ====================" << endl;
 	//input : primary bank name, serial number, type, language, initial fund
 	//constant : 
@@ -313,12 +313,12 @@ void ATMMake(vector<ATM*>& ATM_list, vector<Bank*>& bank_list, int* fee_list1[4]
 	switch (type) {
 	case 1:
 		//Single(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1);
-		ATM_list.push_back(new Single(bank_list[bank_choose], serial, language, fund, fee_list1, bank_list, ATM_list));
+		ATM_list.push_back(new Single(bank_list[bank_choose], serial, language, fund, fee_list1, blist, alist));
 		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	case 2:
 		//Multi(bank_list[bank_choose].getBankName(), serial, language, fund, fee_list1, fee_list2);
-		ATM_list.push_back(new Multi(bank_list[bank_choose], serial, language, fund, fee_list1, fee_list2, bank_list, ATM_list));
+		ATM_list.push_back(new Multi(bank_list[bank_choose], serial, language, fund, fee_list1, fee_list2, blist, alist));
 		cout << "==================== < ATM Duplicate Session End! > ====================" << endl;
 		break;
 	default:
@@ -607,6 +607,8 @@ void Admin(vector<ATM*> ATM_list, vector<Bank*> bank_list, int language_setting)
 int main() {
 	vector<Bank*> bank_list;
 	vector<ATM*> ATM_list;
+	vector<Bank*>* blist = &bank_list;
+	vector<ATM*>* alist = &ATM_list;
 
 	int* fee1[4] = { 0, };
 	int* fee2[4] = { 0, };
@@ -661,7 +663,7 @@ int main() {
 			BankService(bank_list, language_setting);
 			break;
 		case 3:
-			ATMMake(ATM_list, bank_list, fee1, fee2, language_setting);
+			ATMMake(ATM_list, bank_list, fee1, fee2, language_setting, blist, alist);
 			break;
 		case 4:
 			ATMService(ATM_list, bank_list, language_setting);

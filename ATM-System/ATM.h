@@ -25,8 +25,8 @@ protected:
 	static int static_transaction_counter;
 	string transaction_histories;
 	int type;
-	vector<Bank*> bank_list;
-	vector<ATM*> ATM_list;
+	vector<Bank*>* blist;
+	vector<ATM*>* alist;
 
 	Bank* primary_bank;
 	int language_available;
@@ -34,7 +34,7 @@ protected:
 public:
 
 	// primary bank name / serial numbeer / type : single or multi bank / language : uni, bi / initial fund
-	ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>& bank_list, vector<ATM*>& ATM_list);
+	ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>* blist, vector<ATM*>* alist);
 	~ATM();
 
 	void session(vector<Bank*> bank_list);

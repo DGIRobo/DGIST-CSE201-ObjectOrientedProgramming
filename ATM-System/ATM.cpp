@@ -127,15 +127,15 @@ void ATM::languageChange() {
 	return;
 }
 
-ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>& bank_list, vector<ATM*>& ATM_list) {
+ATM::ATM(Bank* input_primary_bank, string input_serial_number, int input_type, int input_lanuage_available, int* initial_fund[], vector<Bank*>* blist, vector<ATM*>* alist) {
 	this->primary_bank = input_primary_bank;
 	this->serial_number = input_serial_number;
 	this->type = input_type;
 	this->language_available = input_lanuage_available;
 	this->transaction_histories = input_serial_number + ".txt";
 	this->admin_card = input_primary_bank->getBankName() + "admin";
-	this->bank_list = bank_list;
-	this->ATM_list = ATM_list;
+	this->blist = blist;
+	this->alist = alist;
 
 	for (int i = 0; i < 4; ++i) {
 		this->cash_storage[i] = initial_fund[i];
@@ -419,15 +419,15 @@ void ATM::display_transaction_short(vector<string> rec) {
 }
 
 void ATM::printNow() {
-	for (int i = 0; i < bank_list.size(); i++) {
-		for (int j = 0; j < bank_list[i]->get_account().size(); j++) {
-			cout << "Account[" << bank_list[i]->get_account()[j]->getUserName() << "] : " << bank_list[i]->get_account()[j]->checkFunds() << endl;
+	for (int i = 0; i < (*blist).size(); i++) {
+		for (int j = 0; j < (*blist)[i]->get_account().size(); j++) {
+			cout << "Account[" << (*blist)[i]->get_account()[j]->getUserName() << "] : " << (*blist)[i]->get_account()[j]->checkFunds() << endl;
 		}
 	}
-	for (int i = 0; i < ATM_list.size(); i++) {
+	for (int i = 0; i < (*alist).size(); i++) {
 		cout << endl;
-		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << ATM_list[i]->getPrimary()->getBankName() << " " << ATM_list[i]->getType() << " " << ATM_list[i]->getLangType() << endl;
-		cout << "Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
+		cout << "ATM " << "[" << i << "] " << "Primary Bank : " << (*alist)[i]->getPrimary()->getBankName() << " " << (*alist)[i]->getType() << " " << (*alist)[i]->getLangType() << endl;
+		cout << "Remaing cash : " << 1000 * (*alist)[i]->get1000() + 5000 * (*alist)[i]->get5000() + 10000 * (*alist)[i]->get10000() + 50000 * (*alist)[i]->get50000() << " (1000 : " << (*alist)[i]->get1000() << ", 5000 : " << (*alist)[i]->get5000() << ", 10000 : " << (*alist)[i]->get10000() << ", 50000 : " << (*alist)[i]->get50000() << ")" << endl;
 		// cout << "ATM [" << ATM_list[i]->getSerial() << "] Remaing cash : " << 1000 * ATM_list[i]->get1000() + 5000 * ATM_list[i]->get5000() + 10000 * ATM_list[i]->get10000() + 50000 * ATM_list[i]->get50000() << " (1000 : " << ATM_list[i]->get1000() << ", 5000 : " << ATM_list[i]->get5000() << ", 10000 : " << ATM_list[i]->get10000() << ", 50000 : " << ATM_list[i]->get50000() << ")" << endl;
 	}
 	cout << "printNow End!" << endl;

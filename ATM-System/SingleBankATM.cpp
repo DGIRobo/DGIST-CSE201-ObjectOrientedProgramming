@@ -1,6 +1,6 @@
 #include "SingleBankATM.h"
 
-Single::Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], vector<Bank*>& bank_list, vector<ATM*>& ATM_list) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund, bank_list, ATM_list) {
+Single::Single(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], vector<Bank*>* blist, vector<ATM*>* alist) : ATM(input_primary_bank, input_serial_number, 1, input_lanuage_available, initial_fund, blist, alist) {
 	for (int i = 0; i < 4; i++) {
 		this->fee_list[i] = fees[i];
 	}

@@ -11,7 +11,7 @@ private:
 protected:
 public:
 	Multi();
-	Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* mfees[4], vector<Bank*>& bank_list, vector<ATM*>& ATM_list);
+	Multi(Bank* input_primary_bank, string input_serial_number, int input_lanuage_available, int* initial_fund[], int* fees[4], int* mfees[4], vector<Bank*>* blist, vector<ATM*>* alist);
 	~Multi();
 
 	int deposit(Account* a);
